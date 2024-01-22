@@ -11,6 +11,7 @@ export function processSource(tsSource: string, options?: Options): string {
     jsxEnabled: true,
     fileName: options?.fileName,
   });
+
   console.log(formatAst(ast));
 
   return "placeholder";
