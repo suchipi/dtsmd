@@ -1,3 +1,6 @@
+// ---
+// title: Sample Library Definitions File
+// ---
 export class SomethingOrOther {
   /**
    * This method does stuff

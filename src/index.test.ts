@@ -11,5 +11,15 @@ test("output from sample", async () => {
 
   const result = dtsmd.processSource(source, { fileName: inputFile });
 
-  expect(result).toMatchInlineSnapshot(`"placeholder"`);
+  expect(result).toMatchInlineSnapshot(`
+    "---
+    title: Sample Library Definitions File
+    ---
+    # Sample Library Definitions File
+
+    - ExportNamedDeclaration
+    - TSModuleDeclaration
+    - TSEnumDeclaration
+    "
+  `);
 });
