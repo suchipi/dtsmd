@@ -19,6 +19,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.11.5",
+    "glomp": "^3.1.1",
     "pretty-print-ast": "^1.0.1",
     "typescript": "^5.3.3",
     "vitest": "^1.2.1"

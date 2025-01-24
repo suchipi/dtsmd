@@ -49,9 +49,9 @@ clefairy.run(
     const result = dtsmd.processSource(source, { fileName });
 
     if (typeof outputFile === "string") {
-      await fs.promises.writeFile(outputFile, result);
+      await fs.promises.writeFile(outputFile, result.markdown);
     } else {
-      fs.writeFileSync(process.stdout.fd, result);
+      fs.writeFileSync(process.stdout.fd, result.markdown);
     }
   }
 );
