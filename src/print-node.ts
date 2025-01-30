@@ -1,5 +1,4 @@
 import * as ee from "equivalent-exchange";
-import { get, set } from "lodash";
 import { commentsToString } from "./comments-to-string";
 import { normalizeIndentation } from "./normalize-indentation";
 
@@ -10,8 +9,7 @@ const normalizeOpts = {
 
 export function printNode(
   node: ee.types.Node,
-  path: Array<string | number>,
-  program: ee.types.Program
+  parents: Array<ee.types.Node>
 ): string {
   let text = "";
 
@@ -20,32 +18,26 @@ export function printNode(
       const statements = node.body;
 
       text += statements
-        .map((statement, index) =>
-          printNode(statement, path.concat("statements", index), program)
-        )
+        .map((statement) => printNode(statement, parents.concat(node)))
         .filter(Boolean)
         .join("\n");
       break;
     }
     case "ExportNamedDeclaration": {
       if (node.declaration) {
-        text += printNode(
-          node.declaration,
-          path.concat("declaration"),
-          program
-        );
+        text += printNode(node.declaration, parents.concat(node));
       }
       break;
     }
     case "ClassDeclaration": {
       // I don't think it's actually possible for id to be null/undefined here
       const name = node.id?.name ?? "unnamed class";
+      const parent = parents.at(-1);
+      const isExported = ee.types.isExportNamedDeclaration(parent);
       text +=
-        `## ${name} (class)\n` +
+        `## ${name} (${isExported ? "exported " : ""}class)\n` +
         node.body.body
-          .map((child, index) =>
-            printNode(child, path.concat("body", "body", index), program)
-          )
+          .map((child) => printNode(child, parents.concat(node.body, node)))
           .join("\n");
       break;
     }

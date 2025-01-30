@@ -18,7 +18,6 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/lodash": "^4.17.15",
     "@types/node": "^20.11.5",
     "glomp": "^3.1.1",
     "pretty-print-ast": "^1.0.1",
@@ -28,7 +27,6 @@
   "dependencies": {
     "clefairy": "^1.1.0",
     "equivalent-exchange": "^1.10.0",
-    "lodash": "^4.17.21",
     "nice-path": "^2.0.0",
     "prettier": "^3.4.2",
     "yaml": "^2.7.0"

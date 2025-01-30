@@ -26,7 +26,7 @@ test("output from sample", async () => {
 
     # Sample Library Definitions File
 
-    ## SomethingOrOther (class)
+    ## SomethingOrOther (exported class)
 
     ### someMethod (method)
 

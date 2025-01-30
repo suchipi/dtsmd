@@ -35,7 +35,7 @@ export async function processSource(
     }
   }
 
-  text += printNode(program, [], program);
+  text += printNode(program, []);
 
   const formatted = await prettier.format(text, {
     filepath: "/tmp/output.md",
