@@ -5,14 +5,12 @@ import { fixturesDir } from "./test-utils";
 import glomp from "glomp";
 import { Path } from "nice-path";
 
-const frontMatterDir = fixturesDir.concat("frontmatter");
-
 const fixtures = glomp
   .withExtension(".d.ts")
-  .findMatchesSync(frontMatterDir.toString());
+  .findMatchesSync(fixturesDir.toString());
 
 for (const fixture of fixtures) {
-  const relName = new Path(fixture).relativeTo(frontMatterDir).toString();
+  const relName = new Path(fixture).relativeTo(fixturesDir).toString();
   const snapshotPath = new Path(fixture)
     .dirname()
     .concat(new Path(fixture).basename().replace(/\.d\.ts$/, ".snap"));
