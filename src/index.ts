@@ -1,5 +1,6 @@
 import * as ee from "equivalent-exchange";
 import { type Frontmatter, getFrontmatter } from "./frontmatter";
+import { printNode } from "./print-node";
 
 export type Options = {
   fileName?: string;
@@ -30,11 +31,7 @@ export function processSource(tsSource: string, options?: Options): Result {
     }
   }
 
-  const statements = program.body;
-
-  for (const statement of statements) {
-    text += `- ${statement.type}\n`;
-  }
+  text += printNode(program, [], program);
 
   return {
     frontmatter,

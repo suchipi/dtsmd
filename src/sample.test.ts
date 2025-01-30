@@ -26,9 +26,29 @@ test("output from sample", async () => {
 
     # Sample Library Definitions File
 
-    - ExportNamedDeclaration
-    - TSModuleDeclaration
-    - TSEnumDeclaration
+    ## SomethingOrOther (class)
+
+    ### someMethod (method)
+
+    This method does stuff
+
+    \`\`\`ts
+    someMethod(
+        arg1: string,
+        arg2: {
+            blah: 5;
+        },
+        ...varargs: Array<Function>
+    ): string;
+    \`\`\`
+
+    ### classMethod (static method)
+
+    This one's a static method
+
+    \`\`\`ts
+    static classMethod(): 3748239387342;
+    \`\`\`
     ",
     }
   `);
