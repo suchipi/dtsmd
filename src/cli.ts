@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import * as fs from "fs";
 import * as clefairy from "clefairy";
 import { Path } from "nice-path";
