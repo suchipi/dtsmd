@@ -65,6 +65,7 @@ export function printNode(
         delete node.leadingComments;
         try {
           const printedCode = ee.print(node);
+          // TODO: this indentation doesn't turn out the way I want
           const normalizedCode = normalizeIndentation(
             printedCode.code,
             normalizeOpts
