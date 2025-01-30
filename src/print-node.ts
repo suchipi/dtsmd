@@ -12,16 +12,19 @@ export function printNode(
   ancestry: Array<ee.types.Node>,
   headingLevel: number
 ): string {
-  let text = "";
+  const outputSections = {
+    heading: "",
+    description: "",
+    definitionCodeBlock: "",
+  };
 
-  const heading = "#".repeat(Math.min(headingLevel, 6));
   const parent = ancestry.at(-1) ?? null;
 
   switch (node.type) {
     case "Program": {
       const statements = node.body;
 
-      text += statements
+      outputSections.description += statements
         .map((statement) =>
           printNode(statement, ancestry.concat(node), headingLevel)
         )
@@ -31,7 +34,7 @@ export function printNode(
     }
     case "ExportNamedDeclaration": {
       if (node.declaration) {
-        text += printNode(
+        outputSections.description += printNode(
           node.declaration,
           ancestry.concat(node),
           headingLevel
@@ -44,19 +47,19 @@ export function printNode(
       const name = node.id?.name ?? "unnamed class";
       // Naïve check; doesn't work when exported from separate statement
       const isExported = ee.types.isExportNamedDeclaration(parent);
-      text +=
-        `${heading} ${name} (${isExported ? "exported " : ""}class)\n` +
-        node.body.body
-          .map((child) =>
-            printNode(child, ancestry.concat(node.body, node), headingLevel + 1)
-          )
-          .join("\n");
+      outputSections.heading += `${name} (${isExported ? "exported " : ""}class)`;
 
       if (ee.types.isExportNamedDeclaration(parent)) {
-        printLeadingDocComments(parent);
+        outputSections.description += printLeadingDocComments(parent);
       } else {
-        printLeadingDocComments(node);
+        outputSections.description += printLeadingDocComments(node);
       }
+
+      outputSections.description += node.body.body
+        .map((child) =>
+          printNode(child, ancestry.concat(node.body, node), headingLevel + 1)
+        )
+        .join("\n");
 
       break;
     }
@@ -64,21 +67,21 @@ export function printNode(
       const name = node.id?.name ?? "unnamed function";
       // Naïve check; doesn't work when exported from separate statement
       const isExported = ee.types.isExportNamedDeclaration(parent);
-      text += `${heading} ${name} (${isExported ? "exported " : ""}${node.async ? "async " : ""}${node.generator ? "generator " : ""}function)\n`;
+      outputSections.heading += `${name} (${isExported ? "exported " : ""}${node.async ? "async " : ""}${node.generator ? "generator " : ""}function)\n`;
 
       if (ee.types.isExportNamedDeclaration(parent)) {
-        printLeadingDocComments(parent);
+        outputSections.description += printLeadingDocComments(parent);
       } else {
-        printLeadingDocComments(node);
+        outputSections.description += printLeadingDocComments(node);
       }
 
-      printRaw(node);
+      outputSections.definitionCodeBlock += printRaw(node);
       break;
     }
     case "TSDeclareMethod": {
       if (!node.computed && ee.types.isIdentifier(node.key)) {
         const name = node.key.name;
-        text += `${heading} ${name} (${node.static ? "static " : ""}${
+        outputSections.heading += `${name} (${node.static ? "static " : ""}${
           node.async ? "async " : ""
         }${node.generator ? "generator " : ""}${
           node.kind
@@ -86,16 +89,28 @@ export function printNode(
               ? node.kind + "ter"
               : node.kind
             : "method"
-        })\n`;
+        })`;
 
-        printLeadingDocComments(node);
-        printRaw(node);
+        outputSections.description += printLeadingDocComments(node);
+        outputSections.definitionCodeBlock += printRaw(node);
       }
       break;
     }
   }
 
-  return text;
+  let result = "";
+  if (outputSections.heading.length > 0) {
+    const headingHash = "#".repeat(Math.min(headingLevel, 6));
+    result += `${headingHash} ${outputSections.heading}\n`;
+  }
+  if (outputSections.description.length > 0) {
+    result += outputSections.description + "\n";
+  }
+  if (outputSections.definitionCodeBlock.length > 0) {
+    result += `\`\`\`ts\n${outputSections.definitionCodeBlock.trimEnd()}\n\`\`\`\n`;
+  }
+
+  return result;
 
   function printLeadingDocComments(targetNode: ee.types.Node) {
     if (targetNode.leadingComments && targetNode.leadingComments.length > 0) {
@@ -103,13 +118,15 @@ export function printNode(
         (comment) => comment.kind === CommentKind.Doc
       );
       if (parsedComments.length > 0) {
-        text +=
+        return (
           normalizeIndentation(
             commentsToString(parsedComments),
             normalizeOpts
-          ) + "\n";
+          ) + "\n"
+        );
       }
     }
+    return "";
   }
 
   function printRaw(targetNode: ee.types.Node) {
@@ -122,7 +139,7 @@ export function printNode(
         printedCode.code,
         normalizeOpts
       );
-      text += `\`\`\`ts\n${normalizedCode}\n\`\`\`\n`;
+      return normalizedCode + "\n";
     } finally {
       targetNode.leadingComments = leadingComments;
     }
