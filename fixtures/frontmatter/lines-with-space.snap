@@ -23,13 +23,14 @@ some-structure:
   - second
   - third
 ---
+
 # My Title
 
 - ExportNamedDeclaration
 
 ## OUTPUT.frontmatter: ##
 {
-  "raw": "---\ntitle: My Title\nsomething-else: My Metadata\nsome-structure:\n  some-subpath: yes\n  some-list:\n  - first\n  - second\n  - third\n---",
+  "raw": "---\ntitle: My Title\nsomething-else: My Metadata\nsome-structure:\n  some-subpath: yes\n  some-list:\n  - first\n  - second\n  - third\n---\n",
   "parsed": {
     "title": "My Title",
     "something-else": "My Metadata",

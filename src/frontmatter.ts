@@ -1,14 +1,14 @@
 import * as ee from "equivalent-exchange";
 import * as YAML from "yaml";
-import dedent from "dedent";
+import { normalizeIndentation } from "./indent-utils";
 
 export type Frontmatter = {
   raw: string;
   parsed: { [key: PropertyKey]: any };
 };
 
-// const debugLog = console.warn;
-const debugLog: typeof console.warn = () => {};
+const debugLog = console.warn;
+// const debugLog: typeof console.warn = () => {};
 
 export function getFrontmatter(ast: ee.types.Program): null | Frontmatter {
   const statements = ast.body;
@@ -59,13 +59,22 @@ function commentsToString(comments: Array<ee.types.Comment>) {
         break;
       }
       case "CommentBlock": {
-        text += comment.value;
+        if (/^\*\s/.test(comment.value)) {
+          // doc comment
+          text += comment.value
+            .replace(/^\*/, "")
+            .split("\n")
+            .map((line) => line.replace(/^(\s)\*/, "$1"))
+            .join("\n");
+        } else {
+          text += comment.value;
+        }
         break;
       }
     }
   }
   if (/[\n\r]/.test(text)) {
-    text = dedent(text);
+    text = normalizeIndentation(text, { output: "spaces", tabSize: 2 });
   }
   debugLog("commentsToString result", text);
   return text;

@@ -26,7 +26,6 @@
   },
   "dependencies": {
     "clefairy": "^1.1.0",
-    "dedent": "^1.5.3",
     "equivalent-exchange": "^1.10.0",
     "nice-path": "^2.0.0",
     "yaml": "^2.7.0"

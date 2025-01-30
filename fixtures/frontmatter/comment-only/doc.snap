@@ -5,15 +5,43 @@
  * title: My Title
  * something-else: My Metadata
  * some-structure:
- * some-subpath: yes
- * some-list:
- * - first
- * - second
- * - third
+ *   some-subpath: yes
+ *   some-list:
+ *   - first
+ *   - second
+ *   - third
  * ---
  */
 
 ## OUTPUT.markdown: ##
 
+---
+title: My Title
+something-else: My Metadata
+some-structure:
+  some-subpath: yes
+  some-list:
+  - first
+  - second
+  - third
+---
+
+# My Title
+
+
 ## OUTPUT.frontmatter: ##
-null
+{
+  "raw": "\n---\ntitle: My Title\nsomething-else: My Metadata\nsome-structure:\n  some-subpath: yes\n  some-list:\n  - first\n  - second\n  - third\n---\n",
+  "parsed": {
+    "title": "My Title",
+    "something-else": "My Metadata",
+    "some-structure": {
+      "some-subpath": "yes",
+      "some-list": [
+        "first",
+        "second",
+        "third"
+      ]
+    }
+  }
+}

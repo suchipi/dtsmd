@@ -17,28 +17,30 @@ export class SomethingOrOther {}
 title: My Title
 something-else: My Metadata
 some-structure:
-some-subpath: yes
-some-list:
-- first
-- second
-- third
+  some-subpath: yes
+  some-list:
+  - first
+  - second
+  - third
 ---
+
 # My Title
 
 - ExportNamedDeclaration
 
 ## OUTPUT.frontmatter: ##
 {
-  "raw": "---\ntitle: My Title\nsomething-else: My Metadata\nsome-structure:\nsome-subpath: yes\nsome-list:\n- first\n- second\n- third\n---",
+  "raw": "---\ntitle: My Title\nsomething-else: My Metadata\nsome-structure:\n  some-subpath: yes\n  some-list:\n  - first\n  - second\n  - third\n---\n",
   "parsed": {
     "title": "My Title",
     "something-else": "My Metadata",
-    "some-structure": null,
-    "some-subpath": "yes",
-    "some-list": [
-      "first",
-      "second",
-      "third"
-    ]
+    "some-structure": {
+      "some-subpath": "yes",
+      "some-list": [
+        "first",
+        "second",
+        "third"
+      ]
+    }
   }
 }

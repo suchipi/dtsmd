@@ -17,11 +17,13 @@ test("output from sample", async () => {
         },
         "raw": "---
     title: Sample Library Definitions File
-    ---",
+    ---
+    ",
       },
       "markdown": "---
     title: Sample Library Definitions File
     ---
+
     # Sample Library Definitions File
 
     - ExportNamedDeclaration
