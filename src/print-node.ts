@@ -33,6 +33,7 @@ export function printNode(
       // I don't think it's actually possible for id to be null/undefined here
       const name = node.id?.name ?? "unnamed class";
       const parent = parents.at(-1);
+      // Naïve check; doesn't work when exported from separate statement
       const isExported = ee.types.isExportNamedDeclaration(parent);
       text +=
         `## ${name} (${isExported ? "exported " : ""}class)\n` +
