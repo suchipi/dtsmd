@@ -19,7 +19,7 @@ for (const fixture of fixtures) {
 
   test(relName, async () => {
     const content = await fsp.readFile(fixture, "utf-8");
-    const result = dtsmd.processSource(content);
+    const result = await dtsmd.processSource(content);
     expect(`
 ## INPUT: ##
 ${content}

@@ -15,22 +15,20 @@
 export class SomethingOrOther {}
 
 ## OUTPUT.markdown: ##
-
 ---
 title: My Title
 something-else: My Metadata
 some-structure:
   some-subpath: yes
   some-list:
-  - first
-  - second
-  - third
+    - first
+    - second
+    - third
 ---
 
 # My Title
 
 ## SomethingOrOther (class)
-
 
 ## OUTPUT.frontmatter: ##
 {

@@ -41,7 +41,7 @@ export function printNode(
       // I don't think it's actually possible for id to be null/undefined here
       const name = node.id?.name ?? "unnamed class";
       text +=
-        `## ${name} (class)\n\n` +
+        `## ${name} (class)\n` +
         node.body.body
           .map((child, index) =>
             printNode(child, path.concat("body", "body", index), program)
@@ -60,13 +60,13 @@ export function printNode(
               ? node.kind + "ter"
               : node.kind
             : "method"
-        })\n\n`;
+        })\n`;
         if (node.leadingComments && node.leadingComments.length > 0) {
           text +=
             normalizeIndentation(
               commentsToString(node.leadingComments),
               normalizeOpts
-            ).trim() + "\n\n";
+            ) + "\n";
         }
         const leadingComments = node.leadingComments;
         delete node.leadingComments;
@@ -76,7 +76,7 @@ export function printNode(
             printedCode.code,
             normalizeOpts
           );
-          text += `\`\`\`ts\n${normalizedCode.trim()}\n\`\`\`\n`;
+          text += `\`\`\`ts\n${normalizedCode}\n\`\`\`\n`;
         } finally {
           node.leadingComments = leadingComments;
         }

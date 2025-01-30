@@ -46,7 +46,7 @@ clefairy.run(
       fileName = "stdin";
     }
 
-    const result = dtsmd.processSource(source, { fileName });
+    const result = await dtsmd.processSource(source, { fileName });
 
     if (typeof outputFile === "string") {
       await fs.promises.writeFile(outputFile, result.markdown);

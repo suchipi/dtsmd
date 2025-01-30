@@ -30,6 +30,7 @@
     "equivalent-exchange": "^1.10.0",
     "lodash": "^4.17.21",
     "nice-path": "^2.0.0",
+    "prettier": "^3.4.2",
     "yaml": "^2.7.0"
   }
 }

@@ -7,7 +7,7 @@ test("output from sample", async () => {
   const inputFile = fixturesDir.concat("sample.d.ts").toString();
   const source = await fsp.readFile(inputFile, "utf-8");
 
-  const result = dtsmd.processSource(source, { fileName: inputFile });
+  const result = await dtsmd.processSource(source, { fileName: inputFile });
 
   expect(result).toMatchInlineSnapshot(`
     {

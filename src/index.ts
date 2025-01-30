@@ -1,4 +1,5 @@
 import * as ee from "equivalent-exchange";
+import * as prettier from "prettier";
 import { type Frontmatter, getFrontmatter } from "./frontmatter";
 import { printNode } from "./print-node";
 
@@ -11,7 +12,10 @@ export type Result = {
   frontmatter: null | Frontmatter;
 };
 
-export function processSource(tsSource: string, options?: Options): Result {
+export async function processSource(
+  tsSource: string,
+  options?: Options
+): Promise<Result> {
   const ast = ee.parse(tsSource, {
     typeSyntax: "typescript",
     jsxEnabled: true,
@@ -33,8 +37,12 @@ export function processSource(tsSource: string, options?: Options): Result {
 
   text += printNode(program, [], program);
 
+  const formatted = await prettier.format(text, {
+    filepath: "/tmp/output.md",
+  });
+
   return {
     frontmatter,
-    markdown: text,
+    markdown: formatted,
   };
 }
