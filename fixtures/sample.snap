@@ -17,6 +17,8 @@ export class SomethingOrOther {
   static classMethod(): 3748239387342;
 }
 
+export function something(arg1: number, arg2: string): void;
+
 declare namespace Idk {
   export const BLAH = 5;
 }
@@ -59,6 +61,12 @@ This one's a static method
 
 ```ts
 static classMethod(): 3748239387342;
+```
+
+## something (exported function)
+
+```ts
+function something(arg1: number, arg2: string): void;
 ```
 
 ## OUTPUT.frontmatter: ##

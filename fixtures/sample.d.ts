@@ -15,6 +15,8 @@ export class SomethingOrOther {
   static classMethod(): 3748239387342;
 }
 
+export function something(arg1: number, arg2: string): void;
+
 declare namespace Idk {
   export const BLAH = 5;
 }
