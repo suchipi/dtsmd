@@ -1,6 +1,6 @@
 import * as ee from "equivalent-exchange";
 import * as YAML from "yaml";
-import { commentsToString } from "./comments-to-string";
+import { commentsToString, parseComments } from "./comment-utils";
 
 export type Frontmatter = {
   raw: string;
@@ -15,6 +15,8 @@ export function getFrontmatter(ast: ee.types.Program): null | Frontmatter {
     if (ast.innerComments && ast.innerComments.length > 0) {
       firstComments.push(...ast.innerComments);
     }
+    // Remove so print-node doesn't re-print it
+    ast.innerComments = [];
   } else {
     const firstStatement = statements[0];
     if (
@@ -23,13 +25,15 @@ export function getFrontmatter(ast: ee.types.Program): null | Frontmatter {
     ) {
       firstComments.push(...firstStatement.leadingComments);
     }
+    // Remove so print-node doesn't re-print it
+    firstStatement.leadingComments = [];
   }
 
   if (firstComments.length === 0) {
     return null;
   }
 
-  const values = commentsToString(firstComments);
+  const values = commentsToString(parseComments(firstComments));
 
   const valuesTrim = values.trim();
   if (/^---[\r\n]/.test(valuesTrim) && /[\r\n]---$/.test(valuesTrim)) {

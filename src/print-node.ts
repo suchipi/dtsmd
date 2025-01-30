@@ -1,5 +1,5 @@
 import * as ee from "equivalent-exchange";
-import { commentsToString } from "./comments-to-string";
+import { parseComments, commentsToString, CommentKind } from "./comment-utils";
 import { normalizeIndentation } from "./normalize-indentation";
 
 const normalizeOpts = {
@@ -9,35 +9,13 @@ const normalizeOpts = {
 
 export function printNode(
   node: ee.types.Node,
-  parents: Array<ee.types.Node>,
+  ancestry: Array<ee.types.Node>,
   headingLevel: number
 ): string {
   let text = "";
 
   const heading = "#".repeat(Math.min(headingLevel, 6));
-
-  function printRaw(node: ee.types.Node) {
-    if (node.leadingComments && node.leadingComments.length > 0) {
-      text +=
-        normalizeIndentation(
-          commentsToString(node.leadingComments),
-          normalizeOpts
-        ) + "\n";
-    }
-    const leadingComments = node.leadingComments;
-    delete node.leadingComments;
-    try {
-      const printedCode = ee.print(node);
-      // TODO: this indentation doesn't turn out the way I want
-      const normalizedCode = normalizeIndentation(
-        printedCode.code,
-        normalizeOpts
-      );
-      text += `\`\`\`ts\n${normalizedCode}\n\`\`\`\n`;
-    } finally {
-      node.leadingComments = leadingComments;
-    }
-  }
+  const parent = ancestry.at(-1) ?? null;
 
   switch (node.type) {
     case "Program": {
@@ -45,7 +23,7 @@ export function printNode(
 
       text += statements
         .map((statement) =>
-          printNode(statement, parents.concat(node), headingLevel)
+          printNode(statement, ancestry.concat(node), headingLevel)
         )
         .filter(Boolean)
         .join("\n");
@@ -53,7 +31,11 @@ export function printNode(
     }
     case "ExportNamedDeclaration": {
       if (node.declaration) {
-        text += printNode(node.declaration, parents.concat(node), headingLevel);
+        text += printNode(
+          node.declaration,
+          ancestry.concat(node),
+          headingLevel
+        );
       }
       break;
     }
@@ -61,23 +43,35 @@ export function printNode(
       // I don't think it's actually possible for id to be null/undefined here
       const name = node.id?.name ?? "unnamed class";
       // Naïve check; doesn't work when exported from separate statement
-      const parent = parents.at(-1);
       const isExported = ee.types.isExportNamedDeclaration(parent);
       text +=
         `${heading} ${name} (${isExported ? "exported " : ""}class)\n` +
         node.body.body
           .map((child) =>
-            printNode(child, parents.concat(node.body, node), headingLevel + 1)
+            printNode(child, ancestry.concat(node.body, node), headingLevel + 1)
           )
           .join("\n");
+
+      if (ee.types.isExportNamedDeclaration(parent)) {
+        printLeadingDocComments(parent);
+      } else {
+        printLeadingDocComments(node);
+      }
+
       break;
     }
     case "TSDeclareFunction": {
       const name = node.id?.name ?? "unnamed function";
       // Naïve check; doesn't work when exported from separate statement
-      const parent = parents.at(-1);
       const isExported = ee.types.isExportNamedDeclaration(parent);
       text += `${heading} ${name} (${isExported ? "exported " : ""}${node.async ? "async " : ""}${node.generator ? "generator " : ""}function)\n`;
+
+      if (ee.types.isExportNamedDeclaration(parent)) {
+        printLeadingDocComments(parent);
+      } else {
+        printLeadingDocComments(node);
+      }
+
       printRaw(node);
       break;
     }
@@ -93,6 +87,8 @@ export function printNode(
               : node.kind
             : "method"
         })\n`;
+
+        printLeadingDocComments(node);
         printRaw(node);
       }
       break;
@@ -100,4 +96,35 @@ export function printNode(
   }
 
   return text;
+
+  function printLeadingDocComments(targetNode: ee.types.Node) {
+    if (targetNode.leadingComments && targetNode.leadingComments.length > 0) {
+      const parsedComments = parseComments(targetNode.leadingComments).filter(
+        (comment) => comment.kind === CommentKind.Doc
+      );
+      if (parsedComments.length > 0) {
+        text +=
+          normalizeIndentation(
+            commentsToString(parsedComments),
+            normalizeOpts
+          ) + "\n";
+      }
+    }
+  }
+
+  function printRaw(targetNode: ee.types.Node) {
+    const leadingComments = targetNode.leadingComments;
+    delete targetNode.leadingComments;
+    try {
+      const printedCode = ee.print(targetNode);
+      // TODO: this indentation doesn't turn out the way I want if the node isn't a valid top-level node (which is often the case)
+      const normalizedCode = normalizeIndentation(
+        printedCode.code,
+        normalizeOpts
+      );
+      text += `\`\`\`ts\n${normalizedCode}\n\`\`\`\n`;
+    } finally {
+      targetNode.leadingComments = leadingComments;
+    }
+  }
 }

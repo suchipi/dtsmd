@@ -17,6 +17,7 @@ export class SomethingOrOther {
   static classMethod(): 3748239387342;
 }
 
+/** it's a nice function */
 export function something(arg1: number, arg2: string): void;
 
 declare namespace Idk {
@@ -65,13 +66,15 @@ static classMethod(): 3748239387342;
 
 ## something (exported function)
 
+it's a nice function
+
 ```ts
 function something(arg1: number, arg2: string): void;
 ```
 
 ## OUTPUT.frontmatter: ##
 {
-  "raw": "---\ntitle: Sample Library Definitions File\n---\n",
+  "raw": "---\ntitle: Sample Library Definitions File\n---",
   "parsed": {
     "title": "Sample Library Definitions File"
   }

@@ -15,6 +15,7 @@ export class SomethingOrOther {
   static classMethod(): 3748239387342;
 }
 
+/** it's a nice function */
 export function something(arg1: number, arg2: string): void;
 
 declare namespace Idk {
