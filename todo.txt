@@ -1,0 +1,3 @@
+- [ ] Handle type declarations and interfaces
+- [ ] Review all the tests and make sure their output looks right. I know some are wrong.
+- [ ] Finish README (fill in command output in the corresponding places)
