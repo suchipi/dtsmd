@@ -58,5 +58,18 @@ var help: {
 
 ## help.setHelpText (function property)
 
+```ts
+setHelpText: {
+  (value: object, text: string, allowNullish?: boolean): void;
+  lazy(value: object, getText: () => string): void;
+};
+```
+
+### help.setHelpText.lazy (method)
+
+```ts
+lazy(value: object, getText: () => string): void;
+```
+
 ## OUTPUT.frontmatter: ##
 null

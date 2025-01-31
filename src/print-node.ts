@@ -125,6 +125,26 @@ export function printNode(
       }
       break;
     }
+    case "TSMethodSignature": {
+      if (!node.computed && ee.types.isIdentifier(node.key)) {
+        const name = node.key.name;
+
+        outputSections.heading += [
+          name,
+          " (",
+          node.kind
+            ? node.kind.length === 3 /* get/set */
+              ? node.kind + "ter"
+              : node.kind
+            : "method",
+          ")",
+        ].join("");
+
+        outputSections.body += printLeadingDocComments(node);
+        outputSections.codeBlock += printRaw(node);
+      }
+      break;
+    }
     case "ClassProperty": {
       if (!node.computed && ee.types.isIdentifier(node.key)) {
         const name = node.key.name;
@@ -142,6 +162,39 @@ export function printNode(
 
         outputSections.body += printLeadingDocComments(node);
         outputSections.codeBlock += printRaw(node);
+      }
+      break;
+    }
+    case "TSPropertySignature": {
+      if (!node.computed && ee.types.isIdentifier(node.key)) {
+        const name = node.key.name;
+        const typeName = node.typeAnnotation
+          ? getShortType(node.typeAnnotation)
+          : null;
+        outputSections.heading += [
+          name,
+          " (",
+          typeName ? typeName + " " : "",
+          "property)",
+        ].join("");
+
+        outputSections.body += printLeadingDocComments(node);
+        outputSections.codeBlock += printRaw(node);
+
+        if (
+          node.typeAnnotation &&
+          ee.types.isTSTypeAnnotation(node.typeAnnotation) &&
+          ee.types.isTSTypeLiteral(node.typeAnnotation.typeAnnotation)
+        ) {
+          outputSections.postCodeBlockBody += printNode(
+            node.typeAnnotation.typeAnnotation,
+            ancestry.concat([node, node.typeAnnotation]),
+            {
+              headingLevel: state.headingLevel + 1,
+              headingPrefix: state.headingPrefix + "." + name,
+            }
+          );
+        }
       }
       break;
     }
@@ -195,27 +248,18 @@ export function printNode(
           ee.types.isTSTypeLiteral(node.id.typeAnnotation.typeAnnotation)
         ) {
           const literal = node.id.typeAnnotation.typeAnnotation;
-
-          outputSections.postCodeBlockBody += literal.members
-            .map((member) =>
-              printNode(
-                member,
-                ancestry.concat([
-                  node,
-                  node.id,
-                  (node.id as ee.types.Identifier).typeAnnotation!,
-                  (
-                    (node.id as ee.types.Identifier)
-                      .typeAnnotation as ee.types.TSTypeAnnotation
-                  ).typeAnnotation,
-                ]),
-                {
-                  headingLevel: state.headingLevel + 1,
-                  headingPrefix: name,
-                }
-              )
-            )
-            .join("\n");
+          outputSections.postCodeBlockBody += printNode(
+            literal,
+            ancestry.concat([
+              node,
+              node.id,
+              (node.id as ee.types.Identifier).typeAnnotation!,
+            ]),
+            {
+              headingLevel: state.headingLevel + 1,
+              headingPrefix: name,
+            }
+          );
         }
       }
       break;
@@ -230,9 +274,23 @@ export function printNode(
         ? getShortType(node.typeAnnotation)
         : null;
 
-      outputSections.heading += `${name} (${typeName ? typeName + " " : ""}property)`;
+      outputSections.heading += [
+        name,
+        " (",
+        node.readonly ? "readonly " : "",
+        typeName ? typeName + " " : "",
+        node.kind.length === 3 /* get/set */ ? node.kind + "ter " : "property",
+        ")",
+      ].join("");
 
       outputSections.body += printLeadingDocComments(node);
+
+      break;
+    }
+    case "TSTypeLiteral": {
+      outputSections.postCodeBlockBody += node.members
+        .map((member) => printNode(member, ancestry.concat([node]), state))
+        .join("\n");
 
       break;
     }
@@ -317,7 +375,7 @@ export function printNode(
       }
       default: {
         const printed = printRaw(targetNode).replace(/^:\s*/g, "").trim();
-        if (/\s/.test(printed)) {
+        if (/\s|[<>]/.test(printed)) {
           // too complicated
           return null;
         } else {

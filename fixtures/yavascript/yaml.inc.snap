@@ -42,5 +42,17 @@ const YAML: {
 };
 ```
 
+## YAML.parse (method)
+
+```ts
+parse(input: string, reviver?: (this: any, key: string, value: any) => any): any;
+```
+
+## YAML.stringify (method)
+
+```ts
+stringify(input: any, replacer?: ((this: any, key: string, value: any) => any) | (number | string)[] | null, indent?: number): string;
+```
+
 ## OUTPUT.frontmatter: ##
 null

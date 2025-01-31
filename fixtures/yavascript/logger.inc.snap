@@ -49,7 +49,15 @@ const logger: {
 
 ## logger.trace (function property)
 
+```ts
+trace: (...args: Array<any>) => void;
+```
+
 ## logger.info (function property)
+
+```ts
+info: (...args: Array<any>) => void;
+```
 
 ## OUTPUT.frontmatter: ##
 null

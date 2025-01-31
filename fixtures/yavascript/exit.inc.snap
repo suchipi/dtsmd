@@ -38,5 +38,9 @@ const exit: {
 
 ## exit.code (number property)
 
+```ts
+code: number;
+```
+
 ## OUTPUT.frontmatter: ##
 null

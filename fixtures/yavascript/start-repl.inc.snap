@@ -59,5 +59,9 @@ const startRepl: {
 
 ## startRepl.NOTHING (symbol property)
 
+```ts
+NOTHING: symbol;
+```
+
 ## OUTPUT.frontmatter: ##
 null

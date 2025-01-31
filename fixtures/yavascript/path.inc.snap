@@ -264,7 +264,7 @@ variable on this OS.
 static readonly OS_ENV_VAR_SEPARATOR: ":" | ";";
 ```
 
-## Path.OS_PROGRAM_EXTENSIONS (static `ReadonlySet<string>` property)
+## Path.OS_PROGRAM_EXTENSIONS (static property)
 
 A list of suffixes that could appear in the filename for a program on the
 current OS. For instance, on Windows, programs often end with ".exe".
@@ -311,7 +311,7 @@ starts with either `/` or a drive letter (ie `C:`).
 static isAbsolute(path: string | Path): boolean;
 ```
 
-## Path.prototype.segments (`Array<string>` property)
+## Path.prototype.segments (property)
 
 An array of the path segments that make up this path.
 

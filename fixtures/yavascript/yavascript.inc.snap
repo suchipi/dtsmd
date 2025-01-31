@@ -136,11 +136,119 @@ const yavascript: {
 
 ## yavascript.version (string property)
 
+```ts
+version: string;
+```
+
 ## yavascript.arch (property)
+
+```ts
+arch: "x86_64" | "arm64";
+```
 
 ## yavascript.ecmaVersion (string property)
 
+```ts
+ecmaVersion: string;
+```
+
 ## yavascript.compilers (object property)
+
+```ts
+compilers: {
+  js(code: string, options?: {
+    filename?: string;
+    expression?: boolean;
+  }): string;
+  tsx(code: string, options?: {
+    filename?: string;
+    expression?: boolean;
+  }): string;
+  ts(code: string, options?: {
+    filename?: string;
+    expression?: boolean;
+  }): string;
+  jsx(code: string, options?: {
+    filename?: string;
+    expression?: boolean;
+  }): string;
+  coffee(code: string, options?: {
+    filename?: string;
+    expression?: boolean;
+  }): string;
+  civet(code: string, options?: {
+    filename?: string;
+    expression?: boolean;
+  }): string;
+  autodetect(code: string, options?: {
+    filename?: string;
+    expression?: boolean;
+  }): string;
+};
+```
+
+### yavascript.compilers.js (method)
+
+```ts
+js(code: string, options?: {
+  filename?: string;
+  expression?: boolean;
+}): string;
+```
+
+### yavascript.compilers.tsx (method)
+
+```ts
+tsx(code: string, options?: {
+  filename?: string;
+  expression?: boolean;
+}): string;
+```
+
+### yavascript.compilers.ts (method)
+
+```ts
+ts(code: string, options?: {
+  filename?: string;
+  expression?: boolean;
+}): string;
+```
+
+### yavascript.compilers.jsx (method)
+
+```ts
+jsx(code: string, options?: {
+  filename?: string;
+  expression?: boolean;
+}): string;
+```
+
+### yavascript.compilers.coffee (method)
+
+```ts
+coffee(code: string, options?: {
+  filename?: string;
+  expression?: boolean;
+}): string;
+```
+
+### yavascript.compilers.civet (method)
+
+```ts
+civet(code: string, options?: {
+  filename?: string;
+  expression?: boolean;
+}): string;
+```
+
+### yavascript.compilers.autodetect (method)
+
+```ts
+autodetect(code: string, options?: {
+  filename?: string;
+  expression?: boolean;
+}): string;
+```
 
 ## OUTPUT.frontmatter: ##
 null

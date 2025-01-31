@@ -50,5 +50,17 @@ var sleep: {
 };
 ```
 
+## sleep.sync (method)
+
+```ts
+sync(milliseconds: number): void;
+```
+
+## sleep.async (method)
+
+```ts
+async(milliseconds: number): Promise<void>;
+```
+
 ## OUTPUT.frontmatter: ##
 null

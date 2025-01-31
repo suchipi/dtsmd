@@ -28,5 +28,17 @@ const CSV: {
 };
 ```
 
+## CSV.parse (method)
+
+```ts
+parse(input: string): Array<Array<string>>;
+```
+
+## CSV.stringify (method)
+
+```ts
+stringify(input: Array<Array<string>>): string;
+```
+
 ## OUTPUT.frontmatter: ##
 null

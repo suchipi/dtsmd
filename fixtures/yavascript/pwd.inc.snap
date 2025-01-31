@@ -36,5 +36,9 @@ const pwd: {
 
 ## pwd.initial (Path property)
 
+```ts
+readonly initial: Path;
+```
+
 ## OUTPUT.frontmatter: ##
 null
