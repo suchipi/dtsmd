@@ -2,6 +2,7 @@ import * as ee from "equivalent-exchange";
 import traverse from "@suchipi/traverse";
 import { parseComments, commentsToString, CommentKind } from "./comment-utils";
 import { normalizeIndentation } from "./normalize-indentation";
+import { clampHeadingLevel } from "./heading-utils";
 
 import makeDebugLog from "debug";
 const debug = makeDebugLog("@suchipi/dtsmd:print-node");
@@ -298,7 +299,7 @@ export function printNode(
 
   let result = "";
   if (outputSections.heading.length > 0) {
-    const headingHash = "#".repeat(Math.min(state.headingLevel, 6));
+    const headingHash = "#".repeat(clampHeadingLevel(state.headingLevel));
     result += `${headingHash} ${state.headingPrefix}${state.headingPrefix && dotAfterHeadingPrefix ? "." : ""}${outputSections.heading}\n`;
   }
   if (outputSections.body.length > 0) {

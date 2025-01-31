@@ -3,6 +3,7 @@ import * as prettier from "prettier";
 import { formatAst } from "pretty-print-ast";
 import { type Frontmatter, getFrontmatter } from "./frontmatter";
 import { printNode } from "./print-node";
+import { clampHeadingLevel } from "./heading-utils";
 
 export type Options = {
   fileName?: string;
@@ -45,7 +46,7 @@ export async function processSource(
     text += frontmatter.raw + "\n";
 
     if (frontmatter.parsed.title) {
-      text += `${"#".repeat(Math.min(headingOffset + 1, 6))} ${frontmatter.parsed.title}\n\n`;
+      text += `${"#".repeat(clampHeadingLevel(headingOffset + 1))} ${frontmatter.parsed.title}\n\n`;
     }
   }
 
