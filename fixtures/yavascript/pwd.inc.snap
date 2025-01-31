@@ -21,7 +21,14 @@ declare const pwd: {
 };
 
 ## OUTPUT.markdown: ##
-# pwd (const value)
+# pwd (value)
+
+```ts
+const pwd: {
+  (): Path;
+  readonly initial: Path;
+};
+```
 
 ## OUTPUT.frontmatter: ##
 null

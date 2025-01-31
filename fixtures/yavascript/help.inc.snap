@@ -44,5 +44,15 @@ declare var help: {
 ## OUTPUT.markdown: ##
 # help (value)
 
+```ts
+var help: {
+  (value?: any): void;
+  setHelpText: {
+    (value: object, text: string, allowNullish?: boolean): void;
+    lazy(value: object, getText: () => string): void;
+  };
+};
+```
+
 ## OUTPUT.frontmatter: ##
 null

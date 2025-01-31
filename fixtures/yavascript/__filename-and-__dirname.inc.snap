@@ -23,6 +23,10 @@ declare var __dirname: string;
 ## OUTPUT.markdown: ##
 # \_\_filename (string)
 
+```ts
+var __filename: string;
+```
+
 # \_\_dirname (string)
 
 The absolute path to the directory containing the currently-executing file.
@@ -31,6 +35,10 @@ Behaves the same as in Node.js, except that it's also present within ES
 modules.
 
 Example: `/home/suchipi/some-folder`
+
+```ts
+var __dirname: string;
+```
 
 ## OUTPUT.frontmatter: ##
 null

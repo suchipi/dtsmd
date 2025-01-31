@@ -119,7 +119,7 @@ export function printNode(
         let typeAnnotation = node.id.typeAnnotation
           ? printRaw(node.id.typeAnnotation).replace(/^:\s*/g, "").trim()
           : "value";
-        if (/[\n\r]/.test(typeAnnotation)) {
+        if (/[\n\r]|typeof/.test(typeAnnotation)) {
           // too complicated
           typeAnnotation = "value";
         }
@@ -127,7 +127,6 @@ export function printNode(
         outputSections.heading += [
           `${name} (`,
           isExported ? "exported " : "",
-          kind === "const" ? "const " : "",
           typeAnnotation,
           ")",
         ].join("");
@@ -146,6 +145,11 @@ export function printNode(
             outputSections.body += printLeadingDocComments(grandParent);
           }
         }
+
+        const loneDeclaration = ee.types.variableDeclaration(declaration.kind, [
+          node,
+        ]);
+        outputSections.footerCodeBlock += printRaw(loneDeclaration);
       }
     }
   }

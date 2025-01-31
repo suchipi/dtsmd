@@ -189,11 +189,159 @@ interface String {
 }
 
 ## OUTPUT.markdown: ##
-# grepString (const value)
+# grepString (value)
 
-# grepFile (const value)
+```ts
+const grepString: {
+  (str: string, pattern: string | RegExp): Array<string>;
+  (
+    str: string,
+    pattern: string | RegExp,
+    options: {
+      inverse: false;
+    },
+  ): Array<string>;
+  (
+    str: string,
+    pattern: string | RegExp,
+    options: {
+      inverse: true;
+    },
+  ): Array<string>;
+  (
+    str: string,
+    pattern: string | RegExp,
+    options: {
+      details: false;
+    },
+  ): Array<string>;
+  (
+    str: string,
+    pattern: string | RegExp,
+    options: {
+      inverse: false;
+      details: false;
+    },
+  ): Array<string>;
+  (
+    str: string,
+    pattern: string | RegExp,
+    options: {
+      inverse: true;
+      details: false;
+    },
+  ): Array<string>;
+  (
+    str: string,
+    pattern: string | RegExp,
+    options: {
+      details: true;
+    },
+  ): Array<{
+    lineNumber: number;
+    lineContent: string;
+    matches: RegExpMatchArray;
+  }>;
+  (
+    str: string,
+    pattern: string | RegExp,
+    options: {
+      inverse: false;
+      details: true;
+    },
+  ): Array<string>;
+  (
+    str: string,
+    pattern: string | RegExp,
+    options: {
+      inverse: true;
+      details: true;
+    },
+  ): Array<{
+    lineNumber: number;
+    lineContent: string;
+    matches: RegExpMatchArray;
+  }>;
+};
+```
+
+# grepFile (value)
 
 Read the content at `path`, split it on newline, and then return lines matching `pattern`.
+
+```ts
+const grepFile: {
+  (path: string | Path, pattern: string | RegExp): Array<string>;
+  (
+    path: string | Path,
+    pattern: string | RegExp,
+    options: {
+      inverse: false;
+    },
+  ): Array<string>;
+  (
+    path: string | Path,
+    pattern: string | RegExp,
+    options: {
+      inverse: true;
+    },
+  ): Array<string>;
+  (
+    path: string | Path,
+    pattern: string | RegExp,
+    options: {
+      details: false;
+    },
+  ): Array<string>;
+  (
+    path: string | Path,
+    pattern: string | RegExp,
+    options: {
+      inverse: false;
+      details: false;
+    },
+  ): Array<string>;
+  (
+    path: string | Path,
+    pattern: string | RegExp,
+    options: {
+      inverse: true;
+      details: false;
+    },
+  ): Array<string>;
+  (
+    path: string | Path,
+    pattern: string | RegExp,
+    options: {
+      details: true;
+    },
+  ): Array<{
+    lineNumber: number;
+    lineContent: string;
+    matches: RegExpMatchArray;
+  }>;
+  (
+    path: string | Path,
+    pattern: string | RegExp,
+    options: {
+      inverse: false;
+      details: true;
+    },
+  ): Array<string>;
+  (
+    path: string | Path,
+    pattern: string | RegExp,
+    options: {
+      inverse: true;
+      details: true;
+    },
+  ): Array<{
+    lineNumber: number;
+    lineContent: string;
+    matches: RegExpMatchArray;
+  }>;
+};
+```
 
 ## OUTPUT.frontmatter: ##
 null

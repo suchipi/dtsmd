@@ -97,5 +97,9 @@ declare var ChildProcess: ChildProcessConstructor;
 ## OUTPUT.markdown: ##
 # ChildProcess (ChildProcessConstructor)
 
+```ts
+var ChildProcess: ChildProcessConstructor;
+```
+
 ## OUTPUT.frontmatter: ##
 null

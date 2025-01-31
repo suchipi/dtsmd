@@ -16,11 +16,22 @@ declare const is: <T extends TypeValidator<any> | CoerceableToTypeValidator>(
 declare const _is: typeof is;
 
 ## OUTPUT.markdown: ##
-# is (const <T extends TypeValidator<any> | CoerceableToTypeValidator>(value: any, type: T) => value is UnwrapTypeFromCoerceableOrValidator<T>)
+# is (<T extends TypeValidator<any> | CoerceableToTypeValidator>(value: any, type: T) => value is UnwrapTypeFromCoerceableOrValidator<T>)
 
-# \_is (const typeof is)
+```ts
+const is: <T extends TypeValidator<any> | CoerceableToTypeValidator>(
+  value: any,
+  type: T,
+) => value is UnwrapTypeFromCoerceableOrValidator<T>;
+```
+
+# \_is (value)
 
 Alias to {@link is}, for Civet, because `is` is a reserved keyword in Civet.
+
+```ts
+const _is: typeof is;
+```
 
 ## OUTPUT.frontmatter: ##
 null

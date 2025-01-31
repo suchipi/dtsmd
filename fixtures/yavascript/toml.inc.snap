@@ -14,5 +14,14 @@ declare var TOML: {
 ## OUTPUT.markdown: ##
 # TOML (value)
 
+```ts
+var TOML: {
+  parse(data: string): {
+    [key: string]: any;
+  };
+  stringify(data: { [key: string]: any }): string;
+};
+```
+
 ## OUTPUT.frontmatter: ##
 null

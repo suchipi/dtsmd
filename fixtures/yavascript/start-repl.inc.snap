@@ -29,7 +29,28 @@ declare const startRepl: {
 };
 
 ## OUTPUT.markdown: ##
-# startRepl (const value)
+# startRepl (value)
+
+```ts
+const startRepl: {
+  (
+    context?: {
+      [key: string]: any;
+    },
+    lang?:
+      | "js"
+      | "javascript"
+      | "ts"
+      | "typescript"
+      | "jsx"
+      | "tsx"
+      | "coffee"
+      | "coffeescript"
+      | "civet",
+  ): void;
+  NOTHING: symbol;
+};
+```
 
 ## OUTPUT.frontmatter: ##
 null

@@ -48,5 +48,9 @@ declare var InteractivePrompt: InteractivePromptConstructor;
 
 wip experimental use at your own risk
 
+```ts
+var InteractivePrompt: InteractivePromptConstructor;
+```
+
 ## OUTPUT.frontmatter: ##
 null

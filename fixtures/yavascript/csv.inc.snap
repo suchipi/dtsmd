@@ -19,7 +19,14 @@ declare const CSV: {
 };
 
 ## OUTPUT.markdown: ##
-# CSV (const value)
+# CSV (value)
+
+```ts
+const CSV: {
+  parse(input: string): Array<Array<string>>;
+  stringify(input: Array<Array<string>>): string;
+};
+```
 
 ## OUTPUT.frontmatter: ##
 null

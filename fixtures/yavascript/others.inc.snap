@@ -55,13 +55,33 @@ interface ErrorOptions {
 ## OUTPUT.markdown: ##
 # number (NumberConstructor)
 
+```ts
+var number: NumberConstructor;
+```
+
 # string (StringConstructor)
+
+```ts
+var string: StringConstructor;
+```
 
 # boolean (BooleanConstructor)
 
+```ts
+var boolean: BooleanConstructor;
+```
+
 # bigint (BigIntConstructor)
 
+```ts
+var bigint: BigIntConstructor;
+```
+
 # symbol (SymbolConstructor)
+
+```ts
+var symbol: SymbolConstructor;
+```
 
 ## OUTPUT.frontmatter: ##
 null
