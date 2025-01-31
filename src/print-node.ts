@@ -195,7 +195,6 @@ export function printNode(
       },
     });
     const printedCode = ee.print(nodeCopy, { printMethod: "@babel/generator" });
-    // TODO: this indentation doesn't turn out the way I want if the node isn't a valid top-level node (which is often the case)
     const normalizedCode = normalizeIndentation(
       printedCode.code,
       normalizeOpts
