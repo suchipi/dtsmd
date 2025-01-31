@@ -16,6 +16,7 @@ clefairy.run(
     printAst: clefairy.optionalBoolean,
     h: clefairy.optionalBoolean,
     help: clefairy.optionalBoolean,
+    headingOffset: clefairy.optionalNumber,
   },
   async function main(opts, ...args) {
     debug("cli flags", opts);
@@ -23,6 +24,7 @@ clefairy.run(
 
     const inputFile = opts.i || opts.inputFile || args[0] || null;
     const outputFile = opts.o || opts.outputFile || null;
+    const headingOffset = opts.headingOffset || null;
 
     if (opts.help || opts.h) {
       console.log(
@@ -75,7 +77,10 @@ clefairy.run(
       return;
     }
 
-    const result = await dtsmd.processSource(source, { fileName });
+    const result = await dtsmd.processSource(source, {
+      fileName,
+      headingOffset,
+    });
 
     if (typeof outputFile === "string") {
       await fs.promises.writeFile(outputFile, result.markdown);

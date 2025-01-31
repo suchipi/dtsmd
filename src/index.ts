@@ -6,6 +6,7 @@ import { printNode } from "./print-node";
 
 export type Options = {
   fileName?: string;
+  headingOffset?: number | null | undefined;
 };
 
 export type Result = {
@@ -37,16 +38,18 @@ export async function processSource(
 
   let text = "";
 
+  const headingOffset = options?.headingOffset ?? 0;
+
   const frontmatter = getFrontmatter(program);
   if (frontmatter) {
     text += frontmatter.raw + "\n";
 
     if (frontmatter.parsed.title) {
-      text += `# ${frontmatter.parsed.title}\n\n`;
+      text += `${"#".repeat(Math.min(headingOffset + 1, 6))} ${frontmatter.parsed.title}\n\n`;
     }
   }
 
-  const headingLevel = frontmatter?.parsed.title ? 2 : 1;
+  const headingLevel = headingOffset + (frontmatter?.parsed.title ? 2 : 1);
   text += printNode(program, [], { headingLevel, headingPrefix: "" });
 
   const formatted = await prettier.format(text, {
