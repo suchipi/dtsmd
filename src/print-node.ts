@@ -288,7 +288,7 @@ export function printNode(
       break;
     }
     case "TSTypeLiteral": {
-      outputSections.postCodeBlockBody += node.members
+      outputSections.body += node.members
         .map((member) => printNode(member, ancestry.concat([node]), state))
         .join("\n");
 
