@@ -137,7 +137,7 @@ export function printNode(
           outputSections.body += printLeadingDocComments(node);
         } else if (parent?.leadingComments?.length) {
           // VariableDeclaration
-          outputSections.body += printLeadingDocComments(parent!);
+          outputSections.body += printLeadingDocComments(parent);
         } else {
           if (
             ee.types.isExportNamedDeclaration(grandParent) &&
