@@ -32,6 +32,14 @@ declare const logger: {
 ## OUTPUT.markdown: ##
 # logger (value)
 
+The logger used internally by yavascript API functions such as {@link which},
+{@link exec}, {@link copy}, {@link glob}, and more.
+
+You can modify the properties on this object in order to configure the
+amount and style of log output from yavascript API functions.
+
+This object behaves similarly to the shell builtin `set -x`.
+
 ```ts
 const logger: {
   trace: (...args: Array<any>) => void;

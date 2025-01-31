@@ -23,6 +23,13 @@ declare var __dirname: string;
 ## OUTPUT.markdown: ##
 # \_\_filename (string)
 
+The absolute path to the currently-executing file (whether script or module).
+
+Behaves the same as in Node.js, except that it's also present within ES
+modules.
+
+Example: `/home/suchipi/some-folder/some-file.js`
+
 ```ts
 var __filename: string;
 ```

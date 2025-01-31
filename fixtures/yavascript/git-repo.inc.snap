@@ -60,6 +60,9 @@ declare class GitRepo {
 ## OUTPUT.markdown: ##
 # GitRepo (class)
 
+An object that points to a git repository on disk and provides utility
+methods for getting information from that repo.
+
 ## findRoot (static method)
 
 Given a path to a file or folder on disk, searches upwards through the

@@ -245,6 +245,8 @@ declare class Path {
 ## OUTPUT.markdown: ##
 # Path (class)
 
+An object that represents a filesystem path.
+
 ## splitToSegments (static method)
 
 Split one or more path strings into an array of path segments.

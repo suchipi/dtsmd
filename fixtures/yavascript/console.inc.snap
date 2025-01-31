@@ -13,6 +13,8 @@ interface Console {
 ## OUTPUT.markdown: ##
 # clear (function)
 
+Clear the contents and scrollback buffer of the tty by printing special characters into stdout.
+
 ```ts
 declare function clear(): void;
 ```

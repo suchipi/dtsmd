@@ -191,6 +191,8 @@ interface String {
 ## OUTPUT.markdown: ##
 # grepString (value)
 
+Split `str` on newline and then return lines matching `pattern`.
+
 ```ts
 const grepString: {
   (str: string, pattern: string | RegExp): Array<string>;

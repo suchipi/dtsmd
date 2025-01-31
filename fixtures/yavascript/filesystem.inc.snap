@@ -154,6 +154,8 @@ declare function rename(from: string | Path, to: string | Path): void;
 ## OUTPUT.markdown: ##
 # readFile (value)
 
+Read the contents of a file from disk.
+
 ```ts
 const readFile: {
   (path: string | Path): string;

@@ -23,6 +23,10 @@ declare const pwd: {
 ## OUTPUT.markdown: ##
 # pwd (value)
 
+Returns the process's current working directory.
+
+Provides the same functionality as the shell builtin of the same name.
+
 ```ts
 const pwd: {
   (): Path;

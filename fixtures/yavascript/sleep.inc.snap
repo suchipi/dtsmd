@@ -37,6 +37,11 @@ declare var sleep: {
 ## OUTPUT.markdown: ##
 # sleep (value)
 
+Blocks the current thread for at least the specified number of milliseconds,
+but maybe a tiny bit longer.
+
+alias for `sleep.sync`.
+
 ```ts
 var sleep: {
   (milliseconds: number): void;

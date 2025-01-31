@@ -9,14 +9,16 @@ export type Frontmatter = {
 
 export function getFrontmatter(ast: ee.types.Program): null | Frontmatter {
   const statements = ast.body;
+  let removeFirstComment: () => void;
 
   let firstComments: Array<ee.types.Comment> = [];
   if (statements.length === 0) {
     if (ast.innerComments && ast.innerComments.length > 0) {
       firstComments.push(...ast.innerComments);
     }
-    // Remove so print-node doesn't re-print it
-    ast.innerComments = [];
+    removeFirstComment = () => {
+      ast.innerComments = [];
+    };
   } else {
     const firstStatement = statements[0];
     if (
@@ -25,8 +27,9 @@ export function getFrontmatter(ast: ee.types.Program): null | Frontmatter {
     ) {
       firstComments.push(...firstStatement.leadingComments);
     }
-    // Remove so print-node doesn't re-print it
-    firstStatement.leadingComments = [];
+    removeFirstComment = () => {
+      firstStatement.leadingComments = [];
+    };
   }
 
   if (firstComments.length === 0) {
@@ -40,6 +43,10 @@ export function getFrontmatter(ast: ee.types.Program): null | Frontmatter {
     // Looks like frontmatter
     const withoutDashes = valuesTrim.replace(/^---|---$/g, "");
     const parsed = YAML.parse(withoutDashes);
+
+    // Remove so print-node doesn't re-print it
+    removeFirstComment();
+
     return {
       raw: values,
       parsed,

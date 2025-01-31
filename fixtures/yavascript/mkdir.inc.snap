@@ -20,6 +20,10 @@ declare function mkdir(
 ## OUTPUT.markdown: ##
 # mkdir (function)
 
+Create a directory (folder).
+
+Provides the same functionality as the unix binary of the same name.
+
 ```ts
 declare function mkdir(
   path: string | Path,

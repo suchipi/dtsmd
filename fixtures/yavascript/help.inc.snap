@@ -44,6 +44,8 @@ declare var help: {
 ## OUTPUT.markdown: ##
 # help (value)
 
+Prints help and usage text about the provided value, if any is available.
+
 ```ts
 var help: {
   (value?: any): void;

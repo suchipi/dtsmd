@@ -74,6 +74,8 @@ declare function strikethrough(input: string | number | Path): string;
 ## OUTPUT.markdown: ##
 # stripAnsi (function)
 
+Remove ANSI control characters from a string.
+
 ```ts
 declare function stripAnsi(input: string | number | Path): string;
 ```

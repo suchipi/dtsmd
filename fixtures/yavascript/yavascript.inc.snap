@@ -73,6 +73,8 @@ declare const yavascript: {
 ## OUTPUT.markdown: ##
 # yavascript (value)
 
+Info about the currently-running yavascript binary
+
 ```ts
 const yavascript: {
   version: string;
