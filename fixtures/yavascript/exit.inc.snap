@@ -17,7 +17,7 @@ declare const exit: {
 };
 
 ## OUTPUT.markdown: ##
-# exit (value)
+# exit (function)
 
 Exit the yavascript process.
 

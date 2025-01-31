@@ -19,7 +19,7 @@ declare const CSV: {
 };
 
 ## OUTPUT.markdown: ##
-# CSV (value)
+# CSV (object)
 
 ```ts
 const CSV: {

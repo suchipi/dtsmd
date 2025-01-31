@@ -35,7 +35,7 @@ declare var sleep: {
 };
 
 ## OUTPUT.markdown: ##
-# sleep (value)
+# sleep (function)
 
 Blocks the current thread for at least the specified number of milliseconds,
 but maybe a tiny bit longer.

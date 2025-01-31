@@ -30,7 +30,7 @@ declare const logger: {
 };
 
 ## OUTPUT.markdown: ##
-# logger (value)
+# logger (object)
 
 The logger used internally by yavascript API functions such as {@link which},
 {@link exec}, {@link copy}, {@link glob}, and more.

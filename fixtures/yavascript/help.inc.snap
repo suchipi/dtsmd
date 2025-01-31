@@ -42,7 +42,7 @@ declare var help: {
 };
 
 ## OUTPUT.markdown: ##
-# help (value)
+# help (function)
 
 Prints help and usage text about the provided value, if any is available.
 

@@ -71,7 +71,7 @@ declare const yavascript: {
 };
 
 ## OUTPUT.markdown: ##
-# yavascript (value)
+# yavascript (object)
 
 Info about the currently-running yavascript binary
 

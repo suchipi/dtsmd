@@ -21,7 +21,7 @@ declare const pwd: {
 };
 
 ## OUTPUT.markdown: ##
-# pwd (value)
+# pwd (function)
 
 Returns the process's current working directory.
 

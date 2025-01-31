@@ -111,17 +111,36 @@ export function printNode(
       const declaration = parent as ee.types.VariableDeclaration;
       const grandParent = ancestry.at(-2) ?? null;
 
-      const kind = declaration.kind;
       if (ee.types.isIdentifier(node.id)) {
         const name = node.id.name;
         // Naïve check; doesn't work when exported from separate statement
         const isExported = ee.types.isExportNamedDeclaration(grandParent);
-        let typeAnnotation = node.id.typeAnnotation
-          ? printRaw(node.id.typeAnnotation).replace(/^:\s*/g, "").trim()
-          : "value";
-        if (/[\n\r]|typeof/.test(typeAnnotation)) {
-          // too complicated
-          typeAnnotation = "value";
+        let typeAnnotation = "value";
+        if (node.id.typeAnnotation) {
+          if (
+            ee.types.isTSTypeAnnotation(node.id.typeAnnotation) &&
+            ee.types.isTSTypeLiteral(node.id.typeAnnotation.typeAnnotation)
+          ) {
+            const literal = node.id.typeAnnotation.typeAnnotation;
+            if (
+              literal.members.some((member) =>
+                ee.types.isTSCallSignatureDeclaration(member)
+              )
+            ) {
+              typeAnnotation = "function";
+            } else {
+              typeAnnotation = "object";
+            }
+          } else {
+            typeAnnotation = printRaw(node.id.typeAnnotation)
+              .replace(/^:\s*/g, "")
+              .trim();
+
+            if (/[\n\r]|typeof/.test(typeAnnotation)) {
+              // too complicated
+              typeAnnotation = "value";
+            }
+          }
         }
 
         outputSections.heading += [

@@ -12,7 +12,7 @@ declare var TOML: {
 };
 
 ## OUTPUT.markdown: ##
-# TOML (value)
+# TOML (object)
 
 ```ts
 var TOML: {

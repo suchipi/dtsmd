@@ -27,7 +27,7 @@ declare const assert: {
 };
 
 ## OUTPUT.markdown: ##
-# assert (value)
+# assert (function)
 
 ```ts
 const assert: {

@@ -33,7 +33,7 @@ declare const cat: {
 };
 
 ## OUTPUT.markdown: ##
-# cat (value)
+# cat (function)
 
 Reads the contents of one or more files from disk as either one UTF-8 string
 or one ArrayBuffer.

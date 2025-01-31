@@ -1340,7 +1340,7 @@ declare const types: {
 };
 
 ## OUTPUT.markdown: ##
-# types (value)
+# types (object)
 
 ```ts
 const types: {

@@ -23,7 +23,7 @@ declare const YAML: {
 };
 
 ## OUTPUT.markdown: ##
-# YAML (value)
+# YAML (object)
 
 ```ts
 const YAML: {

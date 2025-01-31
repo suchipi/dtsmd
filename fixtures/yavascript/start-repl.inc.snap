@@ -29,7 +29,7 @@ declare const startRepl: {
 };
 
 ## OUTPUT.markdown: ##
-# startRepl (value)
+# startRepl (function)
 
 Launch the Yavascript REPL (read-eval-print-loop).
 
