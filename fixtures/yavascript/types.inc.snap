@@ -2574,5 +2574,149 @@ const types: {
 };
 ```
 
+## types.any (`TypeValidator<any>` property)
+
+## types.unknown (`TypeValidator<unknown>` property)
+
+## types.anyObject (property)
+
+## types.unknownObject (`TypeValidator<{}>` property)
+
+## types.object (`TypeValidator<{}>` property)
+
+## types.Object (`TypeValidator<{}>` property)
+
+## types.arrayOfAny (`TypeValidator<Array<any>>` property)
+
+## types.arrayOfUnknown (`TypeValidator<Array<unknown>>` property)
+
+## types.array (`TypeValidator<Array<unknown>>` property)
+
+## types.Array (`TypeValidator<unknown[]>` property)
+
+## types.anyArray (`TypeValidator<Array<any>>` property)
+
+## types.boolean (`TypeValidator<boolean>` property)
+
+## types.Boolean (`TypeValidator<boolean>` property)
+
+## types.string (`TypeValidator<string>` property)
+
+## types.String (`TypeValidator<string>` property)
+
+## types.null (`TypeValidator<null>` property)
+
+## types.undefined (`TypeValidator<undefined>` property)
+
+## types.nullish (property)
+
+## types.void (property)
+
+## types.numberIncludingNanAndInfinities (`TypeValidator<number>` property)
+
+## types.number (`TypeValidator<number>` property)
+
+## types.Number (`TypeValidator<number>` property)
+
+## types.NaN (`TypeValidator<number>` property)
+
+## types.Infinity (`TypeValidator<number>` property)
+
+## types.NegativeInfinity (`TypeValidator<number>` property)
+
+## types.integer (`TypeValidator<number>` property)
+
+## types.bigint (`TypeValidator<bigint>` property)
+
+## types.BigInt (`TypeValidator<bigint>` property)
+
+## types.never (`TypeValidator<never>` property)
+
+## types.anyFunction (property)
+
+## types.unknownFunction (property)
+
+## types.Function (property)
+
+## types.false (`TypeValidator<false>` property)
+
+## types.true (`TypeValidator<true>` property)
+
+## types.falsy (property)
+
+## types.truthy (function property)
+
+## types.nonNullOrUndefined (function property)
+
+## types.Error (`TypeValidator<Error>` property)
+
+## types.Symbol (`TypeValidator<symbol>` property)
+
+## types.symbol (`TypeValidator<symbol>` property)
+
+## types.RegExp (`TypeValidator<RegExp>` property)
+
+## types.Date (`TypeValidator<Date>` property)
+
+## types.anyMap (property)
+
+## types.unknownMap (property)
+
+## types.map (property)
+
+## types.Map (property)
+
+## types.anySet (`TypeValidator<Set<any>>` property)
+
+## types.unknownSet (`TypeValidator<Set<unknown>>` property)
+
+## types.set (`TypeValidator<Set<unknown>>` property)
+
+## types.Set (`TypeValidator<Set<unknown>>` property)
+
+## types.ArrayBuffer (`TypeValidator<ArrayBuffer>` property)
+
+## types.SharedArrayBuffer (`TypeValidator<SharedArrayBuffer>` property)
+
+## types.DataView (`TypeValidator<DataView>` property)
+
+## types.TypedArray (property)
+
+## types.Int8Array (`TypeValidator<Int8Array>` property)
+
+## types.Uint8Array (`TypeValidator<Uint8Array>` property)
+
+## types.Uint8ClampedArray (`TypeValidator<Uint8ClampedArray>` property)
+
+## types.Int16Array (`TypeValidator<Int16Array>` property)
+
+## types.Uint16Array (`TypeValidator<Uint16Array>` property)
+
+## types.Int32Array (`TypeValidator<Int32Array>` property)
+
+## types.Uint32Array (`TypeValidator<Uint32Array>` property)
+
+## types.Float32Array (`TypeValidator<Float32Array>` property)
+
+## types.Float64Array (`TypeValidator<Float64Array>` property)
+
+## types.intersection (function property)
+
+## types.and (function property)
+
+## types.union (function property)
+
+## types.or (function property)
+
+## types.tuple (function property)
+
+## types.coerce (function property)
+
+## types.FILE (`TypeValidator<FILE>` property)
+
+## types.Path (`TypeValidator<Path>` property)
+
+## types.JSX (object property)
+
 ## OUTPUT.frontmatter: ##
 null

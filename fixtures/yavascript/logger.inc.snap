@@ -47,5 +47,9 @@ const logger: {
 };
 ```
 
+## logger.trace (function property)
+
+## logger.info (function property)
+
 ## OUTPUT.frontmatter: ##
 null

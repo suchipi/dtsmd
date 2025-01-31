@@ -47,7 +47,7 @@ export async function processSource(
   }
 
   const headingLevel = frontmatter?.parsed.title ? 2 : 1;
-  text += printNode(program, [], headingLevel);
+  text += printNode(program, [], { headingLevel, headingPrefix: "" });
 
   const formatted = await prettier.format(text, {
     filepath: "/tmp/output.md",

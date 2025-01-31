@@ -56,5 +56,7 @@ var help: {
 };
 ```
 
+## help.setHelpText (function property)
+
 ## OUTPUT.frontmatter: ##
 null

@@ -45,5 +45,7 @@ const assert: {
 };
 ```
 
+## assert.type (function property)
+
 ## OUTPUT.frontmatter: ##
 null

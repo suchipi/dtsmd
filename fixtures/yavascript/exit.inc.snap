@@ -36,5 +36,7 @@ const exit: {
 };
 ```
 
+## exit.code (number property)
+
 ## OUTPUT.frontmatter: ##
 null

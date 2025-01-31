@@ -42,7 +42,7 @@ title: Sample Library Definitions File
 
 ## SomethingOrOther (exported class)
 
-### someMethod (method)
+### SomethingOrOther.prototype.someMethod (method)
 
 This method does stuff
 
@@ -52,7 +52,7 @@ someMethod(arg1: string, arg2: {
 }, ...varargs: Array<Function>): string;
 ```
 
-### classMethod (static method)
+### SomethingOrOther.classMethod (static method)
 
 This one's a static method
 

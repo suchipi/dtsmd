@@ -34,5 +34,7 @@ const pwd: {
 };
 ```
 
+## pwd.initial (Path property)
+
 ## OUTPUT.frontmatter: ##
 null

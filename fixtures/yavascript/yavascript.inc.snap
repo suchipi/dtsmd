@@ -134,5 +134,13 @@ const yavascript: {
 };
 ```
 
+## yavascript.version (string property)
+
+## yavascript.arch (property)
+
+## yavascript.ecmaVersion (string property)
+
+## yavascript.compilers (object property)
+
 ## OUTPUT.frontmatter: ##
 null

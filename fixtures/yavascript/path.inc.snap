@@ -247,7 +247,35 @@ declare class Path {
 
 An object that represents a filesystem path.
 
-## splitToSegments (static method)
+## Path.OS_SEGMENT_SEPARATOR (static property)
+
+The character used to separate path segments on this OS.
+
+```ts
+static readonly OS_SEGMENT_SEPARATOR: "/" | "\\";
+```
+
+## Path.OS_ENV_VAR_SEPARATOR (static property)
+
+The character used to separate entries within the PATH environment
+variable on this OS.
+
+```ts
+static readonly OS_ENV_VAR_SEPARATOR: ":" | ";";
+```
+
+## Path.OS_PROGRAM_EXTENSIONS (static `ReadonlySet<string>` property)
+
+A list of suffixes that could appear in the filename for a program on the
+current OS. For instance, on Windows, programs often end with ".exe".
+
+On Unix-like OSes, this is empty. On Windows, it's based on `env.PATHEXT`.
+
+```ts
+static readonly OS_PROGRAM_EXTENSIONS: ReadonlySet<string>;
+```
+
+## Path.splitToSegments (static method)
 
 Split one or more path strings into an array of path segments.
 
@@ -255,7 +283,7 @@ Split one or more path strings into an array of path segments.
 static splitToSegments(inputParts: Array<string> | string): Array<string>;
 ```
 
-## detectSeparator (static method)
+## Path.detectSeparator (static method)
 
 Search the provided path string or strings for a path separator character,
 and return it. If none is found, return `fallback`, which defaults to the
@@ -265,7 +293,7 @@ OS's path segment separator.
 static detectSeparator<Fallback extends string | null = string>(input: Array<string> | string, fallback: Fallback = Path.OS_SEGMENT_SEPARATOR): string | Fallback;
 ```
 
-## normalize (static method)
+## Path.normalize (static method)
 
 Concatenates the input path(s) and then resolves all non-leading `.` and
 `..` segments.
@@ -274,7 +302,7 @@ Concatenates the input path(s) and then resolves all non-leading `.` and
 static normalize(...inputs: Array<string | Path | Array<string | Path>>): Path;
 ```
 
-## isAbsolute (static method)
+## Path.isAbsolute (static method)
 
 Return whether the provided path is absolute; that is, whether it
 starts with either `/` or a drive letter (ie `C:`).
@@ -283,7 +311,29 @@ starts with either `/` or a drive letter (ie `C:`).
 static isAbsolute(path: string | Path): boolean;
 ```
 
-## constructor (constructor)
+## Path.prototype.segments (`Array<string>` property)
+
+An array of the path segments that make up this path.
+
+For `/tmp/foo.txt`, it'd be `["", "tmp", "foo.txt"]`.
+
+For `C:\something\somewhere.txt`, it'd be `["C:", "something", "somewhere.txt"]`.
+
+```ts
+segments: Array<string>;
+```
+
+## Path.prototype.separator (string property)
+
+The path separator that should be used to turn this path into a string.
+
+Will be either `/` or `\`.
+
+```ts
+separator: string;
+```
+
+## Path (constructor)
 
 Create a new Path object using the provided input(s).
 
@@ -291,7 +341,7 @@ Create a new Path object using the provided input(s).
 constructor(...inputs: Array<string | Path | Array<string | Path>>);
 ```
 
-## fromRaw (static method)
+## Path.fromRaw (static method)
 
 Create a new Path object using the provided segments and separator.
 
@@ -301,7 +351,7 @@ If unspecified, `separator` defaults to `Path.OS_SEGMENT_SEPARATOR`.
 static fromRaw(segments: Array<string>, separator?: string): Path;
 ```
 
-## normalize (method)
+## Path.prototype.normalize (method)
 
 Resolve all non-leading `.` and `..` segments in this path.
 
@@ -309,7 +359,7 @@ Resolve all non-leading `.` and `..` segments in this path.
 normalize(): Path;
 ```
 
-## concat (method)
+## Path.prototype.concat (method)
 
 Create a new Path by appending additional path segments onto the end of
 this Path's segments.
@@ -320,7 +370,7 @@ The returned path will use this path's separator.
 concat(...other: Array<string | Path | Array<string | Path>>): Path;
 ```
 
-## isAbsolute (method)
+## Path.prototype.isAbsolute (method)
 
 Return whether this path is absolute; that is, whether it starts with
 either `/`, `\`, or a drive letter (ie `C:`).
@@ -329,7 +379,7 @@ either `/`, `\`, or a drive letter (ie `C:`).
 isAbsolute(): boolean;
 ```
 
-## clone (method)
+## Path.prototype.clone (method)
 
 Make a second Path object containing the same segments and separator as
 this one.
@@ -341,7 +391,7 @@ the same Array instance for segments as this one.
 clone(): this;
 ```
 
-## relativeTo (method)
+## Path.prototype.relativeTo (method)
 
 Express this path relative to `dir`.
 
@@ -354,7 +404,7 @@ relativeTo(dir: Path | string, options?: {
 }): Path;
 ```
 
-## toString (method)
+## Path.prototype.toString (method)
 
 Turn this path into a string by joining its segments using its separator.
 
@@ -362,7 +412,7 @@ Turn this path into a string by joining its segments using its separator.
 toString(): string;
 ```
 
-## toJSON (method)
+## Path.prototype.toJSON (method)
 
 Alias for `toString`; causes Path objects to be serialized as strings when
 they (or an object referencing them) are passed into JSON.stringify.
@@ -371,7 +421,7 @@ they (or an object referencing them) are passed into JSON.stringify.
 toJSON(): string;
 ```
 
-## basename (method)
+## Path.prototype.basename (method)
 
 Return the final path segment of this path. If this path has no path
 segments, the empty string is returned.
@@ -380,7 +430,7 @@ segments, the empty string is returned.
 basename(): string;
 ```
 
-## extname (method)
+## Path.prototype.extname (method)
 
 Return the trailing extension of this path. The `options` parameter works
 the same as the global `extname`'s `options` parameter.
@@ -391,7 +441,7 @@ extname(options?: {
 }): string;
 ```
 
-## dirname (method)
+## Path.prototype.dirname (method)
 
 Return a new Path containing all of the path segments in this one except
 for the last one; ie. the path to the directory that contains this path.
@@ -400,7 +450,7 @@ for the last one; ie. the path to the directory that contains this path.
 dirname(): Path;
 ```
 
-## startsWith (method)
+## Path.prototype.startsWith (method)
 
 Return whether this path starts with the provided value, by comparing one
 path segment at a time.
@@ -421,7 +471,7 @@ Path B does _not_ start with Path A, because `".config" !== ".config2"`.
 startsWith(value: string | Path | Array<string | Path>): boolean;
 ```
 
-## endsWith (method)
+## Path.prototype.endsWith (method)
 
 Return whether this path ends with the provided value, by comparing one
 path segment at a time.
@@ -442,7 +492,7 @@ Path A does _not_ end with Path B, because `"1user" !== "user"`.
 endsWith(value: string | Path | Array<string | Path>): boolean;
 ```
 
-## indexOf (method)
+## Path.prototype.indexOf (method)
 
 Return the path segment index at which `value` appears in this path, or
 `-1` if it doesn't appear in this path.
@@ -454,7 +504,7 @@ Return the path segment index at which `value` appears in this path, or
 indexOf(value: string | Path | Array<string | Path>, fromIndex?: number | undefined): number;
 ```
 
-## includes (method)
+## Path.prototype.includes (method)
 
 Return whether `value` appears in this path.
 
@@ -465,7 +515,7 @@ Return whether `value` appears in this path.
 includes(value: string | Path | Array<string | Path>, fromIndex?: number | undefined): boolean;
 ```
 
-## replace (method)
+## Path.prototype.replace (method)
 
 Return a new Path wherein the segments in `value` have been replaced with
 the segments in `replacement`. If the segments in `value` are not present
@@ -480,7 +530,7 @@ Note that only the first match is replaced.
 replace(value: string | Path | Array<string | Path>, replacement: string | Path | Array<string | Path>): Path;
 ```
 
-## replaceAll (method)
+## Path.prototype.replaceAll (method)
 
 Return a new Path wherein all occurrences of the segments in `value` have
 been replaced with the segments in `replacement`. If the segments in
@@ -493,7 +543,7 @@ been replaced with the segments in `replacement`. If the segments in
 replaceAll(value: string | Path | Array<string | Path>, replacement: string | Path | Array<string | Path>): Path;
 ```
 
-## replaceLast (method)
+## Path.prototype.replaceLast (method)
 
 Return a copy of this path but with the final segment replaced with `replacement`
 

@@ -14,13 +14,18 @@ const normalizeOpts = {
 export function printNode(
   node: ee.types.Node,
   ancestry: Array<ee.types.Node>,
-  headingLevel: number
+  state: {
+    headingLevel: number;
+    headingPrefix: string;
+  }
 ): string {
   const outputSections = {
     heading: "",
     body: "",
-    footerCodeBlock: "",
+    codeBlock: "",
+    postCodeBlockBody: "",
   };
+  let dotAfterHeadingPrefix = true;
 
   const parent = ancestry.at(-1) ?? null;
 
@@ -30,9 +35,7 @@ export function printNode(
       const statements = node.body;
 
       outputSections.body += statements
-        .map((statement) =>
-          printNode(statement, ancestry.concat(node), headingLevel)
-        )
+        .map((statement) => printNode(statement, ancestry.concat(node), state))
         .filter(Boolean)
         .join("\n");
       break;
@@ -42,7 +45,7 @@ export function printNode(
         outputSections.body += printNode(
           node.declaration,
           ancestry.concat(node),
-          headingLevel
+          state
         );
       }
       break;
@@ -62,7 +65,10 @@ export function printNode(
 
       outputSections.body += node.body.body
         .map((child) =>
-          printNode(child, ancestry.concat(node.body, node), headingLevel + 1)
+          printNode(child, ancestry.concat(node.body, node), {
+            headingLevel: state.headingLevel + 1,
+            headingPrefix: name,
+          })
         )
         .join("\n");
 
@@ -72,7 +78,14 @@ export function printNode(
       const name = node.id?.name ?? "unnamed function";
       // Naïve check; doesn't work when exported from separate statement
       const isExported = ee.types.isExportNamedDeclaration(parent);
-      outputSections.heading += `${name} (${isExported ? "exported " : ""}${node.async ? "async " : ""}${node.generator ? "generator " : ""}function)\n`;
+      outputSections.heading += [
+        name,
+        " (",
+        isExported ? "exported " : "",
+        node.async ? "async " : "",
+        node.generator ? "generator " : "",
+        "function)\n",
+      ].join("");
 
       if (ee.types.isExportNamedDeclaration(parent)) {
         outputSections.body += printLeadingDocComments(parent);
@@ -80,30 +93,61 @@ export function printNode(
         outputSections.body += printLeadingDocComments(node);
       }
 
-      outputSections.footerCodeBlock += printRaw(node);
+      outputSections.codeBlock += printRaw(node);
       break;
     }
     case "TSDeclareMethod": {
       if (!node.computed && ee.types.isIdentifier(node.key)) {
         const name = node.key.name;
-        outputSections.heading += `${name} (${node.static ? "static " : ""}${
-          node.async ? "async " : ""
-        }${node.generator ? "generator " : ""}${
-          node.kind
-            ? node.kind.length === 3
-              ? node.kind + "ter"
-              : node.kind
-            : "method"
-        })`;
+
+        if (name === "constructor") {
+          dotAfterHeadingPrefix = false;
+          outputSections.heading += " (constructor)";
+        } else {
+          outputSections.heading += [
+            node.static ? "" : "prototype.",
+            name,
+            " (",
+            node.static ? "static " : "",
+            node.async ? "async " : "",
+            node.generator ? "generator " : "",
+            node.kind
+              ? node.kind.length === 3 /* get/set */
+                ? node.kind + "ter"
+                : node.kind
+              : "method",
+            ")",
+          ].join("");
+        }
 
         outputSections.body += printLeadingDocComments(node);
-        outputSections.footerCodeBlock += printRaw(node);
+        outputSections.codeBlock += printRaw(node);
+      }
+      break;
+    }
+    case "ClassProperty": {
+      if (!node.computed && ee.types.isIdentifier(node.key)) {
+        const name = node.key.name;
+        const typeName = node.typeAnnotation
+          ? getShortType(node.typeAnnotation)
+          : null;
+        outputSections.heading += [
+          node.static ? "" : "prototype.",
+          name,
+          " (",
+          node.static ? "static " : "",
+          typeName ? typeName + " " : "",
+          "property)",
+        ].join("");
+
+        outputSections.body += printLeadingDocComments(node);
+        outputSections.codeBlock += printRaw(node);
       }
       break;
     }
     case "VariableDeclaration": {
       outputSections.body += node.declarations.map((declarator) =>
-        printNode(declarator, ancestry.concat(node), headingLevel)
+        printNode(declarator, ancestry.concat(node), state)
       );
       break;
     }
@@ -115,38 +159,14 @@ export function printNode(
         const name = node.id.name;
         // Naïve check; doesn't work when exported from separate statement
         const isExported = ee.types.isExportNamedDeclaration(grandParent);
-        let typeAnnotation = "value";
-        if (node.id.typeAnnotation) {
-          if (
-            ee.types.isTSTypeAnnotation(node.id.typeAnnotation) &&
-            ee.types.isTSTypeLiteral(node.id.typeAnnotation.typeAnnotation)
-          ) {
-            const literal = node.id.typeAnnotation.typeAnnotation;
-            if (
-              literal.members.some((member) =>
-                ee.types.isTSCallSignatureDeclaration(member)
-              )
-            ) {
-              typeAnnotation = "function";
-            } else {
-              typeAnnotation = "object";
-            }
-          } else {
-            typeAnnotation = printRaw(node.id.typeAnnotation)
-              .replace(/^:\s*/g, "")
-              .trim();
-
-            if (/[\n\r]|typeof/.test(typeAnnotation)) {
-              // too complicated
-              typeAnnotation = "value";
-            }
-          }
-        }
+        const typeName = node.id.typeAnnotation
+          ? getShortType(node.id.typeAnnotation)
+          : null;
 
         outputSections.heading += [
           `${name} (`,
           isExported ? "exported " : "",
-          typeAnnotation,
+          typeName ?? "value",
           ")",
         ].join("");
 
@@ -168,21 +188,69 @@ export function printNode(
         const loneDeclaration = ee.types.variableDeclaration(declaration.kind, [
           node,
         ]);
-        outputSections.footerCodeBlock += printRaw(loneDeclaration);
+        outputSections.codeBlock += printRaw(loneDeclaration);
+
+        if (
+          ee.types.isTSTypeAnnotation(node.id.typeAnnotation) &&
+          ee.types.isTSTypeLiteral(node.id.typeAnnotation.typeAnnotation)
+        ) {
+          const literal = node.id.typeAnnotation.typeAnnotation;
+
+          outputSections.postCodeBlockBody += literal.members
+            .map((member) =>
+              printNode(
+                member,
+                ancestry.concat([
+                  node,
+                  node.id,
+                  (node.id as ee.types.Identifier).typeAnnotation!,
+                  (
+                    (node.id as ee.types.Identifier)
+                      .typeAnnotation as ee.types.TSTypeAnnotation
+                  ).typeAnnotation,
+                ]),
+                {
+                  headingLevel: state.headingLevel + 1,
+                  headingPrefix: name,
+                }
+              )
+            )
+            .join("\n");
+        }
       }
+      break;
+    }
+    case "TSPropertySignature": {
+      if (node.computed || !ee.types.isIdentifier(node.key)) {
+        break;
+      }
+
+      const name = node.key.name;
+      const typeName = node.typeAnnotation
+        ? getShortType(node.typeAnnotation)
+        : null;
+
+      outputSections.heading += `${name} (${typeName ? typeName + " " : ""}property)`;
+
+      outputSections.body += printLeadingDocComments(node);
+
+      break;
     }
   }
 
   let result = "";
   if (outputSections.heading.length > 0) {
-    const headingHash = "#".repeat(Math.min(headingLevel, 6));
-    result += `${headingHash} ${outputSections.heading}\n`;
+    const headingHash = "#".repeat(Math.min(state.headingLevel, 6));
+    result += `${headingHash} ${state.headingPrefix}${state.headingPrefix && dotAfterHeadingPrefix ? "." : ""}${outputSections.heading}\n`;
   }
   if (outputSections.body.length > 0) {
     result += outputSections.body + "\n";
   }
-  if (outputSections.footerCodeBlock.length > 0) {
-    result += `\`\`\`ts\n${outputSections.footerCodeBlock.trimEnd()}\n\`\`\`\n`;
+  if (outputSections.codeBlock.length > 0) {
+    result += `\`\`\`ts\n${outputSections.codeBlock.trimEnd()}\n\`\`\`\n`;
+  }
+  if (outputSections.postCodeBlockBody.length > 0) {
+    result += outputSections.postCodeBlockBody + "\n";
   }
 
   return result;
@@ -223,5 +291,42 @@ export function printNode(
       normalizeOpts
     );
     return normalizedCode + "\n";
+  }
+
+  function getShortType(targetNode: ee.types.Node): string | null {
+    switch (targetNode.type) {
+      case "TypeAnnotation": {
+        return getShortType(targetNode.typeAnnotation);
+      }
+      case "TSTypeAnnotation": {
+        return getShortType(targetNode.typeAnnotation);
+      }
+      case "TSTypeLiteral": {
+        if (
+          targetNode.members.some((member) =>
+            ee.types.isTSCallSignatureDeclaration(member)
+          )
+        ) {
+          return "function";
+        } else {
+          return "object";
+        }
+      }
+      case "TSFunctionType": {
+        return "function";
+      }
+      default: {
+        const printed = printRaw(targetNode).replace(/^:\s*/g, "").trim();
+        if (/\s/.test(printed)) {
+          // too complicated
+          return null;
+        } else {
+          if (/[^A-Za-z_0-9]/.test(printed)) {
+            return "`" + printed.replace(/`/, "\\`") + "`";
+          }
+          return printed;
+        }
+      }
+    }
   }
 }
