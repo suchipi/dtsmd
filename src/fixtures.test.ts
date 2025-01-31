@@ -1,7 +1,7 @@
 import * as fsp from "fs/promises";
 import { test, expect } from "vitest";
 import * as dtsmd from "./index";
-import { fixturesDir } from "./test-utils";
+import { fixturesDir, rootDir } from "./test-utils";
 import glomp from "glomp";
 import { Path } from "nice-path";
 
@@ -10,7 +10,7 @@ const fixtures = glomp
   .findMatchesSync(fixturesDir.toString());
 
 for (const fixture of fixtures) {
-  const relName = new Path(fixture).relativeTo(fixturesDir).toString();
+  const relName = new Path(fixture).relativeTo(rootDir).toString();
   const snapshotPath = new Path(fixture)
     .dirname()
     .concat(new Path(fixture).basename().replace(/\.d\.ts$/, ".snap"));
