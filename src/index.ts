@@ -16,7 +16,7 @@ export type Result = {
 
 function getAst(tsSource: string, fileName?: string): ee.types.File {
   const ast = ee.parse(tsSource, {
-    typeSyntax: "typescript",
+    typeSyntax: "typescript-dts",
     jsxEnabled: true,
     fileName: fileName,
   });

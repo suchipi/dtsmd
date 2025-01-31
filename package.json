@@ -29,7 +29,7 @@
     "@suchipi/traverse": "^5.1.0",
     "clefairy": "^1.1.0",
     "debug": "^4.4.0",
-    "equivalent-exchange": "^2.0.0",
+    "equivalent-exchange": "^2.1.0",
     "nice-path": "^2.0.0",
     "prettier": "^3.4.2",
     "yaml": "^2.7.0"
