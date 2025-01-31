@@ -34,6 +34,7 @@ clefairy.run(
           "  -i,--input-file: Path to a .d.ts file (default stdin)",
           "  -o,--output-file: Path to the generated .md file (default stdout)",
           "  -h,--help: Print this text",
+          "  --heading-offset: Increase all heading levels by the specified amount (number)",
           "  --print-ast: Instead of generating markdown, print the AST of the input file (for debugging)",
         ].join("\n")
       );
