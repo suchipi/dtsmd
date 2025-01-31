@@ -95,6 +95,7 @@ declare interface ChildProcessConstructor {
 declare var ChildProcess: ChildProcessConstructor;
 
 ## OUTPUT.markdown: ##
+# ChildProcess (ChildProcessConstructor)
 
 ## OUTPUT.frontmatter: ##
 null

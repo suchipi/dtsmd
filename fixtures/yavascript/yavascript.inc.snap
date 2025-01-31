@@ -71,6 +71,7 @@ declare const yavascript: {
 };
 
 ## OUTPUT.markdown: ##
+# yavascript (const {version:string;arch:"x86_64"|"arm64";ecmaVersion:string;compilers:{js(code:string,options?:{filename?:string;expression?:boolean;}):string;tsx(code:string,options?:{filename?:string;expression?:boolean;}):string;ts(code:string,options?:{filename?:string;expression?:boolean;}):string;jsx(code:string,options?:{filename?:string;expression?:boolean;}):string;coffee(code:string,options?:{filename?:string;expression?:boolean;}):string;civet(code:string,options?:{filename?:string;expression?:boolean;}):string;autodetect(code:string,options?:{filename?:string;expression?:boolean;}):string;};})
 
 ## OUTPUT.frontmatter: ##
 null

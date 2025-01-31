@@ -23,6 +23,7 @@ declare const YAML: {
 };
 
 ## OUTPUT.markdown: ##
+# YAML (const {parse(input:string,reviver?:(this:any,key:string,value:any)=>any):any;stringify(input:any,replacer?:((this:any,key:string,value:any)=>any)|(number|string)[]|null,indent?:number):string;})
 
 ## OUTPUT.frontmatter: ##
 null

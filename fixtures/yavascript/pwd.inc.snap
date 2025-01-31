@@ -21,6 +21,7 @@ declare const pwd: {
 };
 
 ## OUTPUT.markdown: ##
+# pwd (const {():Path;readonlyinitial:Path;})
 
 ## OUTPUT.frontmatter: ##
 null

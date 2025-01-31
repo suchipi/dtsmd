@@ -29,6 +29,7 @@ declare const startRepl: {
 };
 
 ## OUTPUT.markdown: ##
+# startRepl (const {(context?:{[key:string]:any;},lang?:"js"|"javascript"|"ts"|"typescript"|"jsx"|"tsx"|"coffee"|"coffeescript"|"civet"):void;NOTHING:symbol;})
 
 ## OUTPUT.frontmatter: ##
 null

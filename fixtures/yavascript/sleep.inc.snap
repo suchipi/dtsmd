@@ -35,6 +35,7 @@ declare var sleep: {
 };
 
 ## OUTPUT.markdown: ##
+# sleep ({(milliseconds:number):void;sync(milliseconds:number):void;async(milliseconds:number):Promise<void>;})
 
 ## OUTPUT.frontmatter: ##
 null

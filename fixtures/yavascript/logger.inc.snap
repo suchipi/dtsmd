@@ -30,6 +30,7 @@ declare const logger: {
 };
 
 ## OUTPUT.markdown: ##
+# logger (const {trace:(...args:Array<any>)=>void;info:(...args:Array<any>)=>void;})
 
 ## OUTPUT.frontmatter: ##
 null

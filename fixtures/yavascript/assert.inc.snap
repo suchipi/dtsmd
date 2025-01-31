@@ -27,6 +27,7 @@ declare const assert: {
 };
 
 ## OUTPUT.markdown: ##
+# assert (const {<ValueType>(value:ValueType,message?:string):assertsvalueisValueTypeextendsnull|undefined|false|0|""?never:ValueType;type:<TextendsTypeValidator<any>|CoerceableToTypeValidator>(value:any,type:T,optionalMessage?:string)=>assertsvalueisUnwrapTypeFromCoerceableOrValidator<T>;})
 
 ## OUTPUT.frontmatter: ##
 null

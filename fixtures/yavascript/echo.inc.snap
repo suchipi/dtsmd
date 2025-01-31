@@ -6,6 +6,7 @@
 declare const echo: typeof console.log;
 
 ## OUTPUT.markdown: ##
+# echo (const typeofconsole.log)
 
 ## OUTPUT.frontmatter: ##
 null

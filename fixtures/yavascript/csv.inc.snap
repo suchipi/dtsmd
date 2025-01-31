@@ -19,6 +19,7 @@ declare const CSV: {
 };
 
 ## OUTPUT.markdown: ##
+# CSV (const {parse(input:string):Array<Array<string>>;stringify(input:Array<Array<string>>):string;})
 
 ## OUTPUT.frontmatter: ##
 null

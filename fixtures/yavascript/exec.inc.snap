@@ -113,6 +113,12 @@ declare function $(args: Array<string | Path | number> | string | Path): {
 };
 
 ## OUTPUT.markdown: ##
+# exec (const Exec)
+
+Runs a child process using the provided arguments.
+
+The first value in the arguments array is the program to run.
+
 # $ (function)
 
 Alias for `exec(args, { captureOutput: true })`

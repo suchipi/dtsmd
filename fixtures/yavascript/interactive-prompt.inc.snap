@@ -44,6 +44,9 @@ interface InteractivePromptConstructor {
 declare var InteractivePrompt: InteractivePromptConstructor;
 
 ## OUTPUT.markdown: ##
+# InteractivePrompt (InteractivePromptConstructor)
+
+wip experimental use at your own risk
 
 ## OUTPUT.frontmatter: ##
 null

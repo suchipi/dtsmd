@@ -8,6 +8,10 @@ declare const os: typeof import("quickjs:os");
 declare function __date_clock(): number;
 
 ## OUTPUT.markdown: ##
+# std (const typeofimport("quickjs:std"))
+
+# os (const typeofimport("quickjs:os"))
+
 # \_\_date_clock (function)
 
 Get the current unix timestamp with microsecond precision.

@@ -96,6 +96,51 @@ export function printNode(
       }
       break;
     }
+    case "VariableDeclaration": {
+      outputSections.description += node.declarations.map((declarator) =>
+        printNode(declarator, ancestry.concat(node), headingLevel)
+      );
+      break;
+    }
+    case "VariableDeclarator": {
+      const declaration = parent as ee.types.VariableDeclaration;
+      const grandParent = ancestry.at(-2) ?? null;
+
+      const kind = declaration.kind;
+      if (ee.types.isIdentifier(node.id)) {
+        const name = node.id.name;
+        // Naïve check; doesn't work when exported from separate statement
+        const isExported = ee.types.isExportNamedDeclaration(grandParent);
+        const typeAnnotation = node.id.typeAnnotation
+          ? printRaw(node.id.typeAnnotation)
+          : null;
+
+        outputSections.heading += [
+          `${name} (`,
+          isExported ? "exported " : "",
+          kind === "const" ? "const " : "",
+          typeAnnotation
+            ? typeAnnotation.replace(/^:|\s+/g, "").trim()
+            : "value",
+          ")",
+        ].join("");
+
+        if (node.leadingComments?.length) {
+          // VariableDeclarator
+          outputSections.description += printLeadingDocComments(node);
+        } else if (parent?.leadingComments?.length) {
+          // VariableDeclaration
+          outputSections.description += printLeadingDocComments(parent!);
+        } else {
+          if (
+            ee.types.isExportNamedDeclaration(grandParent) &&
+            grandParent.leadingComments?.length
+          ) {
+            outputSections.description += printLeadingDocComments(grandParent);
+          }
+        }
+      }
+    }
   }
 
   let result = "";
