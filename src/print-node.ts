@@ -334,13 +334,16 @@ export function printNode(
     const nodeCopy = ee.clone(targetNode);
     // We don't want to print any of the comments
     traverse(nodeCopy, {
-      before(node) {
-        if (typeof node !== "object" || node == null) {
+      before(traverseTargetNode) {
+        if (
+          typeof traverseTargetNode !== "object" ||
+          traverseTargetNode == null
+        ) {
           return;
         }
-        delete node.leadingComments;
-        delete node.innerComments;
-        delete node.trailingComments;
+        delete traverseTargetNode.leadingComments;
+        delete traverseTargetNode.innerComments;
+        delete traverseTargetNode.trailingComments;
       },
     });
     const printedCode = ee.print(nodeCopy, { printMethod: "@babel/generator" });

@@ -49,11 +49,23 @@ const logger: {
 
 ## logger.trace (function property)
 
+This property is used as the default value for `trace` in yavascript API
+functions which receive `logging.trace` as an option, like {@link which},
+{@link exec}, {@link copy} and {@link glob}.
+
+The default value of `logger.trace` is a no-op function.
+
 ```ts
 trace: (...args: Array<any>) => void;
 ```
 
 ## logger.info (function property)
+
+This property is used as the default value for `info` in yavascript API
+functions which receive `logging.info` as an option, like {@link exec},
+{@link copy}, and {@link glob}.
+
+The default value of `logger.info` writes dimmed text to stdout.
 
 ```ts
 info: (...args: Array<any>) => void;

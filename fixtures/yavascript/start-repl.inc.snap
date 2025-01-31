@@ -59,6 +59,9 @@ const startRepl: {
 
 ## startRepl.NOTHING (symbol property)
 
+A special value; when expressions result in this value, the repl will
+print nothing instead of printing this value.
+
 ```ts
 NOTHING: symbol;
 ```

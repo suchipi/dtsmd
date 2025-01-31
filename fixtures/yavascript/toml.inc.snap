@@ -25,6 +25,8 @@ var TOML: {
 
 ## TOML.parse (method)
 
+Parse a TOML document (`data`) into an object.
+
 ```ts
 parse(data: string): {
   [key: string]: any;
@@ -32,6 +34,8 @@ parse(data: string): {
 ```
 
 ## TOML.stringify (method)
+
+Convert an object into a TOML document.
 
 ```ts
 stringify(data: {
