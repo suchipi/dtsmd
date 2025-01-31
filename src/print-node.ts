@@ -128,7 +128,7 @@ export function printNode(
           `${name} (`,
           isExported ? "exported " : "",
           kind === "const" ? "const " : "",
-          typeAnnotation ? typeAnnotation : "value",
+          typeAnnotation,
           ")",
         ].join("");
 
