@@ -17,7 +17,7 @@ declare const exit: {
 };
 
 ## OUTPUT.markdown: ##
-# exit (const {(code?:number):never;code:number;})
+# exit (const value)
 
 ## OUTPUT.frontmatter: ##
 null

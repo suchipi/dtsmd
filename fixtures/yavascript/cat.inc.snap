@@ -33,7 +33,7 @@ declare const cat: {
 };
 
 ## OUTPUT.markdown: ##
-# cat (const {(paths:string|Path|Array<string|Path>):string;(paths:string|Path|Array<string|Path>,options:{}):string;(paths:string|Path|Array<string|Path>,options:{binary:false;}):string;(paths:string|Path|Array<string|Path>,options:{binary:true;}):ArrayBuffer;})
+# cat (const value)
 
 ## OUTPUT.frontmatter: ##
 null

@@ -260,10 +260,7 @@ and return it. If none is found, return `fallback`, which defaults to the
 OS's path segment separator.
 
 ```ts
-static detectSeparator<Fallback extends string | null = string>(
-    input: Array<string> | string,
-    fallback: Fallback = Path.OS_SEGMENT_SEPARATOR
-): string | Fallback;
+static detectSeparator<Fallback extends string | null = string>(input: Array<string> | string, fallback: Fallback = Path.OS_SEGMENT_SEPARATOR): string | Fallback;
 ```
 
 ## normalize (static method)
@@ -350,12 +347,9 @@ Express this path relative to `dir`.
 @param options - Options that affect the resulting path.
 
 ```ts
-relativeTo(
-    dir: Path | string,
-    options?: {
-        noLeadingDot?: boolean;
-    }
-): Path;
+relativeTo(dir: Path | string, options?: {
+  noLeadingDot?: boolean;
+}): Path;
 ```
 
 ## toString (method)
@@ -390,11 +384,9 @@ Return the trailing extension of this path. The `options` parameter works
 the same as the global `extname`'s `options` parameter.
 
 ```ts
-extname(
-    options?: {
-        full?: boolean;
-    }
-): string;
+extname(options?: {
+  full?: boolean;
+}): string;
 ```
 
 ## dirname (method)
@@ -457,10 +449,7 @@ Return the path segment index at which `value` appears in this path, or
 @param fromIndex - The index into this path's segments to begin searching at. Defaults to `0`.
 
 ```ts
-indexOf(
-    value: string | Path | Array<string | Path>,
-    fromIndex?: number | undefined
-): number;
+indexOf(value: string | Path | Array<string | Path>, fromIndex?: number | undefined): number;
 ```
 
 ## includes (method)
@@ -471,10 +460,7 @@ Return whether `value` appears in this path.
 @param fromIndex - The index into this path's segments to begin searching at. Defaults to `0`.
 
 ```ts
-includes(
-    value: string | Path | Array<string | Path>,
-    fromIndex?: number | undefined
-): boolean;
+includes(value: string | Path | Array<string | Path>, fromIndex?: number | undefined): boolean;
 ```
 
 ## replace (method)
@@ -489,10 +475,7 @@ Note that only the first match is replaced.
 @param replacement - What it should be replaced with
 
 ```ts
-replace(
-    value: string | Path | Array<string | Path>,
-    replacement: string | Path | Array<string | Path>
-): Path;
+replace(value: string | Path | Array<string | Path>, replacement: string | Path | Array<string | Path>): Path;
 ```
 
 ## replaceAll (method)
@@ -505,10 +488,7 @@ been replaced with the segments in `replacement`. If the segments in
 @param replacement - What it should be replaced with
 
 ```ts
-replaceAll(
-    value: string | Path | Array<string | Path>,
-    replacement: string | Path | Array<string | Path>
-): Path;
+replaceAll(value: string | Path | Array<string | Path>, replacement: string | Path | Array<string | Path>): Path;
 ```
 
 ## replaceLast (method)

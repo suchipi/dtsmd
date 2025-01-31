@@ -8,9 +8,9 @@ declare const os: typeof import("quickjs:os");
 declare function __date_clock(): number;
 
 ## OUTPUT.markdown: ##
-# std (const typeofimport("quickjs:std"))
+# std (const typeof import("quickjs:std"))
 
-# os (const typeofimport("quickjs:os"))
+# os (const typeof import("quickjs:os"))
 
 # \_\_date_clock (function)
 

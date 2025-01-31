@@ -1,6 +1,10 @@
 import * as ee from "equivalent-exchange";
+import traverse from "@suchipi/traverse";
 import { parseComments, commentsToString, CommentKind } from "./comment-utils";
 import { normalizeIndentation } from "./normalize-indentation";
+
+import makeDebugLog from "debug";
+const debug = makeDebugLog("@suchipi/dtsmd:print-node");
 
 const normalizeOpts = {
   output: "spaces",
@@ -14,17 +18,18 @@ export function printNode(
 ): string {
   const outputSections = {
     heading: "",
-    description: "",
-    definitionCodeBlock: "",
+    body: "",
+    footerCodeBlock: "",
   };
 
   const parent = ancestry.at(-1) ?? null;
 
+  debug("visiting", node.type);
   switch (node.type) {
     case "Program": {
       const statements = node.body;
 
-      outputSections.description += statements
+      outputSections.body += statements
         .map((statement) =>
           printNode(statement, ancestry.concat(node), headingLevel)
         )
@@ -34,7 +39,7 @@ export function printNode(
     }
     case "ExportNamedDeclaration": {
       if (node.declaration) {
-        outputSections.description += printNode(
+        outputSections.body += printNode(
           node.declaration,
           ancestry.concat(node),
           headingLevel
@@ -50,12 +55,12 @@ export function printNode(
       outputSections.heading += `${name} (${isExported ? "exported " : ""}class)`;
 
       if (ee.types.isExportNamedDeclaration(parent)) {
-        outputSections.description += printLeadingDocComments(parent);
+        outputSections.body += printLeadingDocComments(parent);
       } else {
-        outputSections.description += printLeadingDocComments(node);
+        outputSections.body += printLeadingDocComments(node);
       }
 
-      outputSections.description += node.body.body
+      outputSections.body += node.body.body
         .map((child) =>
           printNode(child, ancestry.concat(node.body, node), headingLevel + 1)
         )
@@ -70,12 +75,12 @@ export function printNode(
       outputSections.heading += `${name} (${isExported ? "exported " : ""}${node.async ? "async " : ""}${node.generator ? "generator " : ""}function)\n`;
 
       if (ee.types.isExportNamedDeclaration(parent)) {
-        outputSections.description += printLeadingDocComments(parent);
+        outputSections.body += printLeadingDocComments(parent);
       } else {
-        outputSections.description += printLeadingDocComments(node);
+        outputSections.body += printLeadingDocComments(node);
       }
 
-      outputSections.definitionCodeBlock += printRaw(node);
+      outputSections.footerCodeBlock += printRaw(node);
       break;
     }
     case "TSDeclareMethod": {
@@ -91,13 +96,13 @@ export function printNode(
             : "method"
         })`;
 
-        outputSections.description += printLeadingDocComments(node);
-        outputSections.definitionCodeBlock += printRaw(node);
+        outputSections.body += printLeadingDocComments(node);
+        outputSections.footerCodeBlock += printRaw(node);
       }
       break;
     }
     case "VariableDeclaration": {
-      outputSections.description += node.declarations.map((declarator) =>
+      outputSections.body += node.declarations.map((declarator) =>
         printNode(declarator, ancestry.concat(node), headingLevel)
       );
       break;
@@ -111,32 +116,34 @@ export function printNode(
         const name = node.id.name;
         // Naïve check; doesn't work when exported from separate statement
         const isExported = ee.types.isExportNamedDeclaration(grandParent);
-        const typeAnnotation = node.id.typeAnnotation
-          ? printRaw(node.id.typeAnnotation)
-          : null;
+        let typeAnnotation = node.id.typeAnnotation
+          ? printRaw(node.id.typeAnnotation).replace(/^:\s*/g, "").trim()
+          : "value";
+        if (/[\n\r]/.test(typeAnnotation)) {
+          // too complicated
+          typeAnnotation = "value";
+        }
 
         outputSections.heading += [
           `${name} (`,
           isExported ? "exported " : "",
           kind === "const" ? "const " : "",
-          typeAnnotation
-            ? typeAnnotation.replace(/^:|\s+/g, "").trim()
-            : "value",
+          typeAnnotation ? typeAnnotation : "value",
           ")",
         ].join("");
 
         if (node.leadingComments?.length) {
           // VariableDeclarator
-          outputSections.description += printLeadingDocComments(node);
+          outputSections.body += printLeadingDocComments(node);
         } else if (parent?.leadingComments?.length) {
           // VariableDeclaration
-          outputSections.description += printLeadingDocComments(parent!);
+          outputSections.body += printLeadingDocComments(parent!);
         } else {
           if (
             ee.types.isExportNamedDeclaration(grandParent) &&
             grandParent.leadingComments?.length
           ) {
-            outputSections.description += printLeadingDocComments(grandParent);
+            outputSections.body += printLeadingDocComments(grandParent);
           }
         }
       }
@@ -148,11 +155,11 @@ export function printNode(
     const headingHash = "#".repeat(Math.min(headingLevel, 6));
     result += `${headingHash} ${outputSections.heading}\n`;
   }
-  if (outputSections.description.length > 0) {
-    result += outputSections.description + "\n";
+  if (outputSections.body.length > 0) {
+    result += outputSections.body + "\n";
   }
-  if (outputSections.definitionCodeBlock.length > 0) {
-    result += `\`\`\`ts\n${outputSections.definitionCodeBlock.trimEnd()}\n\`\`\`\n`;
+  if (outputSections.footerCodeBlock.length > 0) {
+    result += `\`\`\`ts\n${outputSections.footerCodeBlock.trimEnd()}\n\`\`\`\n`;
   }
 
   return result;
@@ -175,18 +182,24 @@ export function printNode(
   }
 
   function printRaw(targetNode: ee.types.Node) {
-    const leadingComments = targetNode.leadingComments;
-    delete targetNode.leadingComments;
-    try {
-      const printedCode = ee.print(targetNode);
-      // TODO: this indentation doesn't turn out the way I want if the node isn't a valid top-level node (which is often the case)
-      const normalizedCode = normalizeIndentation(
-        printedCode.code,
-        normalizeOpts
-      );
-      return normalizedCode + "\n";
-    } finally {
-      targetNode.leadingComments = leadingComments;
-    }
+    const nodeCopy = ee.clone(targetNode);
+    // We don't want to print any of the comments
+    traverse(nodeCopy, {
+      before(node) {
+        if (typeof node !== "object" || node == null) {
+          return;
+        }
+        delete node.leadingComments;
+        delete node.innerComments;
+        delete node.trailingComments;
+      },
+    });
+    const printedCode = ee.print(nodeCopy, { printMethod: "@babel/generator" });
+    // TODO: this indentation doesn't turn out the way I want if the node isn't a valid top-level node (which is often the case)
+    const normalizedCode = normalizeIndentation(
+      printedCode.code,
+      normalizeOpts
+    );
+    return normalizedCode + "\n";
   }
 }

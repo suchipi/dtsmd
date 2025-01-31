@@ -42,7 +42,7 @@ declare var help: {
 };
 
 ## OUTPUT.markdown: ##
-# help ({(value?:any):void;setHelpText:{(value:object,text:string,allowNullish?:boolean):void;lazy(value:object,getText:()=>string):void;};})
+# help (value)
 
 ## OUTPUT.frontmatter: ##
 null

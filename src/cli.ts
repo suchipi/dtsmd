@@ -4,6 +4,9 @@ import * as clefairy from "clefairy";
 import { Path } from "nice-path";
 import * as dtsmd from "./index";
 
+import makeDebugLog from "debug";
+const debug = makeDebugLog("@suchipi/dtsmd:cli");
+
 clefairy.run(
   {
     i: clefairy.optionalString,
@@ -15,6 +18,9 @@ clefairy.run(
     help: clefairy.optionalBoolean,
   },
   async function main(opts, ...args) {
+    debug("cli flags", opts);
+    debug("cli positional args", args);
+
     const inputFile = opts.i || opts.inputFile || args[0] || null;
     const outputFile = opts.o || opts.outputFile || null;
 

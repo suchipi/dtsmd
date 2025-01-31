@@ -47,13 +47,9 @@ title: Sample Library Definitions File
 This method does stuff
 
 ```ts
-someMethod(
-    arg1: string,
-    arg2: {
-        blah: 5;
-    },
-    ...varargs: Array<Function>
-): string;
+someMethod(arg1: string, arg2: {
+  blah: 5;
+}, ...varargs: Array<Function>): string;
 ```
 
 ### classMethod (static method)
