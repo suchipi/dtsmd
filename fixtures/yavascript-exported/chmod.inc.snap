@@ -49,8 +49,8 @@ export function chmod(
 
 Set the permission bits for the specified file.
 
-@param permissions The permission bits to set. This can be a number, a string containing an octal number, or an object.
-@param path The path to the file.
+- `@param` _permissions_ — The permission bits to set. This can be a number, a string containing an octal number, or an object.
+- `@param` _path_ — The path to the file.
 
 ```ts
 function chmod(

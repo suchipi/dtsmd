@@ -1,6 +1,11 @@
 import * as ee from "equivalent-exchange";
 import traverse from "@suchipi/traverse";
-import { parseComments, commentsToString, CommentKind } from "./comment-utils";
+import {
+  parseComments,
+  commentsToString,
+  CommentKind,
+  styleCommentStringForMarkdown,
+} from "./comment-utils";
 import { normalizeIndentation } from "./normalize-indentation";
 import { clampHeadingLevel } from "./heading-utils";
 
@@ -322,7 +327,7 @@ export function printNode(
       if (parsedComments.length > 0) {
         return (
           normalizeIndentation(
-            commentsToString(parsedComments),
+            styleCommentStringForMarkdown(commentsToString(parsedComments)),
             normalizeOpts
           ) + "\n"
         );
