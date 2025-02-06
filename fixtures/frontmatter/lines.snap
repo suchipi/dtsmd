@@ -44,3 +44,5 @@ some-structure:
     }
   }
 }
+## OUTPUT.warnings: ##
+[]

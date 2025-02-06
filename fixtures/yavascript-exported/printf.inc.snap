@@ -24,3 +24,5 @@ function printf(format: string, ...args: Array<any>): void;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

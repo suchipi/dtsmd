@@ -87,3 +87,5 @@ lazy(value: object, getText: () => string): void;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

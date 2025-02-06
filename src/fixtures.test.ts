@@ -25,6 +25,8 @@ ${content}
 ${result.markdown}
 ## OUTPUT.frontmatter: ##
 ${JSON.stringify(result.frontmatter, null, 2)}
+## OUTPUT.warnings: ##
+${JSON.stringify(result.warnings, null, 2)}
 `).toMatchFileSnapshot(snapshotPath.toString());
   });
 }

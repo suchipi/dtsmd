@@ -24,3 +24,5 @@ function readlink(path: string | Path): Path;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

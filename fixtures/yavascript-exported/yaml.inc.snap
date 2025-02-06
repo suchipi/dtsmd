@@ -60,3 +60,5 @@ stringify(input: any, replacer?: ((this: any, key: string, value: any) => any) |
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

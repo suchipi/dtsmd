@@ -75,3 +75,5 @@ function glob(
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

@@ -20,3 +20,5 @@ const something: string;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

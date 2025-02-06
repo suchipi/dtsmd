@@ -21,3 +21,5 @@ function clear(): void;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

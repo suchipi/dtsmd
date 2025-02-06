@@ -88,3 +88,5 @@ function parseScriptArgs(
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

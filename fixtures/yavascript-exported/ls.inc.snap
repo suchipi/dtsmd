@@ -18,3 +18,5 @@ function ls(dir?: string | Path): Array<Path>;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

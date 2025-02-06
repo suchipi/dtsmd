@@ -73,3 +73,10 @@ info: (...args: Array<any>) => void;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[
+  "No link URL provided for \"which\"; falling back to \"#\"",
+  "No link URL provided for \"exec\"; falling back to \"#\"",
+  "No link URL provided for \"copy\"; falling back to \"#\"",
+  "No link URL provided for \"glob\"; falling back to \"#\""
+]

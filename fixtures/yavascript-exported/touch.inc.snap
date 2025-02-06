@@ -24,3 +24,5 @@ function touch(path: string | Path): void;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

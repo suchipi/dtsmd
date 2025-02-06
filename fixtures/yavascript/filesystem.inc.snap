@@ -294,3 +294,5 @@ declare function rename(from: string | Path, to: string | Path): void;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

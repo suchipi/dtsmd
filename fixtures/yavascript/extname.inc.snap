@@ -32,3 +32,5 @@ declare function extname(
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

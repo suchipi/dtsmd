@@ -54,3 +54,5 @@ var InteractivePrompt: InteractivePromptConstructor;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

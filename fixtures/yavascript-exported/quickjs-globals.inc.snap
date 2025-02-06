@@ -30,3 +30,5 @@ function __date_clock(): number;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

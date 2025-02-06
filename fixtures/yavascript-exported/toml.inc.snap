@@ -45,3 +45,5 @@ stringify(data: {
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

@@ -298,3 +298,5 @@ function strikethrough(input: string | number | Path): string;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

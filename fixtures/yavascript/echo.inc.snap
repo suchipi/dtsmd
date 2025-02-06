@@ -16,3 +16,5 @@ const echo: typeof console.log;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

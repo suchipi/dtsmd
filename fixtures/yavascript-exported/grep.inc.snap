@@ -347,3 +347,5 @@ const grepFile: {
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

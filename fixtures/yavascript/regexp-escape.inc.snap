@@ -9,3 +9,5 @@ interface RegExpConstructor {
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

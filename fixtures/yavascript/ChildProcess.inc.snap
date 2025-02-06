@@ -103,3 +103,5 @@ var ChildProcess: ChildProcessConstructor;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

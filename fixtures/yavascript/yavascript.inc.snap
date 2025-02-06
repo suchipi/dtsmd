@@ -278,3 +278,5 @@ autodetect(code: string, options?: {
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

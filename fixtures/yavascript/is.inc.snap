@@ -39,3 +39,7 @@ const _is: typeof is;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[
+  "No link URL provided for \"is\"; falling back to \"#\""
+]

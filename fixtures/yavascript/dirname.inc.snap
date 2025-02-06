@@ -20,3 +20,5 @@ declare function dirname(path: string | Path): Path;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

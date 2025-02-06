@@ -52,3 +52,5 @@ stringify(input: Array<Array<string>>): string;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

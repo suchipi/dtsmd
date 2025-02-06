@@ -68,3 +68,5 @@ NOTHING: symbol;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

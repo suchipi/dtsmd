@@ -24,3 +24,5 @@ function realpath(path: string | Path): Path;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

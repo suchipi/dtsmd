@@ -85,3 +85,5 @@ var symbol: SymbolConstructor;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

@@ -31,3 +31,5 @@ function myFunction(...args: Array<number>): number;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

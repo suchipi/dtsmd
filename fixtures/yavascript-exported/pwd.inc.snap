@@ -45,3 +45,5 @@ readonly initial: Path;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

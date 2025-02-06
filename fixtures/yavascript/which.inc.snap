@@ -76,3 +76,7 @@ declare function which(
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[
+  "No link URL provided for \"logger.trace\"; falling back to \"#\""
+]

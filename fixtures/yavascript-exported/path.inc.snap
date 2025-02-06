@@ -555,3 +555,5 @@ replaceLast(replacement: string | Path | Array<string | Path>): Path;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

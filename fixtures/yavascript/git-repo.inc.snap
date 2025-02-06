@@ -137,3 +137,5 @@ isIgnored(path: string | Path): boolean;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

@@ -44,3 +44,5 @@ code: number;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

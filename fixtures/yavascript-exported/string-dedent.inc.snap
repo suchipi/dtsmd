@@ -48,3 +48,5 @@ interface StringConstructor {
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

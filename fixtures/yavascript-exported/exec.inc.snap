@@ -136,3 +136,5 @@ function $(args: Array<string | Path | number> | string | Path): {
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

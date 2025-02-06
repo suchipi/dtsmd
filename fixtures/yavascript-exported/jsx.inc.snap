@@ -112,3 +112,5 @@ export namespace JSX {
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

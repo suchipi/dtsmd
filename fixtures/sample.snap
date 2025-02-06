@@ -81,3 +81,8 @@ function something(arg1: number, arg2: string): void;
     "title": "Sample Library Definitions File"
   }
 }
+## OUTPUT.warnings: ##
+[
+  "No link URL provided for \"this thing\"; falling back to \"#\"",
+  "No link URL provided for \"that thing\"; falling back to \"#\""
+]

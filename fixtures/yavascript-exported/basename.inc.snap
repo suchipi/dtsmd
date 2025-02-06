@@ -20,3 +20,5 @@ function basename(path: string | Path): string;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]

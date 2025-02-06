@@ -22,3 +22,5 @@ function cd(path?: string | Path): void;
 
 ## OUTPUT.frontmatter: ##
 null
+## OUTPUT.warnings: ##
+[]
