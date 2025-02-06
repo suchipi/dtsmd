@@ -8,6 +8,7 @@ import {
 } from "./comment-utils";
 import { normalizeIndentation } from "./normalize-indentation";
 import { clampHeadingLevel } from "./heading-utils";
+import type { Options } from ".";
 
 import makeDebugLog from "debug";
 const debug = makeDebugLog("@suchipi/dtsmd:print-node");
@@ -23,7 +24,9 @@ export function printNode(
   state: {
     headingLevel: number;
     headingPrefix: string;
-  }
+    warningsArray: Array<string>;
+  },
+  options: Options
 ): string {
   const outputSections = {
     heading: "",
@@ -41,7 +44,9 @@ export function printNode(
       const statements = node.body;
 
       outputSections.body += statements
-        .map((statement) => printNode(statement, ancestry.concat(node), state))
+        .map((statement) =>
+          printNode(statement, ancestry.concat(node), state, options)
+        )
         .filter(Boolean)
         .join("\n");
       break;
@@ -51,7 +56,8 @@ export function printNode(
         outputSections.body += printNode(
           node.declaration,
           ancestry.concat(node),
-          state
+          state,
+          options
         );
       }
       break;
@@ -71,10 +77,16 @@ export function printNode(
 
       outputSections.body += node.body.body
         .map((child) =>
-          printNode(child, ancestry.concat(node.body, node), {
-            headingLevel: state.headingLevel + 1,
-            headingPrefix: name,
-          })
+          printNode(
+            child,
+            ancestry.concat(node.body, node),
+            {
+              ...state,
+              headingLevel: state.headingLevel + 1,
+              headingPrefix: name,
+            },
+            options
+          )
         )
         .join("\n");
 
@@ -196,9 +208,11 @@ export function printNode(
             node.typeAnnotation.typeAnnotation,
             ancestry.concat([node, node.typeAnnotation]),
             {
+              ...state,
               headingLevel: state.headingLevel + 1,
               headingPrefix: state.headingPrefix + "." + name,
-            }
+            },
+            options
           );
         }
       }
@@ -206,7 +220,7 @@ export function printNode(
     }
     case "VariableDeclaration": {
       outputSections.body += node.declarations.map((declarator) =>
-        printNode(declarator, ancestry.concat(node), state)
+        printNode(declarator, ancestry.concat(node), state, options)
       );
       break;
     }
@@ -262,9 +276,11 @@ export function printNode(
               (node.id as ee.types.Identifier).typeAnnotation!,
             ]),
             {
+              ...state,
               headingLevel: state.headingLevel + 1,
               headingPrefix: name,
-            }
+            },
+            options
           );
         }
       }
@@ -295,7 +311,9 @@ export function printNode(
     }
     case "TSTypeLiteral": {
       outputSections.body += node.members
-        .map((member) => printNode(member, ancestry.concat([node]), state))
+        .map((member) =>
+          printNode(member, ancestry.concat([node]), state, options)
+        )
         .join("\n");
 
       break;
@@ -327,7 +345,11 @@ export function printNode(
       if (parsedComments.length > 0) {
         return (
           normalizeIndentation(
-            styleCommentStringForMarkdown(commentsToString(parsedComments)),
+            styleCommentStringForMarkdown(
+              commentsToString(parsedComments),
+              options.links || {},
+              state.warningsArray
+            ),
             normalizeOpts
           ) + "\n"
         );

@@ -2,6 +2,7 @@
 import * as fs from "fs";
 import * as clefairy from "clefairy";
 import { Path } from "nice-path";
+import kleur from "kleur";
 import * as dtsmd from "./index";
 
 import makeDebugLog from "debug";
@@ -17,10 +18,13 @@ clefairy.run(
     h: clefairy.optionalBoolean,
     help: clefairy.optionalBoolean,
     headingOffset: clefairy.optionalNumber,
+    linksJson: clefairy.optionalString,
   },
   async function main(opts, ...args) {
     debug("cli flags", opts);
     debug("cli positional args", args);
+
+    kleur.enabled = process.stderr.isTTY;
 
     const inputFile = opts.i || opts.inputFile || args[0] || null;
     const outputFile = opts.o || opts.outputFile || null;
@@ -35,6 +39,7 @@ clefairy.run(
           "  -o,--output-file: Path to the generated .md file (default stdout)",
           "  -h,--help: Print this text",
           "  --heading-offset: Increase all heading levels by the specified amount (number)",
+          "  --links-json: JSON-encoded object whose keys are link names and whose values are URLs/paths, for JSDoc `@link` tags in comments",
           "  --print-ast: Instead of generating markdown, print the AST of the input file (for debugging)",
         ].join("\n")
       );
@@ -78,10 +83,23 @@ clefairy.run(
       return;
     }
 
+    let links: Record<string, string> | undefined = undefined;
+    try {
+      if (opts.linksJson) {
+        links = JSON.parse(opts.linksJson);
+      }
+    } catch (err: any) {
+      throw new Error("JSON parse of --links-json arg failed: " + err.message);
+    }
+
     const result = await dtsmd.processSource(source, {
       fileName,
       headingOffset,
+      links,
     });
+    for (const warning of result.warnings) {
+      console.warn(kleur.yellow(warning));
+    }
 
     if (typeof outputFile === "string") {
       await fs.promises.writeFile(outputFile, result.markdown);

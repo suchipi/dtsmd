@@ -8,11 +8,13 @@ import { clampHeadingLevel } from "./heading-utils";
 export type Options = {
   fileName?: string;
   headingOffset?: number | null | undefined;
+  links?: Record<string, string>;
 };
 
 export type Result = {
   markdown: string;
   frontmatter: null | Frontmatter;
+  warnings: Array<string>;
 };
 
 function getAst(tsSource: string, fileName?: string): ee.types.File {
@@ -32,7 +34,7 @@ export function printAst(tsSource: string): string {
 
 export async function processSource(
   tsSource: string,
-  options?: Options
+  options: Options = {}
 ): Promise<Result> {
   const ast = getAst(tsSource, options?.fileName);
   const program = ast.program;
@@ -51,14 +53,24 @@ export async function processSource(
   }
 
   const headingLevel = headingOffset + (frontmatter?.parsed.title ? 2 : 1);
-  text += printNode(program, [], { headingLevel, headingPrefix: "" });
+  const warningsArray: Array<string> = [];
+
+  text += printNode(
+    program,
+    [],
+    { headingLevel, headingPrefix: "", warningsArray },
+    options
+  );
 
   const formatted = await prettier.format(text, {
     filepath: "/tmp/output.md",
   });
 
+  const dedupedWarnings = Array.from(new Set(warningsArray));
+
   return {
     frontmatter,
     markdown: formatted,
+    warnings: dedupedWarnings,
   };
 }

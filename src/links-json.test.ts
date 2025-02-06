@@ -3,12 +3,16 @@ import { test, expect } from "vitest";
 import * as dtsmd from "./index";
 import { fixturesDir } from "./test-utils";
 
-test("heading offset", async () => {
+test("--links-json", async () => {
   const fixturePath = fixturesDir.concat("sample.d.ts");
   const tsSource = await fsp.readFile(fixturePath.toString(), "utf-8");
   const result = await dtsmd.processSource(tsSource, {
     fileName: fixturePath.toString(),
     headingOffset: 2,
+    links: {
+      "this thing": "https://google.com",
+      // Note that "that thing" is omitted, which will cause a warning
+    },
   });
   expect(result.markdown).toMatchInlineSnapshot(`
     "---
@@ -41,11 +45,16 @@ test("heading offset", async () => {
 
     it's a nice function.
 
-    Go look at [this thing](#) and also [that thing](#)!
+    Go look at [this thing](https://google.com) and also [that thing](#)!
 
     \`\`\`ts
     function something(arg1: number, arg2: string): void;
     \`\`\`
     "
+  `);
+  expect(result.warnings).toMatchInlineSnapshot(`
+    [
+      "No link URL provided for "that thing"; falling back to "#"",
+    ]
   `);
 });

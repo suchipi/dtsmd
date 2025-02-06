@@ -208,7 +208,13 @@ let JSDOC_RETURNS_TAG_LINE_REPLACER: string;
   JSDOC_RETURNS_TAG_LINE_REPLACER = `${cg.leadingWhitespace}- ${cg.jsDocTag}${cg.innerWhitespace1}${cg.maybeBracedType}${cg.innerWhitespace2}`;
 }
 
-export function styleCommentStringForMarkdown(text: string) {
+const JSDOC_LINK_REGEXP = /{@link\s+([^}]+)}/g;
+
+export function styleCommentStringForMarkdown(
+  text: string,
+  links: Record<string, string>,
+  warningsArray: Array<string>
+) {
   return (
     text
       // Turn lines with leading doc comments and an identifier argument into
@@ -225,5 +231,18 @@ export function styleCommentStringForMarkdown(text: string) {
       .replace(new RegExp(`- *${EMDASH}|${EMDASH} *-`, "g"), EMDASH)
       // Wrap all doc tags in backticks (inline code)
       .replace(JSDOC_TAG_REGEXP, "`$1`")
+      // Convert @link to markdown links.
+      .replace(JSDOC_LINK_REGEXP, (substring, name) => {
+        let targetUrl: string;
+        if (links[name]) {
+          targetUrl = links[name];
+        } else {
+          warningsArray.push(
+            `No link URL provided for ${JSON.stringify(name)}; falling back to "#"`
+          );
+          targetUrl = "#";
+        }
+        return `[${name}](${targetUrl})`;
+      })
   );
 }
