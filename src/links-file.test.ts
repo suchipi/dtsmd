@@ -1,16 +1,13 @@
 import { test, expect } from "vitest";
 import { fixturesDir, rootDir, runCLI } from "./test-utils";
 
-test("--links-json", async () => {
+test("--links-file", async () => {
   const fixturePath = fixturesDir.concat("sample.d.ts");
-  const links = `{
-    "this thing": "https://google.com",
-    // Note that "that thing" is omitted, which will cause a warning
-    bareIdent: true,
-  }`;
-  const run = runCLI([fixturePath.toString(), "--links-json", links], {
-    cwd: rootDir.toString(),
-  });
+  const linksFilePath = fixturesDir.concat("links.json5");
+  const run = runCLI(
+    [fixturePath.toString(), "--links-file", linksFilePath.toString()],
+    { cwd: rootDir.toString() }
+  );
   await run.completion;
   expect(run.result).toMatchInlineSnapshot(`
     {

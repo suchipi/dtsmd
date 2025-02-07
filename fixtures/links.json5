@@ -1,0 +1,5 @@
+{
+  "this thing": "https://google.com",
+  // Note that "that thing" is omitted, which will cause a warning
+  bareIdent: true,
+}

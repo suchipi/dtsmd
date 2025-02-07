@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as clefairy from "clefairy";
 import { Path } from "nice-path";
 import kleur from "kleur";
+import JSON5 from "json5";
 import * as dtsmd from "./index";
 
 import makeDebugLog from "debug";
@@ -19,6 +20,7 @@ clefairy.run(
     help: clefairy.optionalBoolean,
     headingOffset: clefairy.optionalNumber,
     linksJson: clefairy.optionalString,
+    linksFile: clefairy.optionalPath,
   },
   async function main(opts, ...args) {
     debug("cli flags", opts);
@@ -39,7 +41,8 @@ clefairy.run(
           "  -o,--output-file: Path to the generated .md file (default stdout)",
           "  -h,--help: Print this text",
           "  --heading-offset: Increase all heading levels by the specified amount (number)",
-          "  --links-json: JSON-encoded object whose keys are link names and whose values are URLs/paths, for JSDoc `@link` tags in comments",
+          "  --links-json: JSON5-encoded object whose keys are link names and whose values are URLs/paths, for JSDoc `@link` tags in comments",
+          "  --links-file: Path to file containing JSON5-encoded object whose keys are link names and whose values are URLs/paths, for JSDoc `@link` tags in comments",
           "  --print-ast: Instead of generating markdown, print the AST of the input file (for debugging)",
         ].join("\n")
       );
@@ -84,12 +87,26 @@ clefairy.run(
     }
 
     let links: Record<string, string> | undefined = undefined;
-    try {
-      if (opts.linksJson) {
-        links = JSON.parse(opts.linksJson);
+    if (opts.linksJson && opts.linksFile) {
+      throw new Error(
+        "You can't specify both --links-json and --links-file. Choose one or the other."
+      );
+    } else if (opts.linksJson) {
+      try {
+        links = JSON5.parse(opts.linksJson);
+      } catch (err: any) {
+        throw new Error(
+          "JSON5 parse of --links-json arg failed: " + err.message
+        );
       }
-    } catch (err: any) {
-      throw new Error("JSON parse of --links-json arg failed: " + err.message);
+    } else if (opts.linksFile) {
+      debug("reading", opts.linksFile);
+      const content = fs.readFileSync(opts.linksFile, "utf-8");
+      try {
+        links = JSON5.parse(content);
+      } catch (err: any) {
+        throw new Error("JSON5 parse of --links-file failed: " + err.message);
+      }
     }
 
     const result = await dtsmd.processSource(source, {

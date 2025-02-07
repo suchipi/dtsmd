@@ -20,6 +20,7 @@
   "devDependencies": {
     "@types/debug": "^4.1.12",
     "@types/node": "^20.11.5",
+    "first-base": "^1.5.1",
     "glomp": "^3.1.1",
     "pretty-print-ast": "^1.0.1",
     "typescript": "^5.3.3",
@@ -30,6 +31,7 @@
     "clefairy": "^1.1.0",
     "debug": "^4.4.0",
     "equivalent-exchange": "^2.1.0",
+    "json5": "^2.2.3",
     "kleur": "^4.1.5",
     "nice-path": "^2.0.0",
     "prettier": "^3.4.2",
