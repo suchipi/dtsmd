@@ -247,6 +247,61 @@ export class Path {
 
 An object that represents a filesystem path.
 
+```ts
+class Path {
+  static readonly OS_SEGMENT_SEPARATOR: "/" | "\\";
+  static readonly OS_ENV_VAR_SEPARATOR: ":" | ";";
+  static readonly OS_PROGRAM_EXTENSIONS: ReadonlySet<string>;
+  static splitToSegments(inputParts: Array<string> | string): Array<string>;
+  static detectSeparator<Fallback extends string | null = string>(
+    input: Array<string> | string,
+    fallback: Fallback = Path.OS_SEGMENT_SEPARATOR,
+  ): string | Fallback;
+  static normalize(
+    ...inputs: Array<string | Path | Array<string | Path>>
+  ): Path;
+  static isAbsolute(path: string | Path): boolean;
+  segments: Array<string>;
+  separator: string;
+  constructor(...inputs: Array<string | Path | Array<string | Path>>);
+  static fromRaw(segments: Array<string>, separator?: string): Path;
+  normalize(): Path;
+  concat(...other: Array<string | Path | Array<string | Path>>): Path;
+  isAbsolute(): boolean;
+  clone(): this;
+  relativeTo(
+    dir: Path | string,
+    options?: {
+      noLeadingDot?: boolean;
+    },
+  ): Path;
+  toString(): string;
+  toJSON(): string;
+  basename(): string;
+  extname(options?: { full?: boolean }): string;
+  dirname(): Path;
+  startsWith(value: string | Path | Array<string | Path>): boolean;
+  endsWith(value: string | Path | Array<string | Path>): boolean;
+  indexOf(
+    value: string | Path | Array<string | Path>,
+    fromIndex?: number | undefined,
+  ): number;
+  includes(
+    value: string | Path | Array<string | Path>,
+    fromIndex?: number | undefined,
+  ): boolean;
+  replace(
+    value: string | Path | Array<string | Path>,
+    replacement: string | Path | Array<string | Path>,
+  ): Path;
+  replaceAll(
+    value: string | Path | Array<string | Path>,
+    replacement: string | Path | Array<string | Path>,
+  ): Path;
+  replaceLast(replacement: string | Path | Array<string | Path>): Path;
+}
+```
+
 ## Path.OS_SEGMENT_SEPARATOR (static property)
 
 The character used to separate path segments on this OS.

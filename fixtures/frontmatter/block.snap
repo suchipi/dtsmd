@@ -28,6 +28,10 @@ some-structure:
 
 ## SomethingOrOther (exported class)
 
+```ts
+class SomethingOrOther {}
+```
+
 ## OUTPUT.frontmatter: ##
 {
   "raw": "---\ntitle: My Title\nsomething-else: My Metadata\nsome-structure:\n  some-subpath: yes\n  some-list:\n  - first\n  - second\n  - third\n---",

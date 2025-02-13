@@ -75,6 +75,8 @@ export function printNode(
         outputSections.body += printLeadingDocComments(node);
       }
 
+      outputSections.codeBlock += printRaw(node);
+
       outputSections.children += node.body.body
         .map((child) =>
           printNode(
@@ -233,9 +235,11 @@ export function printNode(
       break;
     }
     case "VariableDeclaration": {
-      outputSections.children += node.declarations.map((declarator) =>
-        printNode(declarator, ancestry.concat(node), state, options)
-      );
+      outputSections.children += node.declarations
+        .map((declarator) =>
+          printNode(declarator, ancestry.concat(node), state, options)
+        )
+        .join("\n");
       break;
     }
     case "VariableDeclarator": {

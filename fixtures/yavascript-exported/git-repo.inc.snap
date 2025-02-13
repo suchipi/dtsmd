@@ -63,6 +63,18 @@ export class GitRepo {
 An object that points to a git repository on disk and provides utility
 methods for getting information from that repo.
 
+```ts
+class GitRepo {
+  static findRoot(fromPath: string | Path): Path;
+  constructor(repoDir: string | Path);
+  repoDir: Path;
+  commitSHA(): string;
+  branchName(): string | null;
+  isWorkingTreeDirty(): boolean;
+  isIgnored(path: string | Path): boolean;
+}
+```
+
 ## GitRepo.findRoot (static method)
 
 Given a path to a file or folder on disk, searches upwards through the

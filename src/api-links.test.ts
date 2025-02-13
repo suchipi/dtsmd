@@ -23,6 +23,19 @@ test("--links-json", async () => {
 
     #### SomethingOrOther (exported class)
 
+    \`\`\`ts
+    class SomethingOrOther {
+      someMethod(
+        arg1: string,
+        arg2: {
+          blah: 5;
+        },
+        ...varargs: Array<Function>
+      ): string;
+      static classMethod(): 3748239387342;
+    }
+    \`\`\`
+
     ##### SomethingOrOther.prototype.someMethod (method)
 
     This method does stuff
