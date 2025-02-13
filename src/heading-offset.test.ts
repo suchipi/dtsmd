@@ -59,6 +59,20 @@ test("heading offset", async () => {
     \`\`\`ts
     function something(arg1: number, arg2: string): void;
     \`\`\`
+
+    #### Idk (namespace)
+
+    \`\`\`ts
+    declare namespace Idk {
+      export const BLAH = 5;
+    }
+    \`\`\`
+
+    ##### Idk.BLAH (exported value)
+
+    \`\`\`ts
+    const BLAH = 5;
+    \`\`\`
     "
   `);
 });

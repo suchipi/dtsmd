@@ -23,6 +23,19 @@ test("--links-file", async () => {
 
     ## SomethingOrOther (exported class)
 
+    \`\`\`ts
+    class SomethingOrOther {
+      someMethod(
+        arg1: string,
+        arg2: {
+          blah: 5;
+        },
+        ...varargs: Array<Function>
+      ): string;
+      static classMethod(): 3748239387342;
+    }
+    \`\`\`
+
     ### SomethingOrOther.prototype.someMethod (method)
 
     This method does stuff
@@ -49,6 +62,20 @@ test("--links-file", async () => {
 
     \`\`\`ts
     function something(arg1: number, arg2: string): void;
+    \`\`\`
+
+    ## Idk (namespace)
+
+    \`\`\`ts
+    declare namespace Idk {
+      export const BLAH = 5;
+    }
+    \`\`\`
+
+    ### Idk.BLAH (exported value)
+
+    \`\`\`ts
+    const BLAH = 5;
     \`\`\`
     ",
     }

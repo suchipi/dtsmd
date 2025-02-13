@@ -404,6 +404,46 @@ export function printNode(
       );
       break;
     }
+    case "TSModuleDeclaration": {
+      const name = ee.types.isIdentifier(node.id)
+        ? node.id.name
+        : JSON.stringify(node.id.value);
+
+      const isExported = ee.types.isExportNamedDeclaration(parent);
+
+      outputSections.heading += [
+        `${name} (`,
+        isExported ? "exported " : "",
+        "namespace)",
+      ].join("");
+
+      if (ee.types.isExportNamedDeclaration(parent)) {
+        outputSections.body += printLeadingDocComments(parent);
+      } else {
+        outputSections.body += printLeadingDocComments(node);
+      }
+
+      outputSections.codeBlock += printRaw(node);
+
+      outputSections.children += printNode(
+        node.body,
+        ancestry.concat(node),
+        {
+          ...state,
+          headingLevel: state.headingLevel + 1,
+          headingPrefix: name,
+        },
+        options
+      );
+      break;
+    }
+    case "TSModuleBlock": {
+      outputSections.children += node.body
+        .map((child) => printNode(child, ancestry.concat(node), state, options))
+        .filter(Boolean)
+        .join("\n");
+      break;
+    }
   }
 
   let result = "";

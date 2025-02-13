@@ -87,6 +87,20 @@ Go look at [this thing](#) and also [that thing](#)!
 function something(arg1: number, arg2: string): void;
 ```
 
+## Idk (namespace)
+
+```ts
+declare namespace Idk {
+  export const BLAH = 5;
+}
+```
+
+### Idk.BLAH (exported value)
+
+```ts
+const BLAH = 5;
+```
+
 ## OUTPUT.frontmatter: ##
 {
   "raw": "---\ntitle: Sample Library Definitions File\n---",
