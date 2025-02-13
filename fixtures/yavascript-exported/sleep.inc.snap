@@ -50,6 +50,19 @@ var sleep: {
 };
 ```
 
+## sleep(...) (call signature)
+
+Blocks the current thread for at least the specified number of milliseconds,
+but maybe a tiny bit longer.
+
+alias for `sleep.sync`.
+
+- `@param` _milliseconds_ — The number of milliseconds to block for.
+
+```ts
+(milliseconds: number): void;
+```
+
 ## sleep.sync (method)
 
 Blocks the current thread for at least the specified number of milliseconds,

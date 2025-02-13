@@ -1340,6 +1340,158 @@ declare const types: {
 };
 
 ## OUTPUT.markdown: ##
+# TypeValidator (type)
+
+```ts
+declare type TypeValidator<T> = (value: any) => value is T;
+```
+
+# CoerceToTypeValidator (type)
+
+```ts
+declare type CoerceToTypeValidator<V extends CoerceableToTypeValidator> =
+  V extends StringConstructor
+    ? TypeValidator<string>
+    : V extends NumberConstructor
+      ? TypeValidator<number>
+      : V extends BooleanConstructor
+        ? TypeValidator<boolean>
+        : V extends BigIntConstructor
+          ? TypeValidator<BigInt>
+          : V extends SymbolConstructor
+            ? TypeValidator<Symbol>
+            : V extends RegExpConstructor
+              ? TypeValidator<RegExp>
+              : V extends ArrayConstructor
+                ? TypeValidator<Array<unknown>>
+                : V extends SetConstructor
+                  ? TypeValidator<Set<unknown>>
+                  : V extends MapConstructor
+                    ? TypeValidator<Map<unknown, unknown>>
+                    : V extends ObjectConstructor
+                      ? TypeValidator<{
+                          [key: string | number | symbol]: unknown;
+                        }>
+                      : V extends DateConstructor
+                        ? TypeValidator<Date>
+                        : V extends FunctionConstructor
+                          ? TypeValidator<Function>
+                          : V extends ArrayBufferConstructor
+                            ? TypeValidator<ArrayBuffer>
+                            : V extends SharedArrayBufferConstructor
+                              ? TypeValidator<SharedArrayBuffer>
+                              : V extends DataViewConstructor
+                                ? TypeValidator<DataView>
+                                : V extends Int8ArrayConstructor
+                                  ? TypeValidator<Int8Array>
+                                  : V extends Uint8ArrayConstructor
+                                    ? TypeValidator<Uint8Array>
+                                    : V extends Uint8ClampedArrayConstructor
+                                      ? TypeValidator<Uint8ClampedArray>
+                                      : V extends Int16ArrayConstructor
+                                        ? TypeValidator<Int16Array>
+                                        : V extends Uint16ArrayConstructor
+                                          ? TypeValidator<Uint16Array>
+                                          : V extends Int32ArrayConstructor
+                                            ? TypeValidator<Int32Array>
+                                            : V extends Uint32ArrayConstructor
+                                              ? TypeValidator<Uint32Array>
+                                              : V extends Float32ArrayConstructor
+                                                ? TypeValidator<Float32Array>
+                                                : V extends Float64ArrayConstructor
+                                                  ? TypeValidator<Float64Array>
+                                                  : V extends RegExp
+                                                    ? TypeValidator<string>
+                                                    : V extends {}
+                                                      ? TypeValidator<{
+                                                          [key in keyof V]: CoerceToTypeValidator<
+                                                            V[key]
+                                                          >;
+                                                        }>
+                                                      : V extends []
+                                                        ? TypeValidator<[]>
+                                                        : V extends [any]
+                                                          ? TypeValidator<
+                                                              Array<
+                                                                CoerceToTypeValidator<
+                                                                  V[0]
+                                                                >
+                                                              >
+                                                            >
+                                                          : V extends Array<any>
+                                                            ? TypeValidator<
+                                                                Array<unknown>
+                                                              >
+                                                            : V extends {
+                                                                  new (
+                                                                    ...args: any
+                                                                  ): any;
+                                                                }
+                                                              ? TypeValidator<
+                                                                  InstanceType<V>
+                                                                >
+                                                              : TypeValidator<V>;
+```
+
+# CoerceableToTypeValidator (type)
+
+```ts
+declare type CoerceableToTypeValidator =
+  | boolean
+  | number
+  | string
+  | bigint
+  | undefined
+  | null
+  | RegExp
+  | StringConstructor
+  | NumberConstructor
+  | BooleanConstructor
+  | BigIntConstructor
+  | SymbolConstructor
+  | RegExpConstructor
+  | ArrayConstructor
+  | SetConstructor
+  | MapConstructor
+  | ObjectConstructor
+  | DateConstructor
+  | FunctionConstructor
+  | ArrayBufferConstructor
+  | SharedArrayBufferConstructor
+  | DataViewConstructor
+  | Int8ArrayConstructor
+  | Uint8ArrayConstructor
+  | Uint8ClampedArrayConstructor
+  | Int16ArrayConstructor
+  | Uint16ArrayConstructor
+  | Int32ArrayConstructor
+  | Uint32ArrayConstructor
+  | Float32ArrayConstructor
+  | Float64ArrayConstructor
+  | {}
+  | []
+  | [any]
+  | Array<any>
+  | {
+      new (...args: any): any;
+    };
+```
+
+# UnwrapTypeFromCoerceableOrValidator (type)
+
+```ts
+declare type UnwrapTypeFromCoerceableOrValidator<
+  V extends CoerceableToTypeValidator | TypeValidator<any> | unknown,
+> =
+  V extends TypeValidator<infer T>
+    ? T
+    : V extends CoerceableToTypeValidator
+      ? CoerceToTypeValidator<V> extends TypeValidator<infer T>
+        ? T
+        : never
+      : unknown;
+```
+
 # types (object)
 
 ```ts
@@ -3046,6 +3198,60 @@ intersection: {
 };
 ```
 
+### types.intersection(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> & UnwrapTypeFromCoerceableOrValidator<Second>>;
+```
+
+### types.intersection(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> & UnwrapTypeFromCoerceableOrValidator<Second> & UnwrapTypeFromCoerceableOrValidator<Third>>;
+```
+
+### types.intersection(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> & UnwrapTypeFromCoerceableOrValidator<Second> & UnwrapTypeFromCoerceableOrValidator<Third> & UnwrapTypeFromCoerceableOrValidator<Fourth>>;
+```
+
+### types.intersection(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> & UnwrapTypeFromCoerceableOrValidator<Second> & UnwrapTypeFromCoerceableOrValidator<Third> & UnwrapTypeFromCoerceableOrValidator<Fourth> & UnwrapTypeFromCoerceableOrValidator<Fifth>>;
+```
+
+### types.intersection(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> & UnwrapTypeFromCoerceableOrValidator<Second> & UnwrapTypeFromCoerceableOrValidator<Third> & UnwrapTypeFromCoerceableOrValidator<Fourth> & UnwrapTypeFromCoerceableOrValidator<Fifth> & UnwrapTypeFromCoerceableOrValidator<Sixth>>;
+```
+
+### types.intersection(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> & UnwrapTypeFromCoerceableOrValidator<Second> & UnwrapTypeFromCoerceableOrValidator<Third> & UnwrapTypeFromCoerceableOrValidator<Fourth> & UnwrapTypeFromCoerceableOrValidator<Fifth> & UnwrapTypeFromCoerceableOrValidator<Sixth> & UnwrapTypeFromCoerceableOrValidator<Seventh>>;
+```
+
+### types.intersection(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> & UnwrapTypeFromCoerceableOrValidator<Second> & UnwrapTypeFromCoerceableOrValidator<Third> & UnwrapTypeFromCoerceableOrValidator<Fourth> & UnwrapTypeFromCoerceableOrValidator<Fifth> & UnwrapTypeFromCoerceableOrValidator<Sixth> & UnwrapTypeFromCoerceableOrValidator<Seventh> & UnwrapTypeFromCoerceableOrValidator<Eighth>>;
+```
+
+### types.intersection(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Ninth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth, ninth: Ninth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> & UnwrapTypeFromCoerceableOrValidator<Second> & UnwrapTypeFromCoerceableOrValidator<Third> & UnwrapTypeFromCoerceableOrValidator<Fourth> & UnwrapTypeFromCoerceableOrValidator<Fifth> & UnwrapTypeFromCoerceableOrValidator<Sixth> & UnwrapTypeFromCoerceableOrValidator<Seventh> & UnwrapTypeFromCoerceableOrValidator<Eighth> & UnwrapTypeFromCoerceableOrValidator<Ninth>>;
+```
+
+### types.intersection(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Ninth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Tenth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth, ninth: Ninth, tenth: Tenth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> & UnwrapTypeFromCoerceableOrValidator<Second> & UnwrapTypeFromCoerceableOrValidator<Third> & UnwrapTypeFromCoerceableOrValidator<Fourth> & UnwrapTypeFromCoerceableOrValidator<Fifth> & UnwrapTypeFromCoerceableOrValidator<Sixth> & UnwrapTypeFromCoerceableOrValidator<Seventh> & UnwrapTypeFromCoerceableOrValidator<Eighth> & UnwrapTypeFromCoerceableOrValidator<Ninth> & UnwrapTypeFromCoerceableOrValidator<Tenth>>;
+```
+
 ## types.and (function property)
 
 ```ts
@@ -3060,6 +3266,60 @@ and: {
   <First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Ninth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth, ninth: Ninth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> & UnwrapTypeFromCoerceableOrValidator<Second> & UnwrapTypeFromCoerceableOrValidator<Third> & UnwrapTypeFromCoerceableOrValidator<Fourth> & UnwrapTypeFromCoerceableOrValidator<Fifth> & UnwrapTypeFromCoerceableOrValidator<Sixth> & UnwrapTypeFromCoerceableOrValidator<Seventh> & UnwrapTypeFromCoerceableOrValidator<Eighth> & UnwrapTypeFromCoerceableOrValidator<Ninth>>;
   <First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Ninth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Tenth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth, ninth: Ninth, tenth: Tenth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> & UnwrapTypeFromCoerceableOrValidator<Second> & UnwrapTypeFromCoerceableOrValidator<Third> & UnwrapTypeFromCoerceableOrValidator<Fourth> & UnwrapTypeFromCoerceableOrValidator<Fifth> & UnwrapTypeFromCoerceableOrValidator<Sixth> & UnwrapTypeFromCoerceableOrValidator<Seventh> & UnwrapTypeFromCoerceableOrValidator<Eighth> & UnwrapTypeFromCoerceableOrValidator<Ninth> & UnwrapTypeFromCoerceableOrValidator<Tenth>>;
 };
+```
+
+### types.and(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> & UnwrapTypeFromCoerceableOrValidator<Second>>;
+```
+
+### types.and(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> & UnwrapTypeFromCoerceableOrValidator<Second> & UnwrapTypeFromCoerceableOrValidator<Third>>;
+```
+
+### types.and(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> & UnwrapTypeFromCoerceableOrValidator<Second> & UnwrapTypeFromCoerceableOrValidator<Third> & UnwrapTypeFromCoerceableOrValidator<Fourth>>;
+```
+
+### types.and(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> & UnwrapTypeFromCoerceableOrValidator<Second> & UnwrapTypeFromCoerceableOrValidator<Third> & UnwrapTypeFromCoerceableOrValidator<Fourth> & UnwrapTypeFromCoerceableOrValidator<Fifth>>;
+```
+
+### types.and(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> & UnwrapTypeFromCoerceableOrValidator<Second> & UnwrapTypeFromCoerceableOrValidator<Third> & UnwrapTypeFromCoerceableOrValidator<Fourth> & UnwrapTypeFromCoerceableOrValidator<Fifth> & UnwrapTypeFromCoerceableOrValidator<Sixth>>;
+```
+
+### types.and(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> & UnwrapTypeFromCoerceableOrValidator<Second> & UnwrapTypeFromCoerceableOrValidator<Third> & UnwrapTypeFromCoerceableOrValidator<Fourth> & UnwrapTypeFromCoerceableOrValidator<Fifth> & UnwrapTypeFromCoerceableOrValidator<Sixth> & UnwrapTypeFromCoerceableOrValidator<Seventh>>;
+```
+
+### types.and(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> & UnwrapTypeFromCoerceableOrValidator<Second> & UnwrapTypeFromCoerceableOrValidator<Third> & UnwrapTypeFromCoerceableOrValidator<Fourth> & UnwrapTypeFromCoerceableOrValidator<Fifth> & UnwrapTypeFromCoerceableOrValidator<Sixth> & UnwrapTypeFromCoerceableOrValidator<Seventh> & UnwrapTypeFromCoerceableOrValidator<Eighth>>;
+```
+
+### types.and(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Ninth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth, ninth: Ninth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> & UnwrapTypeFromCoerceableOrValidator<Second> & UnwrapTypeFromCoerceableOrValidator<Third> & UnwrapTypeFromCoerceableOrValidator<Fourth> & UnwrapTypeFromCoerceableOrValidator<Fifth> & UnwrapTypeFromCoerceableOrValidator<Sixth> & UnwrapTypeFromCoerceableOrValidator<Seventh> & UnwrapTypeFromCoerceableOrValidator<Eighth> & UnwrapTypeFromCoerceableOrValidator<Ninth>>;
+```
+
+### types.and(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Ninth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Tenth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth, ninth: Ninth, tenth: Tenth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> & UnwrapTypeFromCoerceableOrValidator<Second> & UnwrapTypeFromCoerceableOrValidator<Third> & UnwrapTypeFromCoerceableOrValidator<Fourth> & UnwrapTypeFromCoerceableOrValidator<Fifth> & UnwrapTypeFromCoerceableOrValidator<Sixth> & UnwrapTypeFromCoerceableOrValidator<Seventh> & UnwrapTypeFromCoerceableOrValidator<Eighth> & UnwrapTypeFromCoerceableOrValidator<Ninth> & UnwrapTypeFromCoerceableOrValidator<Tenth>>;
 ```
 
 ## types.union (function property)
@@ -3078,6 +3338,60 @@ union: {
 };
 ```
 
+### types.union(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> | UnwrapTypeFromCoerceableOrValidator<Second>>;
+```
+
+### types.union(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> | UnwrapTypeFromCoerceableOrValidator<Second> | UnwrapTypeFromCoerceableOrValidator<Third>>;
+```
+
+### types.union(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> | UnwrapTypeFromCoerceableOrValidator<Second> | UnwrapTypeFromCoerceableOrValidator<Third> | UnwrapTypeFromCoerceableOrValidator<Fourth>>;
+```
+
+### types.union(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> | UnwrapTypeFromCoerceableOrValidator<Second> | UnwrapTypeFromCoerceableOrValidator<Third> | UnwrapTypeFromCoerceableOrValidator<Fourth> | UnwrapTypeFromCoerceableOrValidator<Fifth>>;
+```
+
+### types.union(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> | UnwrapTypeFromCoerceableOrValidator<Second> | UnwrapTypeFromCoerceableOrValidator<Third> | UnwrapTypeFromCoerceableOrValidator<Fourth> | UnwrapTypeFromCoerceableOrValidator<Fifth> | UnwrapTypeFromCoerceableOrValidator<Sixth>>;
+```
+
+### types.union(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> | UnwrapTypeFromCoerceableOrValidator<Second> | UnwrapTypeFromCoerceableOrValidator<Third> | UnwrapTypeFromCoerceableOrValidator<Fourth> | UnwrapTypeFromCoerceableOrValidator<Fifth> | UnwrapTypeFromCoerceableOrValidator<Sixth> | UnwrapTypeFromCoerceableOrValidator<Seventh>>;
+```
+
+### types.union(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> | UnwrapTypeFromCoerceableOrValidator<Second> | UnwrapTypeFromCoerceableOrValidator<Third> | UnwrapTypeFromCoerceableOrValidator<Fourth> | UnwrapTypeFromCoerceableOrValidator<Fifth> | UnwrapTypeFromCoerceableOrValidator<Sixth> | UnwrapTypeFromCoerceableOrValidator<Seventh> | UnwrapTypeFromCoerceableOrValidator<Eighth>>;
+```
+
+### types.union(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Ninth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth, ninth: Ninth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> | UnwrapTypeFromCoerceableOrValidator<Second> | UnwrapTypeFromCoerceableOrValidator<Third> | UnwrapTypeFromCoerceableOrValidator<Fourth> | UnwrapTypeFromCoerceableOrValidator<Fifth> | UnwrapTypeFromCoerceableOrValidator<Sixth> | UnwrapTypeFromCoerceableOrValidator<Seventh> | UnwrapTypeFromCoerceableOrValidator<Eighth> | UnwrapTypeFromCoerceableOrValidator<Ninth>>;
+```
+
+### types.union(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Ninth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Tenth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth, ninth: Ninth, tenth: Tenth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> | UnwrapTypeFromCoerceableOrValidator<Second> | UnwrapTypeFromCoerceableOrValidator<Third> | UnwrapTypeFromCoerceableOrValidator<Fourth> | UnwrapTypeFromCoerceableOrValidator<Fifth> | UnwrapTypeFromCoerceableOrValidator<Sixth> | UnwrapTypeFromCoerceableOrValidator<Seventh> | UnwrapTypeFromCoerceableOrValidator<Eighth> | UnwrapTypeFromCoerceableOrValidator<Ninth> | UnwrapTypeFromCoerceableOrValidator<Tenth>>;
+```
+
 ## types.or (function property)
 
 ```ts
@@ -3092,6 +3406,60 @@ or: {
   <First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Ninth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth, ninth: Ninth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> | UnwrapTypeFromCoerceableOrValidator<Second> | UnwrapTypeFromCoerceableOrValidator<Third> | UnwrapTypeFromCoerceableOrValidator<Fourth> | UnwrapTypeFromCoerceableOrValidator<Fifth> | UnwrapTypeFromCoerceableOrValidator<Sixth> | UnwrapTypeFromCoerceableOrValidator<Seventh> | UnwrapTypeFromCoerceableOrValidator<Eighth> | UnwrapTypeFromCoerceableOrValidator<Ninth>>;
   <First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Ninth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Tenth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth, ninth: Ninth, tenth: Tenth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> | UnwrapTypeFromCoerceableOrValidator<Second> | UnwrapTypeFromCoerceableOrValidator<Third> | UnwrapTypeFromCoerceableOrValidator<Fourth> | UnwrapTypeFromCoerceableOrValidator<Fifth> | UnwrapTypeFromCoerceableOrValidator<Sixth> | UnwrapTypeFromCoerceableOrValidator<Seventh> | UnwrapTypeFromCoerceableOrValidator<Eighth> | UnwrapTypeFromCoerceableOrValidator<Ninth> | UnwrapTypeFromCoerceableOrValidator<Tenth>>;
 };
+```
+
+### types.or(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> | UnwrapTypeFromCoerceableOrValidator<Second>>;
+```
+
+### types.or(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> | UnwrapTypeFromCoerceableOrValidator<Second> | UnwrapTypeFromCoerceableOrValidator<Third>>;
+```
+
+### types.or(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> | UnwrapTypeFromCoerceableOrValidator<Second> | UnwrapTypeFromCoerceableOrValidator<Third> | UnwrapTypeFromCoerceableOrValidator<Fourth>>;
+```
+
+### types.or(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> | UnwrapTypeFromCoerceableOrValidator<Second> | UnwrapTypeFromCoerceableOrValidator<Third> | UnwrapTypeFromCoerceableOrValidator<Fourth> | UnwrapTypeFromCoerceableOrValidator<Fifth>>;
+```
+
+### types.or(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> | UnwrapTypeFromCoerceableOrValidator<Second> | UnwrapTypeFromCoerceableOrValidator<Third> | UnwrapTypeFromCoerceableOrValidator<Fourth> | UnwrapTypeFromCoerceableOrValidator<Fifth> | UnwrapTypeFromCoerceableOrValidator<Sixth>>;
+```
+
+### types.or(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> | UnwrapTypeFromCoerceableOrValidator<Second> | UnwrapTypeFromCoerceableOrValidator<Third> | UnwrapTypeFromCoerceableOrValidator<Fourth> | UnwrapTypeFromCoerceableOrValidator<Fifth> | UnwrapTypeFromCoerceableOrValidator<Sixth> | UnwrapTypeFromCoerceableOrValidator<Seventh>>;
+```
+
+### types.or(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> | UnwrapTypeFromCoerceableOrValidator<Second> | UnwrapTypeFromCoerceableOrValidator<Third> | UnwrapTypeFromCoerceableOrValidator<Fourth> | UnwrapTypeFromCoerceableOrValidator<Fifth> | UnwrapTypeFromCoerceableOrValidator<Sixth> | UnwrapTypeFromCoerceableOrValidator<Seventh> | UnwrapTypeFromCoerceableOrValidator<Eighth>>;
+```
+
+### types.or(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Ninth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth, ninth: Ninth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> | UnwrapTypeFromCoerceableOrValidator<Second> | UnwrapTypeFromCoerceableOrValidator<Third> | UnwrapTypeFromCoerceableOrValidator<Fourth> | UnwrapTypeFromCoerceableOrValidator<Fifth> | UnwrapTypeFromCoerceableOrValidator<Sixth> | UnwrapTypeFromCoerceableOrValidator<Seventh> | UnwrapTypeFromCoerceableOrValidator<Eighth> | UnwrapTypeFromCoerceableOrValidator<Ninth>>;
+```
+
+### types.or(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Ninth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Tenth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth, ninth: Ninth, tenth: Tenth): TypeValidator<UnwrapTypeFromCoerceableOrValidator<First> | UnwrapTypeFromCoerceableOrValidator<Second> | UnwrapTypeFromCoerceableOrValidator<Third> | UnwrapTypeFromCoerceableOrValidator<Fourth> | UnwrapTypeFromCoerceableOrValidator<Fifth> | UnwrapTypeFromCoerceableOrValidator<Sixth> | UnwrapTypeFromCoerceableOrValidator<Seventh> | UnwrapTypeFromCoerceableOrValidator<Eighth> | UnwrapTypeFromCoerceableOrValidator<Ninth> | UnwrapTypeFromCoerceableOrValidator<Tenth>>;
 ```
 
 ## types.mapOf (method)
@@ -3162,6 +3530,60 @@ tuple: {
   <First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Ninth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth, ninth: Ninth): TypeValidator<[UnwrapTypeFromCoerceableOrValidator<First>, UnwrapTypeFromCoerceableOrValidator<Second>, UnwrapTypeFromCoerceableOrValidator<Third>, UnwrapTypeFromCoerceableOrValidator<Fourth>, UnwrapTypeFromCoerceableOrValidator<Fifth>, UnwrapTypeFromCoerceableOrValidator<Sixth>, UnwrapTypeFromCoerceableOrValidator<Seventh>, UnwrapTypeFromCoerceableOrValidator<Eighth>, UnwrapTypeFromCoerceableOrValidator<Ninth>]>;
   <First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Ninth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Tenth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth, ninth: Ninth, tenth: Tenth): TypeValidator<[UnwrapTypeFromCoerceableOrValidator<First>, UnwrapTypeFromCoerceableOrValidator<Second>, UnwrapTypeFromCoerceableOrValidator<Third>, UnwrapTypeFromCoerceableOrValidator<Fourth>, UnwrapTypeFromCoerceableOrValidator<Fifth>, UnwrapTypeFromCoerceableOrValidator<Sixth>, UnwrapTypeFromCoerceableOrValidator<Seventh>, UnwrapTypeFromCoerceableOrValidator<Eighth>, UnwrapTypeFromCoerceableOrValidator<Ninth>, UnwrapTypeFromCoerceableOrValidator<Tenth>]>;
 };
+```
+
+### types.tuple(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second): TypeValidator<[UnwrapTypeFromCoerceableOrValidator<First>, UnwrapTypeFromCoerceableOrValidator<Second>]>;
+```
+
+### types.tuple(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third): TypeValidator<[UnwrapTypeFromCoerceableOrValidator<First>, UnwrapTypeFromCoerceableOrValidator<Second>, UnwrapTypeFromCoerceableOrValidator<Third>]>;
+```
+
+### types.tuple(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth): TypeValidator<[UnwrapTypeFromCoerceableOrValidator<First>, UnwrapTypeFromCoerceableOrValidator<Second>, UnwrapTypeFromCoerceableOrValidator<Third>, UnwrapTypeFromCoerceableOrValidator<Fourth>]>;
+```
+
+### types.tuple(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth): TypeValidator<[UnwrapTypeFromCoerceableOrValidator<First>, UnwrapTypeFromCoerceableOrValidator<Second>, UnwrapTypeFromCoerceableOrValidator<Third>, UnwrapTypeFromCoerceableOrValidator<Fourth>, UnwrapTypeFromCoerceableOrValidator<Fifth>]>;
+```
+
+### types.tuple(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth): TypeValidator<[UnwrapTypeFromCoerceableOrValidator<First>, UnwrapTypeFromCoerceableOrValidator<Second>, UnwrapTypeFromCoerceableOrValidator<Third>, UnwrapTypeFromCoerceableOrValidator<Fourth>, UnwrapTypeFromCoerceableOrValidator<Fifth>, UnwrapTypeFromCoerceableOrValidator<Sixth>]>;
+```
+
+### types.tuple(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh): TypeValidator<[UnwrapTypeFromCoerceableOrValidator<First>, UnwrapTypeFromCoerceableOrValidator<Second>, UnwrapTypeFromCoerceableOrValidator<Third>, UnwrapTypeFromCoerceableOrValidator<Fourth>, UnwrapTypeFromCoerceableOrValidator<Fifth>, UnwrapTypeFromCoerceableOrValidator<Sixth>, UnwrapTypeFromCoerceableOrValidator<Seventh>]>;
+```
+
+### types.tuple(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth): TypeValidator<[UnwrapTypeFromCoerceableOrValidator<First>, UnwrapTypeFromCoerceableOrValidator<Second>, UnwrapTypeFromCoerceableOrValidator<Third>, UnwrapTypeFromCoerceableOrValidator<Fourth>, UnwrapTypeFromCoerceableOrValidator<Fifth>, UnwrapTypeFromCoerceableOrValidator<Sixth>, UnwrapTypeFromCoerceableOrValidator<Seventh>, UnwrapTypeFromCoerceableOrValidator<Eighth>]>;
+```
+
+### types.tuple(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Ninth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth, ninth: Ninth): TypeValidator<[UnwrapTypeFromCoerceableOrValidator<First>, UnwrapTypeFromCoerceableOrValidator<Second>, UnwrapTypeFromCoerceableOrValidator<Third>, UnwrapTypeFromCoerceableOrValidator<Fourth>, UnwrapTypeFromCoerceableOrValidator<Fifth>, UnwrapTypeFromCoerceableOrValidator<Sixth>, UnwrapTypeFromCoerceableOrValidator<Seventh>, UnwrapTypeFromCoerceableOrValidator<Eighth>, UnwrapTypeFromCoerceableOrValidator<Ninth>]>;
+```
+
+### types.tuple(...) (call signature)
+
+```ts
+<First extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Second extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Third extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fourth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Fifth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Sixth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Seventh extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Eighth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Ninth extends TypeValidator<any> | CoerceableToTypeValidator | unknown, Tenth extends TypeValidator<any> | CoerceableToTypeValidator | unknown>(first: First, second: Second, third: Third, fourth: Fourth, fifth: Fifth, sixth: Sixth, seventh: Seventh, eighth: Eighth, ninth: Ninth, tenth: Tenth): TypeValidator<[UnwrapTypeFromCoerceableOrValidator<First>, UnwrapTypeFromCoerceableOrValidator<Second>, UnwrapTypeFromCoerceableOrValidator<Third>, UnwrapTypeFromCoerceableOrValidator<Fourth>, UnwrapTypeFromCoerceableOrValidator<Fifth>, UnwrapTypeFromCoerceableOrValidator<Sixth>, UnwrapTypeFromCoerceableOrValidator<Seventh>, UnwrapTypeFromCoerceableOrValidator<Eighth>, UnwrapTypeFromCoerceableOrValidator<Ninth>, UnwrapTypeFromCoerceableOrValidator<Tenth>]>;
 ```
 
 ## types.coerce (function property)

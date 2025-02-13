@@ -45,6 +45,17 @@ const assert: {
 };
 ```
 
+## assert(...) (call signature)
+
+Throws an error if `value` is not truthy.
+
+- `@param` _value_ — The value to test for truthiness
+- `@param` _message_ — An optional error message to use. If unspecified, "Assertion failed" will be used.
+
+```ts
+<ValueType>(value: ValueType, message?: string): asserts value is ValueType extends null | undefined | false | 0 | "" ? never : ValueType;
+```
+
 ## assert.type (function property)
 
 Throws an error if `value` is not of the type `type`.

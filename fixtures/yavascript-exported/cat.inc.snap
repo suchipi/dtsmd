@@ -57,6 +57,42 @@ const cat: {
 };
 ```
 
+## cat(...) (call signature)
+
+Read the contents of one or more files from disk, as one UTF-8 string.
+
+```ts
+(paths: string | Path | Array<string | Path>): string;
+```
+
+## cat(...) (call signature)
+
+Read the contents of one or more files from disk, as one UTF-8 string.
+
+```ts
+(paths: string | Path | Array<string | Path>, options: {}): string;
+```
+
+## cat(...) (call signature)
+
+Read the contents of one or more files from disk, as one UTF-8 string.
+
+```ts
+(paths: string | Path | Array<string | Path>, options: {
+  binary: false;
+}): string;
+```
+
+## cat(...) (call signature)
+
+Read the contents of one or more files from disk, as one ArrayBuffer.
+
+```ts
+(paths: string | Path | Array<string | Path>, options: {
+  binary: true;
+}): ArrayBuffer;
+```
+
 ## OUTPUT.frontmatter: ##
 null
 ## OUTPUT.warnings: ##

@@ -57,6 +57,14 @@ const startRepl: {
 };
 ```
 
+## startRepl(...) (call signature)
+
+```ts
+(context?: {
+  [key: string]: any;
+}, lang?: "js" | "javascript" | "ts" | "typescript" | "jsx" | "tsx" | "coffee" | "coffeescript" | "civet"): void;
+```
+
 ## startRepl.NOTHING (symbol property)
 
 A special value; when expressions result in this value, the repl will

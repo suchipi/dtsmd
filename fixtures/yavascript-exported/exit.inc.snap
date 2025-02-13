@@ -36,6 +36,12 @@ const exit: {
 };
 ```
 
+## exit(...) (call signature)
+
+```ts
+(code?: number): never;
+```
+
 ## exit.code (number property)
 
 ```ts

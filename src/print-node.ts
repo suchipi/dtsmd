@@ -32,7 +32,7 @@ export function printNode(
     heading: "",
     body: "",
     codeBlock: "",
-    postCodeBlockBody: "",
+    children: "",
   };
   let dotAfterHeadingPrefix = true;
 
@@ -43,7 +43,7 @@ export function printNode(
     case "Program": {
       const statements = node.body;
 
-      outputSections.body += statements
+      outputSections.children += statements
         .map((statement) =>
           printNode(statement, ancestry.concat(node), state, options)
         )
@@ -53,7 +53,7 @@ export function printNode(
     }
     case "ExportNamedDeclaration": {
       if (node.declaration) {
-        outputSections.body += printNode(
+        outputSections.children += printNode(
           node.declaration,
           ancestry.concat(node),
           state,
@@ -75,7 +75,7 @@ export function printNode(
         outputSections.body += printLeadingDocComments(node);
       }
 
-      outputSections.body += node.body.body
+      outputSections.children += node.body.body
         .map((child) =>
           printNode(
             child,
@@ -163,6 +163,20 @@ export function printNode(
       }
       break;
     }
+    case "TSCallSignatureDeclaration": {
+      outputSections.heading += "(...) (call signature)";
+      dotAfterHeadingPrefix = false;
+      outputSections.body += printLeadingDocComments(node);
+      outputSections.codeBlock += printRaw(node);
+      break;
+    }
+    case "TSConstructSignatureDeclaration": {
+      outputSections.heading += " new(...) (construct signature)";
+      dotAfterHeadingPrefix = false;
+      outputSections.body += printLeadingDocComments(node);
+      outputSections.codeBlock += printRaw(node);
+      break;
+    }
     case "ClassProperty": {
       if (!node.computed && ee.types.isIdentifier(node.key)) {
         const name = node.key.name;
@@ -204,7 +218,7 @@ export function printNode(
           ee.types.isTSTypeAnnotation(node.typeAnnotation) &&
           ee.types.isTSTypeLiteral(node.typeAnnotation.typeAnnotation)
         ) {
-          outputSections.postCodeBlockBody += printNode(
+          outputSections.children += printNode(
             node.typeAnnotation.typeAnnotation,
             ancestry.concat([node, node.typeAnnotation]),
             {
@@ -219,7 +233,7 @@ export function printNode(
       break;
     }
     case "VariableDeclaration": {
-      outputSections.body += node.declarations.map((declarator) =>
+      outputSections.children += node.declarations.map((declarator) =>
         printNode(declarator, ancestry.concat(node), state, options)
       );
       break;
@@ -268,7 +282,7 @@ export function printNode(
           ee.types.isTSTypeLiteral(node.id.typeAnnotation.typeAnnotation)
         ) {
           const literal = node.id.typeAnnotation.typeAnnotation;
-          outputSections.postCodeBlockBody += printNode(
+          outputSections.children += printNode(
             literal,
             ancestry.concat([
               node,
@@ -310,12 +324,80 @@ export function printNode(
       break;
     }
     case "TSTypeLiteral": {
-      outputSections.body += node.members
+      outputSections.children += node.members
         .map((member) =>
           printNode(member, ancestry.concat([node]), state, options)
         )
         .join("\n");
 
+      break;
+    }
+    case "TSInterfaceDeclaration": {
+      const name = node.id.name;
+      const isExported = ee.types.isExportNamedDeclaration(parent);
+
+      outputSections.heading += [
+        `${name} (`,
+        isExported ? "exported " : "",
+        "interface)",
+      ].join("");
+
+      if (ee.types.isExportNamedDeclaration(parent)) {
+        outputSections.body += printLeadingDocComments(parent);
+      } else {
+        outputSections.body += printLeadingDocComments(node);
+      }
+
+      outputSections.codeBlock += printRaw(node);
+
+      outputSections.children += printNode(
+        node.body,
+        ancestry.concat(node),
+        {
+          ...state,
+          headingLevel: state.headingLevel + 1,
+          headingPrefix: name,
+        },
+        options
+      );
+      break;
+    }
+    case "TSInterfaceBody": {
+      outputSections.children += node.body
+        .map((member) =>
+          printNode(member, ancestry.concat(node), state, options)
+        )
+        .join("\n");
+      break;
+    }
+    case "TSTypeAliasDeclaration": {
+      const name = node.id.name;
+      const isExported = ee.types.isExportNamedDeclaration(parent);
+
+      outputSections.heading += [
+        `${name} (`,
+        isExported ? "exported " : "",
+        "type)",
+      ].join("");
+
+      if (ee.types.isExportNamedDeclaration(parent)) {
+        outputSections.body += printLeadingDocComments(parent);
+      } else {
+        outputSections.body += printLeadingDocComments(node);
+      }
+
+      outputSections.codeBlock += printRaw(node);
+
+      outputSections.children += printNode(
+        node.typeAnnotation,
+        ancestry.concat([node]),
+        {
+          ...state,
+          headingLevel: state.headingLevel + 1,
+          headingPrefix: name,
+        },
+        options
+      );
       break;
     }
   }
@@ -331,8 +413,8 @@ export function printNode(
   if (outputSections.codeBlock.length > 0) {
     result += `\`\`\`ts\n${outputSections.codeBlock.trimEnd()}\n\`\`\`\n`;
   }
-  if (outputSections.postCodeBlockBody.length > 0) {
-    result += outputSections.postCodeBlockBody + "\n";
+  if (outputSections.children.length > 0) {
+    result += outputSections.children + "\n";
   }
 
   return result;

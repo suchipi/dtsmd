@@ -19,7 +19,25 @@ Clear the contents and scrollback buffer of the tty by printing special characte
 declare function clear(): void;
 ```
 
+# Console (interface)
+
+```ts
+interface Console {
+  clear: typeof clear;
+}
+```
+
+## Console.clear (property)
+
+Same as [clear](#)().
+
+```ts
+clear: typeof clear;
+```
+
 ## OUTPUT.frontmatter: ##
 null
 ## OUTPUT.warnings: ##
-[]
+[
+  "No link URL provided for \"clear\"; falling back to \"#\""
+]
