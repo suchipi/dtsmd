@@ -18,7 +18,10 @@ Options:
   -o,--output-file: Path to the generated .md file (default stdout)
   -h,--help: Print this text
   --heading-offset: Increase all heading levels by the specified amount (number)
+  --links-json: JSON5-encoded object whose keys are link names and whose values are URLs/paths, for JSDoc `@link` tags in comments
+  --links-file: Path to file containing JSON5-encoded object whose keys are link names and whose values are URLs/paths, for JSDoc `@link` tags in comments
   --print-ast: Instead of generating markdown, print the AST of the input file (for debugging)
+
 ```
 
 A Markdown document will be printed with headings for all the declarations/exports in the `.d.ts` file, with any leading doc comments (inline comments starting with `/**`) printed under each heading.
@@ -124,14 +127,20 @@ $ npx dtsmd with-frontmatter.d.ts
 
 Will print:
 
-```md
-TODO THIS DOESN'T WORK AS EXPECTED
+````md
+# something (exported string)
+
+I just think it's neat.
+
+```ts
+const something: string;
 ```
+````
 
 ## Usage (Node API)
 
 ```js
-import * as dtsmd from "@suchipi/dtsmd";
+const dtsmd = require("@suchipi/dtsmd");
 
 const myDts = `
 // ---
@@ -144,24 +153,33 @@ const myDts = `
 export const something: string;
 `;
 
-const result = await dtsmd.processSource(myDts, {
-  fileName: "/tmp/myfile.d.ts",
-  headingOffset: 0, // optional; defaults to 0
-});
-// type of result is:
-// {
-//   frontmatter: null | { raw: string, parsed: { [key: string]: any },
-//   markdown: string
-// }
+dtsmd
+  .processSource(myDts, {
+    fileName: "/tmp/myfile.d.ts",
+    headingOffset: 0, // optional; defaults to 0
+  })
+  .then((result) => {
+    // type of result is:
+    // {
+    //   frontmatter: null | { raw: string, parsed: { [key: string]: any },
+    //   markdown: string
+    // }
 
-console.log(result.markdown);
+    console.log(result.markdown);
+  });
 ```
 
 The above script will print:
 
-```md
-TODO THIS DOESN'T WORK AS EXPECTED
+````md
+# something (exported string)
+
+I just think it's neat.
+
+```ts
+const something: string;
 ```
+````
 
 ## License
 
