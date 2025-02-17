@@ -1,7 +1,7 @@
 - [x] Handle type declarations and interfaces
 - [ ] Review all the tests and make sure their output looks right. I know some are wrong.
-- [-] Finish README (fill in command output in the corresponding places)
-- [-] Fix frontmatter stuff being broken (visible in readme)
+- [x] Finish README (fill in command output in the corresponding places)
+- [x] Fix frontmatter stuff being broken (visible in readme)
   - [x] Case where line comments preceding doc comment fails
-  - [ ] Case where line comment preceding different line comment fails
+  - [x] Case where line comment preceding different line comment fails
 

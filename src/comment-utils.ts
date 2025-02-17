@@ -22,11 +22,20 @@ export function parseComments(
     switch (comment.type) {
       case "CommentLine": {
         const lineComments = [comment];
+
+        let lastLine = comment.loc!.start.line;
         let nextComment = comments[i + 1];
-        while (nextComment?.type === "CommentLine") {
+        let nextLine = nextComment?.loc!.start.line;
+        while (
+          nextComment &&
+          nextComment.type === "CommentLine" &&
+          nextLine - lastLine === 1
+        ) {
           lineComments.push(nextComment);
           i++;
+          lastLine = nextLine;
           nextComment = comments[i + 1];
+          nextLine = nextComment?.loc!.start.line;
         }
         result.push({
           kind: CommentKind.Line,

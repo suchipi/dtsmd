@@ -43,8 +43,11 @@ describe("parseComments", () => {
           "kind": "Line",
           "text": " five
        six
-       seven eight
-       nine ten
+       seven eight",
+        },
+        {
+          "kind": "Line",
+          "text": " nine ten
        eleven",
         },
       ]
