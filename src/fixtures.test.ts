@@ -13,20 +13,21 @@ for (const fixture of fixtures) {
   const relName = new Path(fixture).relativeTo(rootDir).toString();
   const snapshotPath = new Path(fixture)
     .dirname()
-    .concat(new Path(fixture).basename().replace(/\.d\.ts$/, ".snap"));
+    .concat(new Path(fixture).basename().replace(/\.d\.ts$/, ".snap.md"));
 
   test(relName, async () => {
     const content = await fsp.readFile(fixture, "utf-8");
     const result = await dtsmd.processSource(content);
-    expect(`
-## INPUT: ##
+    expect(`<!-- INPUT:
 ${content}
-## OUTPUT.markdown: ##
+-->
 ${result.markdown}
-## OUTPUT.frontmatter: ##
+<!-- OUTPUT.frontmatter:
 ${JSON.stringify(result.frontmatter, null, 2)}
-## OUTPUT.warnings: ##
+-->
+<!-- OUTPUT.warnings:
 ${JSON.stringify(result.warnings, null, 2)}
+-->
 `).toMatchFileSnapshot(snapshotPath.toString());
   });
 }
