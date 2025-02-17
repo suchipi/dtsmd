@@ -100,8 +100,9 @@ clefairy.run(
         );
       }
     } else if (opts.linksFile) {
-      debug("reading", opts.linksFile);
-      const content = fs.readFileSync(opts.linksFile, "utf-8");
+      const linkFileStr = opts.linksFile.toString();
+      debug("reading", linkFileStr);
+      const content = fs.readFileSync(linkFileStr, "utf-8");
       try {
         links = JSON5.parse(content);
       } catch (err: any) {
