@@ -1,6 +1,6 @@
 {
   "name": "@suchipi/dtsmd",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Generate Markdown from Typescript .d.ts file",
   "main": "dist/index.js",
   "bin": {
@@ -37,5 +37,8 @@
     "nice-path": "^3.0.0",
     "prettier": "^3.5.1",
     "yaml": "^2.7.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
