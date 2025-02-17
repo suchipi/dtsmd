@@ -5,6 +5,7 @@ import {
   commentsToString,
   CommentKind,
   styleCommentStringForMarkdown,
+  ParsedComment,
 } from "./comment-utils";
 import { normalizeIndentation } from "./normalize-indentation";
 import { clampHeadingLevel } from "./heading-utils";
@@ -43,12 +44,17 @@ export function printNode(
     case "Program": {
       const statements = node.body;
 
-      outputSections.children += statements
-        .map((statement) =>
-          printNode(statement, ancestry.concat(node), state, options)
-        )
-        .filter(Boolean)
-        .join("\n");
+      if (statements.length === 0) {
+        outputSections.body += printInnerDocComments(node);
+      } else {
+        outputSections.children += statements
+          .map((statement) =>
+            printNode(statement, ancestry.concat(node), state, options)
+          )
+          .filter(Boolean)
+          .join("\n");
+      }
+
       break;
     }
     case "ExportNamedDeclaration": {
@@ -468,18 +474,33 @@ export function printNode(
       const parsedComments = parseComments(targetNode.leadingComments).filter(
         (comment) => comment.kind === CommentKind.Doc
       );
-      if (parsedComments.length > 0) {
-        return (
-          normalizeIndentation(
-            styleCommentStringForMarkdown(
-              commentsToString(parsedComments),
-              options.links || {},
-              state.warningsArray
-            ),
-            normalizeOpts
-          ) + "\n"
-        );
-      }
+      return printParsedComments(parsedComments);
+    }
+    return "";
+  }
+
+  function printInnerDocComments(targetNode: ee.types.Node) {
+    if (targetNode.innerComments && targetNode.innerComments.length > 0) {
+      const parsedComments = parseComments(targetNode.innerComments).filter(
+        (comment) => comment.kind === CommentKind.Doc
+      );
+      return printParsedComments(parsedComments);
+    }
+    return "";
+  }
+
+  function printParsedComments(parsedComments: Array<ParsedComment>) {
+    if (parsedComments.length > 0) {
+      return (
+        normalizeIndentation(
+          styleCommentStringForMarkdown(
+            commentsToString(parsedComments),
+            options.links || {},
+            state.warningsArray
+          ),
+          normalizeOpts
+        ) + "\n"
+      );
     }
     return "";
   }
