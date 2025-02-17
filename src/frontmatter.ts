@@ -9,34 +9,38 @@ export type Frontmatter = {
 
 export function getFrontmatter(ast: ee.types.Program): null | Frontmatter {
   const statements = ast.body;
-  let removeFirstComment: () => void;
+  let getFirstComments: null | (() => Array<ee.types.Comment>) = null;
+  let setFirstComments: null | ((value: Array<ee.types.Comment>) => void) =
+    null;
 
-  let firstComments: Array<ee.types.Comment> = [];
   if (statements.length === 0) {
     if (ast.innerComments && ast.innerComments.length > 0) {
-      firstComments.push(...ast.innerComments);
+      getFirstComments = () => ast.innerComments!;
+      setFirstComments = (value) => (ast.innerComments = value);
     }
-    removeFirstComment = () => {
-      ast.innerComments = [];
-    };
   } else {
     const firstStatement = statements[0];
     if (
       firstStatement.leadingComments &&
       firstStatement.leadingComments.length > 0
     ) {
-      firstComments.push(...firstStatement.leadingComments);
+      getFirstComments = () => firstStatement.leadingComments!;
+      setFirstComments = (value) => (firstStatement.leadingComments = value);
     }
-    removeFirstComment = () => {
-      firstStatement.leadingComments = [];
-    };
   }
 
-  if (firstComments.length === 0) {
+  if (getFirstComments == null) {
+    return null;
+  }
+  const firstComments = getFirstComments();
+  const parsedComments = parseComments(firstComments);
+  const firstParsedComment = parsedComments[0];
+
+  if (firstParsedComment == null) {
     return null;
   }
 
-  const values = commentsToString(parseComments(firstComments));
+  const values = commentsToString([firstParsedComment]);
 
   const valuesTrim = values.trim();
   if (/^---[\r\n]/.test(valuesTrim) && /[\r\n]---$/.test(valuesTrim)) {
@@ -45,7 +49,7 @@ export function getFrontmatter(ast: ee.types.Program): null | Frontmatter {
     const parsed = YAML.parse(withoutDashes);
 
     // Remove so print-node doesn't re-print it
-    removeFirstComment();
+    setFirstComments!(firstComments.slice(1));
 
     return {
       raw: values,

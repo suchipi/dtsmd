@@ -1,6 +1,6 @@
-import * as ee from "equivalent-exchange";
 import * as prettier from "prettier";
 import { formatAst } from "pretty-print-ast";
+import { getAst } from "./get-ast";
 import { type Frontmatter, getFrontmatter } from "./frontmatter";
 import { printNode } from "./print-node";
 import { clampHeadingLevel } from "./heading-utils";
@@ -16,16 +16,6 @@ export type Result = {
   frontmatter: null | Frontmatter;
   warnings: Array<string>;
 };
-
-function getAst(tsSource: string, fileName?: string): ee.types.File {
-  const ast = ee.parse(tsSource, {
-    typeSyntax: "typescript-dts",
-    jsxEnabled: true,
-    fileName: fileName,
-  });
-  ee.types.assertFile(ast);
-  return ast;
-}
 
 export function printAst(tsSource: string): string {
   const ast = getAst(tsSource);

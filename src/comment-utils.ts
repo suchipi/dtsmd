@@ -17,10 +17,21 @@ export function parseComments(
 ): Array<ParsedComment> {
   const result: Array<ParsedComment> = [];
 
-  for (const comment of comments) {
+  for (let i = 0; i < comments.length; i++) {
+    const comment = comments[i];
     switch (comment.type) {
       case "CommentLine": {
-        result.push({ kind: CommentKind.Line, text: comment.value });
+        const lineComments = [comment];
+        let nextComment = comments[i + 1];
+        while (nextComment?.type === "CommentLine") {
+          lineComments.push(nextComment);
+          i++;
+          nextComment = comments[i + 1];
+        }
+        result.push({
+          kind: CommentKind.Line,
+          text: lineComments.map((lineComment) => lineComment.value).join("\n"),
+        });
         break;
       }
       case "CommentBlock": {
@@ -107,7 +118,7 @@ const jsDocTags = [
   "@kind",
   "@lends",
   "@license",
-  // Commenting out @link as we're gonna want specific handling for that one
+  // Commenting out @link as we do specific handling for that one
   // "@link",
   "@listens",
   "@memberof",

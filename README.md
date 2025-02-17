@@ -128,7 +128,13 @@ $ npx dtsmd with-frontmatter.d.ts
 Will print:
 
 ````md
-# something (exported string)
+---
+title: "My Library"
+---
+
+# My Library
+
+## something (exported string)
 
 I just think it's neat.
 
@@ -172,7 +178,13 @@ dtsmd
 The above script will print:
 
 ````md
-# something (exported string)
+---
+title: "My Library"
+---
+
+# My Library
+
+## something (exported string)
 
 I just think it's neat.
 
