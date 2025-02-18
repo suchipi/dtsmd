@@ -8,7 +8,7 @@ declare const null_: TypeValidator<null>;
 export { null_ as null };
 
 -->
-# null\_ (value)
+# null (exported value)
 
 [TypeValidator](#) which returns true for the value `null`.
 

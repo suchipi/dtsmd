@@ -27,13 +27,12 @@ export async function processSource(
   options: Options = {}
 ): Promise<Result> {
   const ast = getAst(tsSource, options?.fileName);
-  const program = ast.program;
 
   let text = "";
 
   const headingOffset = options?.headingOffset ?? 0;
 
-  const frontmatter = getFrontmatter(program);
+  const frontmatter = getFrontmatter(ast);
   if (frontmatter) {
     text += frontmatter.raw + "\n";
 
@@ -46,9 +45,9 @@ export async function processSource(
   const warningsArray: Array<string> = [];
 
   text += printNode(
-    program,
+    ast,
     [],
-    { headingLevel, headingPrefix: "", warningsArray },
+    { headingLevel, headingPrefix: "", warningsArray, exportedNames: {} },
     options
   );
 

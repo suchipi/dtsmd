@@ -12,6 +12,7 @@ import { clampHeadingLevel } from "./heading-utils";
 import type { Options } from ".";
 
 import makeDebugLog from "debug";
+import { findExportedNames } from "./find-exported-names";
 const debug = makeDebugLog("@suchipi/dtsmd:print-node");
 
 const normalizeOpts = {
@@ -26,6 +27,7 @@ export function printNode(
     headingLevel: number;
     headingPrefix: string;
     warningsArray: Array<string>;
+    exportedNames: { [localName: string]: string };
   },
   options: Options
 ): string {
@@ -41,6 +43,18 @@ export function printNode(
 
   debug("visiting", node.type);
   switch (node.type) {
+    case "File": {
+      outputSections.children += printNode(
+        node.program,
+        ancestry.concat(node),
+        {
+          ...state,
+          exportedNames: findExportedNames(node.program),
+        },
+        options
+      );
+      break;
+    }
     case "Program": {
       const statements = node.body;
 
@@ -71,9 +85,15 @@ export function printNode(
     case "ClassDeclaration": {
       // I don't think it's actually possible for id to be null/undefined here
       const name = node.id?.name ?? "unnamed class";
-      // Naïve check; doesn't work when exported from separate statement
-      const isExported = ee.types.isExportNamedDeclaration(parent);
-      outputSections.heading += `${name} (${isExported ? "exported " : ""}class)`;
+      const { isExported, reExportedName } = getExportStatus(name);
+
+      outputSections.heading += [
+        reExportedName || name,
+        " (",
+        isExported ? "exported " : "",
+        "class",
+        ")",
+      ].join("");
 
       if (ee.types.isExportNamedDeclaration(parent)) {
         outputSections.body += printLeadingDocComments(parent);
@@ -102,15 +122,16 @@ export function printNode(
     }
     case "TSDeclareFunction": {
       const name = node.id?.name ?? "unnamed function";
-      // Naïve check; doesn't work when exported from separate statement
-      const isExported = ee.types.isExportNamedDeclaration(parent);
+      const { isExported, reExportedName } = getExportStatus(name);
+
       outputSections.heading += [
-        name,
+        reExportedName || name,
         " (",
         isExported ? "exported " : "",
         node.async ? "async " : "",
         node.generator ? "generator " : "",
-        "function)\n",
+        "function",
+        ")\n",
       ].join("");
 
       if (ee.types.isExportNamedDeclaration(parent)) {
@@ -205,41 +226,6 @@ export function printNode(
       }
       break;
     }
-    case "TSPropertySignature": {
-      if (!node.computed && ee.types.isIdentifier(node.key)) {
-        const name = node.key.name;
-        const typeName = node.typeAnnotation
-          ? getShortType(node.typeAnnotation)
-          : null;
-        outputSections.heading += [
-          name,
-          " (",
-          typeName ? typeName + " " : "",
-          "property)",
-        ].join("");
-
-        outputSections.body += printLeadingDocComments(node);
-        outputSections.codeBlock += printRaw(node);
-
-        if (
-          node.typeAnnotation &&
-          ee.types.isTSTypeAnnotation(node.typeAnnotation) &&
-          ee.types.isTSTypeLiteral(node.typeAnnotation.typeAnnotation)
-        ) {
-          outputSections.children += printNode(
-            node.typeAnnotation.typeAnnotation,
-            ancestry.concat([node, node.typeAnnotation]),
-            {
-              ...state,
-              headingLevel: state.headingLevel + 1,
-              headingPrefix: state.headingPrefix + "." + name,
-            },
-            options
-          );
-        }
-      }
-      break;
-    }
     case "VariableDeclaration": {
       outputSections.children += node.declarations
         .map((declarator) =>
@@ -254,14 +240,14 @@ export function printNode(
 
       if (ee.types.isIdentifier(node.id)) {
         const name = node.id.name;
-        // Naïve check; doesn't work when exported from separate statement
-        const isExported = ee.types.isExportNamedDeclaration(grandParent);
+        const { isExported, reExportedName } = getExportStatus(name);
         const typeName = node.id.typeAnnotation
           ? getShortType(node.id.typeAnnotation)
           : null;
 
         outputSections.heading += [
-          `${name} (`,
+          reExportedName || name,
+          " (",
           isExported ? "exported " : "",
           typeName ?? "value",
           ")",
@@ -325,11 +311,29 @@ export function printNode(
         " (",
         node.readonly ? "readonly " : "",
         typeName ? typeName + " " : "",
-        node.kind.length === 3 /* get/set */ ? node.kind + "ter " : "property",
+        node.kind?.length === 3 /* get/set */ ? node.kind + "ter " : "property",
         ")",
       ].join("");
 
       outputSections.body += printLeadingDocComments(node);
+      outputSections.codeBlock += printRaw(node);
+
+      if (
+        node.typeAnnotation &&
+        ee.types.isTSTypeAnnotation(node.typeAnnotation) &&
+        ee.types.isTSTypeLiteral(node.typeAnnotation.typeAnnotation)
+      ) {
+        outputSections.children += printNode(
+          node.typeAnnotation.typeAnnotation,
+          ancestry.concat([node, node.typeAnnotation]),
+          {
+            ...state,
+            headingLevel: state.headingLevel + 1,
+            headingPrefix: state.headingPrefix + "." + name,
+          },
+          options
+        );
+      }
 
       break;
     }
@@ -344,12 +348,14 @@ export function printNode(
     }
     case "TSInterfaceDeclaration": {
       const name = node.id.name;
-      const isExported = ee.types.isExportNamedDeclaration(parent);
+      const { isExported, reExportedName } = getExportStatus(name);
 
       outputSections.heading += [
-        `${name} (`,
+        reExportedName || name,
+        " (",
         isExported ? "exported " : "",
-        "interface)",
+        "interface",
+        ")",
       ].join("");
 
       if (ee.types.isExportNamedDeclaration(parent)) {
@@ -382,12 +388,14 @@ export function printNode(
     }
     case "TSTypeAliasDeclaration": {
       const name = node.id.name;
-      const isExported = ee.types.isExportNamedDeclaration(parent);
+      const { isExported, reExportedName } = getExportStatus(name);
 
       outputSections.heading += [
-        `${name} (`,
+        reExportedName || name,
+        " (",
         isExported ? "exported " : "",
-        "type)",
+        "type",
+        ")",
       ].join("");
 
       if (ee.types.isExportNamedDeclaration(parent)) {
@@ -414,13 +422,14 @@ export function printNode(
       const name = ee.types.isIdentifier(node.id)
         ? node.id.name
         : JSON.stringify(node.id.value);
-
-      const isExported = ee.types.isExportNamedDeclaration(parent);
+      const { isExported, reExportedName } = getExportStatus(name);
 
       outputSections.heading += [
-        `${name} (`,
+        reExportedName || name,
+        " (",
         isExported ? "exported " : "",
-        "namespace)",
+        "namespace",
+        ")",
       ].join("");
 
       if (ee.types.isExportNamedDeclaration(parent)) {
@@ -438,6 +447,7 @@ export function printNode(
           ...state,
           headingLevel: state.headingLevel + 1,
           headingPrefix: name,
+          exportedNames: findExportedNames(node),
         },
         options
       );
@@ -564,5 +574,33 @@ export function printNode(
         }
       }
     }
+  }
+
+  function getExportStatus(name: string): {
+    isExported: boolean;
+    isDirectlyExported: boolean;
+    reExportedName: null | string;
+  } {
+    let isDirectlyExported = false;
+    let reExportedName: string | null = null;
+
+    if (
+      parent?.type === "ExportNamedDeclaration" ||
+      // check grandparent for eg. ExportNamedDeclaration > VariableDeclaration > VariableDeclarator
+      ancestry.at(-2)?.type === "ExportNamedDeclaration"
+    ) {
+      isDirectlyExported = true;
+    }
+
+    const exportedName = state.exportedNames[name];
+    if (exportedName != null && exportedName !== name) {
+      reExportedName = exportedName;
+    }
+
+    return {
+      isExported: isDirectlyExported || reExportedName != null,
+      isDirectlyExported,
+      reExportedName,
+    };
   }
 }

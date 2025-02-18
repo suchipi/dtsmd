@@ -340,7 +340,7 @@ Construct a new ChildProcess.
 new (args: string | Path | Array<string | number | Path>, options?: ChildProcessOptions): ChildProcess;
 ```
 
-## ChildProcessConstructor.prototype (ChildProcess property)
+## ChildProcessConstructor.prototype (readonly ChildProcess property)
 
 ```ts
 readonly prototype: ChildProcess;

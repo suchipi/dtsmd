@@ -7,16 +7,17 @@ export type Frontmatter = {
   parsed: { [key: PropertyKey]: any };
 };
 
-export function getFrontmatter(ast: ee.types.Program): null | Frontmatter {
-  const statements = ast.body;
+export function getFrontmatter(ast: ee.types.File): null | Frontmatter {
+  const program = ast.program;
+  const statements = program.body;
   let getFirstComments: null | (() => Array<ee.types.Comment>) = null;
   let setFirstComments: null | ((value: Array<ee.types.Comment>) => void) =
     null;
 
   if (statements.length === 0) {
-    if (ast.innerComments && ast.innerComments.length > 0) {
-      getFirstComments = () => ast.innerComments!;
-      setFirstComments = (value) => (ast.innerComments = value);
+    if (program.innerComments && program.innerComments.length > 0) {
+      getFirstComments = () => program.innerComments!;
+      setFirstComments = (value) => (program.innerComments = value);
     }
   } else {
     const firstStatement = statements[0];

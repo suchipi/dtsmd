@@ -43,7 +43,7 @@ Provides the same functionality as the shell builtin of the same name.
 (): Path;
 ```
 
-## pwd.initial (Path property)
+## pwd.initial (readonly Path property)
 
 A frozen, read-only `Path` object containing what `pwd()` was when
 yavascript first started up.
