@@ -4,3 +4,4 @@ readme-generator
 todo.txt
 .prettierignore
 build.sh
+**.test.**
