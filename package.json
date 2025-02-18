@@ -28,9 +28,8 @@
     "@suchipi/macaroni": "^0.3.0",
     "@types/debug": "^4.1.12",
     "@types/node": "^22.13.4",
-    "first-base": "^1.5.1",
+    "first-base": "^1.5.2",
     "glomp": "^3.1.1",
-    "pretty-print-ast": "^1.0.1",
     "typescript": "^5.7.3",
     "vitest": "^3.0.5"
   },
@@ -43,6 +42,7 @@
     "kleur": "^4.1.5",
     "nice-path": "^3.0.0",
     "prettier": "^3.5.1",
+    "pretty-print-ast": "^1.0.1",
     "yaml": "^2.7.0"
   },
   "publishConfig": {
