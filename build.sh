@@ -2,7 +2,7 @@
 
 set -exuo pipefail
 
-tsc
+npx tsc
 chmod +x dist/cli.js
 node readme-generator/update-readme.js
 npx prettier --write README.md
