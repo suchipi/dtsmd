@@ -10,7 +10,14 @@
     "test": "vitest",
     "build": "./build.sh"
   },
-  "keywords": [],
+  "keywords": [
+    "typescript",
+    "markdown",
+    "generator",
+    "documentation",
+    ".d.ts",
+    "docgen"
+  ],
   "author": "Lily Skye",
   "repository": {
     "type": "git",
