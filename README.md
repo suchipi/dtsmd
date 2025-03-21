@@ -167,7 +167,7 @@ dtsmd
   .then((result) => {
     // type of result is:
     // {
-    //   frontmatter: null | { raw: string, parsed: { [key: string]: any },
+    //   frontmatter: null | { raw: string, parsed: { [key: string]: any } },
     //   markdown: string
     // }
 
