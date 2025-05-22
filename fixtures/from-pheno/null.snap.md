@@ -18,6 +18,12 @@ Note: Exported as `pheno.null`, not `pheno.null_`.
 const null_: TypeValidator<null>;
 ```
 
+# null (exported binding)
+
+```ts
+export { null_ as null };
+```
+
 <!-- OUTPUT.frontmatter:
 null
 -->

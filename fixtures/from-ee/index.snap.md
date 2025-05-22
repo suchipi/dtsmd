@@ -142,6 +142,60 @@ export interface Transmute {
 export declare const transmute: Transmute;
 
 -->
+# traverse (exported binding)
+
+Re-export of @babel/traverse's default export.
+
+```ts
+export { traverse };
+```
+
+# types (exported binding)
+
+Contains the named exports of both @babel/types and @babel/traverse.
+
+```ts
+export { types };
+```
+
+# template (exported binding)
+
+Re-export of @babel/template's default export.
+
+```ts
+export { template };
+```
+
+# AST (exported binding)
+
+```ts
+export { AST };
+```
+
+# TransmuteOptions (exported binding)
+
+```ts
+export { TransmuteOptions };
+```
+
+# ParseOptions (exported binding)
+
+```ts
+export { ParseOptions };
+```
+
+# PrintOptions (exported binding)
+
+```ts
+export { PrintOptions };
+```
+
+# TransmuteResult (exported binding)
+
+```ts
+export { TransmuteResult };
+```
+
 # parse (exported function)
 
 ```ts

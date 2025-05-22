@@ -80,6 +80,14 @@ export function printNode(
           options
         );
       }
+      if (node.specifiers.length > 0) {
+        outputSections.children += node.specifiers
+          .map((specifier) =>
+            printNode(specifier, ancestry.concat(node), state, options)
+          )
+          .filter(Boolean)
+          .join("\n");
+      }
       break;
     }
     case "ClassDeclaration": {
@@ -458,6 +466,35 @@ export function printNode(
         .map((child) => printNode(child, ancestry.concat(node), state, options))
         .filter(Boolean)
         .join("\n");
+      break;
+    }
+    case "ExportSpecifier": {
+      let exportedName: string;
+      if (node.exported.type === "Identifier") {
+        exportedName = node.exported.name;
+      } else {
+        exportedName = node.exported.value;
+      }
+
+      outputSections.heading += [
+        exportedName,
+        " (exported ",
+        node.exportKind === "type" ? "type" : "binding",
+        ")",
+      ].join("");
+
+      outputSections.body += printLeadingDocComments(node);
+
+      let rawToPrint: ee.types.Node = node;
+      if (ee.types.isExportNamedDeclaration(parent)) {
+        rawToPrint = ee.types.exportNamedDeclaration(
+          parent.declaration,
+          [node],
+          parent.source
+        );
+      }
+
+      outputSections.codeBlock += printRaw(rawToPrint);
       break;
     }
   }
