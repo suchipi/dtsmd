@@ -5,3 +5,5 @@ todo.txt
 .prettierignore
 build.sh
 **.test.**
+dist/test-utils.d.ts
+dist/test-utils.js
