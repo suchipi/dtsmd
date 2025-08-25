@@ -47,7 +47,13 @@ export async function processSource(
   text += printNode(
     ast,
     [],
-    { headingLevel, headingPrefix: "", warningsArray, exportedNames: {} },
+    {
+      headingLevel,
+      headingPrefix: "",
+      warningsArray,
+      exportedNames: {},
+      seens: new WeakMap(),
+    },
     options
   );
 

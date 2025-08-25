@@ -28,6 +28,7 @@ export function printNode(
     headingPrefix: string;
     warningsArray: Array<string>;
     exportedNames: { [localName: string]: string };
+    seens: WeakMap<any, true>;
   },
   options: Options
 ): string {
@@ -40,6 +41,12 @@ export function printNode(
   let dotAfterHeadingPrefix = true;
 
   const parent = ancestry.at(-1) ?? null;
+
+  if (state.seens.has(node)) {
+    // circular structure in AST? :\
+    return "";
+  }
+  state.seens.set(node, true);
 
   debug("visiting", node.type);
   switch (node.type) {
@@ -568,7 +575,9 @@ export function printNode(
         delete traverseTargetNode.trailingComments;
       },
     });
-    const printedCode = ee.print(nodeCopy, { printMethod: "@babel/generator" });
+    const printedCode = ee.print(nodeCopy, {
+      printOptions: { printMethod: "@babel/generator" },
+    });
     const normalizedCode = normalizeIndentation(
       printedCode.code,
       normalizeOpts
