@@ -5,5 +5,5 @@
   - [x] Case where line comments preceding doc comment fails
   - [x] Case where line comment preceding different line comment fails
 - [x] Handle variables re-exported under other names
-- [ ] print "export declare" case correctly
+- [x] print "export declare" case correctly
 

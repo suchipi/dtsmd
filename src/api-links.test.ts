@@ -61,7 +61,7 @@ test("--links-json", async () => {
     Go look at [this thing](https://google.com) and also [that thing](#)!
 
     \`\`\`ts
-    function something(arg1: number, arg2: string): void;
+    export function something(arg1: number, arg2: string): void;
     \`\`\`
 
     #### Idk (namespace)

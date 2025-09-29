@@ -24,7 +24,7 @@ Create a directory (folder).
 Provides the same functionality as the unix binary of the same name.
 
 ```ts
-function mkdir(
+export function mkdir(
   path: string | Path,
   options?: {
     recursive?: boolean;

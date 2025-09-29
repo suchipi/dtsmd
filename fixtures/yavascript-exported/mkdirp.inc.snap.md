@@ -27,7 +27,7 @@ Alias for `mkdir(path, { recursive: true })`.
 Provides the same functionality as `mkdir -p`.
 
 ```ts
-function mkdirp(
+export function mkdirp(
   path: string | Path,
   options?: {
     mode?: number;

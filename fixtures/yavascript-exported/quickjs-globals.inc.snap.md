@@ -24,7 +24,7 @@ const os: typeof import("quickjs:os");
 Get the current unix timestamp with microsecond precision.
 
 ```ts
-function __date_clock(): number;
+export function __date_clock(): number;
 ```
 
 <!-- OUTPUT.frontmatter:

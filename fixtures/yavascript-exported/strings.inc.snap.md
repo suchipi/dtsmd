@@ -76,7 +76,7 @@ export function strikethrough(input: string | number | Path): string;
 Remove ANSI control characters from a string.
 
 ```ts
-function stripAnsi(input: string | number | Path): string;
+export function stripAnsi(input: string | number | Path): string;
 ```
 
 # quote (exported function)
@@ -84,7 +84,7 @@ function stripAnsi(input: string | number | Path): string;
 Wrap a string in double quotes, and escape any double-quotes inside using `\"`.
 
 ```ts
-function quote(input: string | number | Path): string;
+export function quote(input: string | number | Path): string;
 ```
 
 # black (exported function)
@@ -92,7 +92,7 @@ function quote(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it print as black text.
 
 ```ts
-function black(input: string | number | Path): string;
+export function black(input: string | number | Path): string;
 ```
 
 # red (exported function)
@@ -100,7 +100,7 @@ function black(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it print as red text.
 
 ```ts
-function red(input: string | number | Path): string;
+export function red(input: string | number | Path): string;
 ```
 
 # green (exported function)
@@ -108,7 +108,7 @@ function red(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it print as green text.
 
 ```ts
-function green(input: string | number | Path): string;
+export function green(input: string | number | Path): string;
 ```
 
 # yellow (exported function)
@@ -116,7 +116,7 @@ function green(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it print as yellow text.
 
 ```ts
-function yellow(input: string | number | Path): string;
+export function yellow(input: string | number | Path): string;
 ```
 
 # blue (exported function)
@@ -124,7 +124,7 @@ function yellow(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it print as blue text.
 
 ```ts
-function blue(input: string | number | Path): string;
+export function blue(input: string | number | Path): string;
 ```
 
 # magenta (exported function)
@@ -132,7 +132,7 @@ function blue(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it print as magenta text.
 
 ```ts
-function magenta(input: string | number | Path): string;
+export function magenta(input: string | number | Path): string;
 ```
 
 # cyan (exported function)
@@ -140,7 +140,7 @@ function magenta(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it print as cyan text.
 
 ```ts
-function cyan(input: string | number | Path): string;
+export function cyan(input: string | number | Path): string;
 ```
 
 # white (exported function)
@@ -148,7 +148,7 @@ function cyan(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it print as white text.
 
 ```ts
-function white(input: string | number | Path): string;
+export function white(input: string | number | Path): string;
 ```
 
 # gray (exported function)
@@ -156,7 +156,7 @@ function white(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it print as gray text.
 
 ```ts
-function gray(input: string | number | Path): string;
+export function gray(input: string | number | Path): string;
 ```
 
 # grey (exported function)
@@ -164,7 +164,7 @@ function gray(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it print as grey text.
 
 ```ts
-function grey(input: string | number | Path): string;
+export function grey(input: string | number | Path): string;
 ```
 
 # bgBlack (exported function)
@@ -172,7 +172,7 @@ function grey(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it have a black background.
 
 ```ts
-function bgBlack(input: string | number | Path): string;
+export function bgBlack(input: string | number | Path): string;
 ```
 
 # bgRed (exported function)
@@ -180,7 +180,7 @@ function bgBlack(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it have a red background.
 
 ```ts
-function bgRed(input: string | number | Path): string;
+export function bgRed(input: string | number | Path): string;
 ```
 
 # bgGreen (exported function)
@@ -188,7 +188,7 @@ function bgRed(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it have a green background.
 
 ```ts
-function bgGreen(input: string | number | Path): string;
+export function bgGreen(input: string | number | Path): string;
 ```
 
 # bgYellow (exported function)
@@ -196,7 +196,7 @@ function bgGreen(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it have a yellow background.
 
 ```ts
-function bgYellow(input: string | number | Path): string;
+export function bgYellow(input: string | number | Path): string;
 ```
 
 # bgBlue (exported function)
@@ -204,7 +204,7 @@ function bgYellow(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it have a blue background.
 
 ```ts
-function bgBlue(input: string | number | Path): string;
+export function bgBlue(input: string | number | Path): string;
 ```
 
 # bgMagenta (exported function)
@@ -212,7 +212,7 @@ function bgBlue(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it have a magenta background.
 
 ```ts
-function bgMagenta(input: string | number | Path): string;
+export function bgMagenta(input: string | number | Path): string;
 ```
 
 # bgCyan (exported function)
@@ -220,7 +220,7 @@ function bgMagenta(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it have a cyan background.
 
 ```ts
-function bgCyan(input: string | number | Path): string;
+export function bgCyan(input: string | number | Path): string;
 ```
 
 # bgWhite (exported function)
@@ -228,7 +228,7 @@ function bgCyan(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it have a white background.
 
 ```ts
-function bgWhite(input: string | number | Path): string;
+export function bgWhite(input: string | number | Path): string;
 ```
 
 # reset (exported function)
@@ -236,7 +236,7 @@ function bgWhite(input: string | number | Path): string;
 Wrap a string with the ANSI control character that resets all styling.
 
 ```ts
-function reset(input: string | number | Path): string;
+export function reset(input: string | number | Path): string;
 ```
 
 # bold (exported function)
@@ -244,7 +244,7 @@ function reset(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it print with a bold style.
 
 ```ts
-function bold(input: string | number | Path): string;
+export function bold(input: string | number | Path): string;
 ```
 
 # dim (exported function)
@@ -252,7 +252,7 @@ function bold(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it print with a dimmed style.
 
 ```ts
-function dim(input: string | number | Path): string;
+export function dim(input: string | number | Path): string;
 ```
 
 # italic (exported function)
@@ -260,7 +260,7 @@ function dim(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it print italicized.
 
 ```ts
-function italic(input: string | number | Path): string;
+export function italic(input: string | number | Path): string;
 ```
 
 # underline (exported function)
@@ -268,7 +268,7 @@ function italic(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it print underlined.
 
 ```ts
-function underline(input: string | number | Path): string;
+export function underline(input: string | number | Path): string;
 ```
 
 # inverse (exported function)
@@ -276,7 +276,7 @@ function underline(input: string | number | Path): string;
 Wrap a string with ANSI control characters such that its foreground (text) and background colors are swapped.
 
 ```ts
-function inverse(input: string | number | Path): string;
+export function inverse(input: string | number | Path): string;
 ```
 
 # hidden (exported function)
@@ -284,7 +284,7 @@ function inverse(input: string | number | Path): string;
 Wrap a string with ANSI control characters such that it is hidden.
 
 ```ts
-function hidden(input: string | number | Path): string;
+export function hidden(input: string | number | Path): string;
 ```
 
 # strikethrough (exported function)
@@ -292,7 +292,7 @@ function hidden(input: string | number | Path): string;
 Wrap a string with the ANSI control characters that will make it print with a horizontal line through its center.
 
 ```ts
-function strikethrough(input: string | number | Path): string;
+export function strikethrough(input: string | number | Path): string;
 ```
 
 <!-- OUTPUT.frontmatter:

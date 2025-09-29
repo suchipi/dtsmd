@@ -16,7 +16,7 @@ path is specified, moves to the user's home directory.
 Provides the same functionality as the shell builtin of the same name.
 
 ```ts
-function cd(path?: string | Path): void;
+export function cd(path?: string | Path): void;
 ```
 
 <!-- OUTPUT.frontmatter:

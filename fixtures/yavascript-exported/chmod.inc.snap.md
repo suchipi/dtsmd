@@ -92,7 +92,7 @@ Set the permission bits for the specified file.
 - `@param` _path_ — The path to the file.
 
 ```ts
-function chmod(
+export function chmod(
   permissions:
     | number
     | string

@@ -61,7 +61,7 @@ of a flag. `--` is not present in the returned positional arguments Array.
 - `@returns` An object with three properties: `flags`, `args`, and `metadata`. `flags` is an object whose keys are camelCase flag names and whose values are strings, booleans, numbers, or `Path`s corresponding to the input command-line args. `args` is an Array of positional arguments, as found on the command-line. `metadata` contains information about what name and type the flags got mapped to.
 
 ```ts
-function parseScriptArgs(
+export function parseScriptArgs(
   hints?: {
     [key: string]: typeof String | typeof Boolean | typeof Number | typeof Path;
   },

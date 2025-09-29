@@ -15,7 +15,7 @@ interface Console {
 Clear the contents and scrollback buffer of the tty by printing special characters into stdout.
 
 ```ts
-function clear(): void;
+export function clear(): void;
 ```
 
 # Console (interface)

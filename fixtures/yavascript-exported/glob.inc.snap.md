@@ -143,7 +143,7 @@ Uses [minimatch](https://www.npmjs.com/package/minimatch) with its default
 options.
 
 ```ts
-function glob(
+export function glob(
   patterns: string | Array<string>,
   options?: GlobOptions,
 ): Array<Path>;

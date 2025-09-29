@@ -217,7 +217,10 @@ Write the contents of a string or ArrayBuffer to a file.
 Strings are written using the UTF-8 encoding.
 
 ```ts
-function writeFile(path: string | Path, data: string | ArrayBuffer): void;
+export function writeFile(
+  path: string | Path,
+  data: string | ArrayBuffer,
+): void;
 ```
 
 # isFile (exported function)
@@ -225,7 +228,7 @@ function writeFile(path: string | Path, data: string | ArrayBuffer): void;
 Function which returns true if the path points to a regular file.
 
 ```ts
-function isFile(path: string | Path): boolean;
+export function isFile(path: string | Path): boolean;
 ```
 
 # isDir (exported function)
@@ -235,7 +238,7 @@ path points to a symlink which points to a directory. Otherwise, it returns
 false.
 
 ```ts
-function isDir(path: string | Path): boolean;
+export function isDir(path: string | Path): boolean;
 ```
 
 # isLink (exported function)
@@ -243,7 +246,7 @@ function isDir(path: string | Path): boolean;
 Returns true if the path points to a symlink.
 
 ```ts
-function isLink(path: string | Path): boolean;
+export function isLink(path: string | Path): boolean;
 ```
 
 # isExecutable (exported function)
@@ -254,7 +257,7 @@ current user.
 If nothing exists at that path, an error will be thrown.
 
 ```ts
-function isExecutable(path: string | Path): boolean;
+export function isExecutable(path: string | Path): boolean;
 ```
 
 # isReadable (exported function)
@@ -265,7 +268,7 @@ user.
 If nothing exists at that path, an error will be thrown.
 
 ```ts
-function isReadable(path: string | Path): boolean;
+export function isReadable(path: string | Path): boolean;
 ```
 
 # isWritable (exported function)
@@ -274,7 +277,7 @@ Returns true if a resource at the provided path could be written to by the
 current user.
 
 ```ts
-function isWritable(path: string | Path): boolean;
+export function isWritable(path: string | Path): boolean;
 ```
 
 # remove (exported function)
@@ -286,7 +289,7 @@ If the directory isn't empty, its contents will be deleted, too.
 Provides the same functionality as the command `rm -rf`.
 
 ```ts
-function remove(path: string | Path): void;
+export function remove(path: string | Path): void;
 ```
 
 # exists (exported function)
@@ -296,7 +299,7 @@ Returns true if a file or directory exists at the specified path.
 Provides the same functionality as the command `test -e`.
 
 ```ts
-function exists(path: string | Path): boolean;
+export function exists(path: string | Path): boolean;
 ```
 
 # CopyOptions (exported type)
@@ -375,7 +378,7 @@ Folders are copied recursively.
 Provides the same functionality as the command `cp -R`.
 
 ```ts
-function copy(
+export function copy(
   from: string | Path,
   to: string | Path,
   options?: CopyOptions,
@@ -389,7 +392,7 @@ Rename the file or directory at the specified path.
 Provides the same functionality as the command `mv`.
 
 ```ts
-function rename(from: string | Path, to: string | Path): void;
+export function rename(from: string | Path, to: string | Path): void;
 ```
 
 <!-- OUTPUT.frontmatter:

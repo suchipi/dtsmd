@@ -18,7 +18,7 @@ Otherwise, create an empty file at that path.
 - `@param` _path_ — The target path for the file.
 
 ```ts
-function touch(path: string | Path): void;
+export function touch(path: string | Path): void;
 ```
 
 <!-- OUTPUT.frontmatter:

@@ -292,7 +292,7 @@ This function is used internally by `transmute`.
 The options parameter works the same as the options parameter for `transmute`.
 
 ```ts
-declare function astToCode(
+export declare function astToCode(
   ast: types.Node,
   options?: TransmuteOptions,
 ): TransmuteResult;
@@ -314,13 +314,13 @@ type Clonable =
 # clone (exported function)
 
 ```ts
-declare function clone<T extends Clonable>(input: T): T;
+export declare function clone<T extends Clonable>(input: T): T;
 ```
 
 # hasShape (exported function)
 
 ```ts
-declare function hasShape<Input, Shape>(
+export declare function hasShape<Input, Shape>(
   input: Input,
   shape: Shape,
 ): input is Input & Shape;

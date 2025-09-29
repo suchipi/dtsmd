@@ -18,7 +18,7 @@ format types (e.g. `%d`) truncate the Numbers or BigInts to 32 bits. Use the l
 modifier (e.g. `%ld`) to truncate to 64 bits.
 
 ```ts
-function printf(format: string, ...args: Array<any>): void;
+export function printf(format: string, ...args: Array<any>): void;
 ```
 
 <!-- OUTPUT.frontmatter:

@@ -61,7 +61,7 @@ If the program can't be found, `null` is returned.
 - `@param` _options.trace_ — A logging function that will be called at various times during the execution of `which`. Defaults to [logger.trace](#).
 
 ```ts
-function which(
+export function which(
   binaryName: string,
   options?: {
     searchPaths?: Array<Path | string>;

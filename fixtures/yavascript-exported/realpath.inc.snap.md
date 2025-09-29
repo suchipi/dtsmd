@@ -18,7 +18,7 @@ The path's target file/directory must exist.
 Provides the same functionality as the unix binary of the same name.
 
 ```ts
-function realpath(path: string | Path): Path;
+export function realpath(path: string | Path): Path;
 ```
 
 <!-- OUTPUT.frontmatter:

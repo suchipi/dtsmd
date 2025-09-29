@@ -151,11 +151,12 @@ export function printNode(
 
       if (ee.types.isExportNamedDeclaration(parent)) {
         outputSections.body += printLeadingDocComments(parent);
+        outputSections.codeBlock += printRaw(parent);
       } else {
         outputSections.body += printLeadingDocComments(node);
+        outputSections.codeBlock += printRaw(node);
       }
 
-      outputSections.codeBlock += printRaw(node);
       break;
     }
     case "TSDeclareMethod": {

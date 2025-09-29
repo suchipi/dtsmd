@@ -319,7 +319,7 @@ const exec: Exec;
 Alias for `exec(args, { captureOutput: true })`
 
 ```ts
-function $(args: Array<string | Path | number> | string | Path): {
+export function $(args: Array<string | Path | number> | string | Path): {
   stdout: string;
   stderr: string;
 };

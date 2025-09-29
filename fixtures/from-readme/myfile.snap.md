@@ -25,7 +25,7 @@ Does something with the numbers.
 Returns a nice number.
 
 ```ts
-function myFunction(...args: Array<number>): number;
+export function myFunction(...args: Array<number>): number;
 ```
 
 <!-- OUTPUT.frontmatter:
